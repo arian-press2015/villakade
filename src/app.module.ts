@@ -4,6 +4,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { CategoryModule } from './category/category.module';
 import configuration from './config/configuration';
+import { ProvinceModule } from './province/province.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import configuration from './config/configuration';
       cache: true,
     }),
     CategoryModule,
+    ProvinceModule,
   ],
   controllers: [],
   providers: [],
