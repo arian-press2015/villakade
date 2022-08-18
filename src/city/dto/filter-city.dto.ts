@@ -1,11 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsPositive, IsString } from 'class-validator';
+import { IsNumberString, IsOptional, IsString } from 'class-validator';
 
 export class FilterCityDto {
   @IsOptional()
-  @IsPositive({ message: 'Province must be a positive number' })
-  @ApiProperty({ example: 12345, description: 'Province_id of the city' })
-  readonly province_id?: number;
+  @IsNumberString({ message: 'Province must be a positive number' })
+  @ApiProperty({ example: '12345', description: 'Province_id of the city' })
+  readonly province_id?: string;
 
   @IsOptional()
   @IsString({ message: 'Name must be a string' })
