@@ -10,6 +10,7 @@ import { FaqModule } from './faq/faq.module';
 import { HostModule } from './host/host.module';
 import { ProvinceModule } from './province/province.module';
 import { ResidenceModule } from './residence/residence.module';
+import { ResidenceCategoryModule } from './residenceCategory/residenceCategory.module';
 import { ResidenceImageModule } from './residenceImage/residenceImage.module';
 import { ResidenceRuleModule } from './residenceRule/residenceRule.module';
 import { SupportModule } from './support/support.module';
@@ -35,8 +36,9 @@ import { TypeModule } from './type/type.module';
     TypeModule,
     ResidenceModule,
     ResidenceRuleModule,
-    SupportModule,
     ResidenceImageModule,
+    ResidenceCategoryModule,
+    SupportModule,
   ],
   controllers: [],
   providers: [],
