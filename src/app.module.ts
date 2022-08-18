@@ -5,6 +5,7 @@ import { join } from 'path';
 import { CategoryModule } from './category/category.module';
 import { CityModule } from './city/city.module';
 import configuration from './config/configuration';
+import { ContactUsModule } from './contactUs/contactUs.module';
 import { ProvinceModule } from './province/province.module';
 
 @Module({
@@ -21,6 +22,7 @@ import { ProvinceModule } from './province/province.module';
     CategoryModule,
     ProvinceModule,
     CityModule,
+    ContactUsModule,
   ],
   controllers: [],
   providers: [],
