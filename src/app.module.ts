@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { CategoryModule } from './category/category.module';
+import { CityModule } from './city/city.module';
 import configuration from './config/configuration';
 import { ProvinceModule } from './province/province.module';
 
@@ -19,6 +20,7 @@ import { ProvinceModule } from './province/province.module';
     }),
     CategoryModule,
     ProvinceModule,
+    CityModule,
   ],
   controllers: [],
   providers: [],
