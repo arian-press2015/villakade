@@ -9,6 +9,7 @@ import { ContactUsModule } from './contactUs/contactUs.module';
 import { FaqModule } from './faq/faq.module';
 import { HostModule } from './host/host.module';
 import { ProvinceModule } from './province/province.module';
+import { TypeModule } from './type/type.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { ProvinceModule } from './province/province.module';
     ContactUsModule,
     FaqModule,
     HostModule,
+    TypeModule,
   ],
   controllers: [],
   providers: [],
