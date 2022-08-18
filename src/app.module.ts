@@ -6,6 +6,7 @@ import { CategoryModule } from './category/category.module';
 import { CityModule } from './city/city.module';
 import configuration from './config/configuration';
 import { ContactUsModule } from './contactUs/contactUs.module';
+import { FaqModule } from './faq/faq.module';
 import { ProvinceModule } from './province/province.module';
 
 @Module({
@@ -23,6 +24,7 @@ import { ProvinceModule } from './province/province.module';
     ProvinceModule,
     CityModule,
     ContactUsModule,
+    FaqModule,
   ],
   controllers: [],
   providers: [],
