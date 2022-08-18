@@ -6,10 +6,10 @@ export class CityService {
   async create(createCityDto: CreateCityDto): Promise<City> {
     const city = {
       id: 1,
-      province_id: 4,
+      province_id: createCityDto.province_id,
       name: createCityDto.name,
       fa_name: createCityDto.fa_name,
-      total_residence_count: 4,
+      total_residence_count: 0,
     };
     return city;
   }
