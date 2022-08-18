@@ -9,6 +9,7 @@ import { ContactUsModule } from './contactUs/contactUs.module';
 import { FaqModule } from './faq/faq.module';
 import { HostModule } from './host/host.module';
 import { ProvinceModule } from './province/province.module';
+import { SupportModule } from './support/support.module';
 import { TypeModule } from './type/type.module';
 
 @Module({
@@ -29,6 +30,7 @@ import { TypeModule } from './type/type.module';
     FaqModule,
     HostModule,
     TypeModule,
+    SupportModule,
   ],
   controllers: [],
   providers: [],
