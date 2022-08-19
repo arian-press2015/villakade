@@ -52,7 +52,9 @@ export class PermissionController {
     description: 'No User found',
   })
   @Post()
-  create(@Body() createPermissionDto: CreatePermissionDto): Promise<Permission> {
+  create(
+    @Body() createPermissionDto: CreatePermissionDto,
+  ): Promise<Permission> {
     return this.permissionService.create(createPermissionDto);
   }
 
@@ -68,7 +70,9 @@ export class PermissionController {
     description: 'Title must be a string|Fa_title must be a string',
   })
   @Get()
-  findAll(@Query() filterPermissionDto: FilterPermissionDto): Promise<Permission[]> {
+  findAll(
+    @Query() filterPermissionDto: FilterPermissionDto,
+  ): Promise<Permission[]> {
     return this.permissionService.findAll(filterPermissionDto);
   }
 

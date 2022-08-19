@@ -11,7 +11,9 @@ describe('ResidenceCategoryController', () => {
       providers: [ResidenceCategoryService],
     }).compile();
 
-    controller = module.get<ResidenceCategoryController>(ResidenceCategoryController);
+    controller = module.get<ResidenceCategoryController>(
+      ResidenceCategoryController,
+    );
   });
 
   it('should be defined', () => {

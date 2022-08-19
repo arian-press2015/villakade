@@ -68,7 +68,9 @@ export class ResidenceController {
     description: 'Title must be a string|Fa_title must be a string',
   })
   @Get()
-  findAll(@Query() filterResidenceDto: FilterResidenceDto): Promise<Residence[]> {
+  findAll(
+    @Query() filterResidenceDto: FilterResidenceDto,
+  ): Promise<Residence[]> {
     return this.residenceService.findAll(filterResidenceDto);
   }
 

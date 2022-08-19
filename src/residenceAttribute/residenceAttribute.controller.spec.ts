@@ -11,7 +11,9 @@ describe('ResidenceAttributeController', () => {
       providers: [ResidenceAttributeService],
     }).compile();
 
-    controller = module.get<ResidenceAttributeController>(ResidenceAttributeController);
+    controller = module.get<ResidenceAttributeController>(
+      ResidenceAttributeController,
+    );
   });
 
   it('should be defined', () => {
