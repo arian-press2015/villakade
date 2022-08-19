@@ -15,6 +15,7 @@ import { ResidenceAttributeModule } from './residenceAttribute/residenceAttribut
 import { ResidenceCategoryModule } from './residenceCategory/residenceCategory.module';
 import { ResidenceImageModule } from './residenceImage/residenceImage.module';
 import { ResidenceRuleModule } from './residenceRule/residenceRule.module';
+import { RoleModule } from './role/role.module';
 import { SupportModule } from './support/support.module';
 import { TypeModule } from './type/type.module';
 
@@ -43,6 +44,7 @@ import { TypeModule } from './type/type.module';
     ResidenceAttributeModule,
     SupportModule,
     PermissionModule,
+    RoleModule,
   ],
   controllers: [],
   providers: [],
