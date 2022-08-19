@@ -9,6 +9,7 @@ import { ContactUsModule } from './contactUs/contactUs.module';
 import { CustomerModule } from './customer/customer.module';
 import { FaqModule } from './faq/faq.module';
 import { HostModule } from './host/host.module';
+import { OwnerModule } from './owner/owner.module';
 import { PermissionModule } from './permission/permission.module';
 import { ProvinceModule } from './province/province.module';
 import { ResidenceModule } from './residence/residence.module';
@@ -49,6 +50,7 @@ import { TypeModule } from './type/type.module';
     RoleModule,
     RolePermissionModule,
     CustomerModule,
+    OwnerModule,
   ],
   controllers: [],
   providers: [],
