@@ -16,6 +16,7 @@ import { ResidenceCategoryModule } from './residenceCategory/residenceCategory.m
 import { ResidenceImageModule } from './residenceImage/residenceImage.module';
 import { ResidenceRuleModule } from './residenceRule/residenceRule.module';
 import { RoleModule } from './role/role.module';
+import { RolePermissionModule } from './rolePermission/rolePermission.module';
 import { SupportModule } from './support/support.module';
 import { TypeModule } from './type/type.module';
 
@@ -45,6 +46,7 @@ import { TypeModule } from './type/type.module';
     SupportModule,
     PermissionModule,
     RoleModule,
+    RolePermissionModule,
   ],
   controllers: [],
   providers: [],
