@@ -6,6 +6,7 @@ import { CategoryModule } from './category/category.module';
 import { CityModule } from './city/city.module';
 import configuration from './config/configuration';
 import { ContactUsModule } from './contactUs/contactUs.module';
+import { CustomerModule } from './customer/customer.module';
 import { FaqModule } from './faq/faq.module';
 import { HostModule } from './host/host.module';
 import { PermissionModule } from './permission/permission.module';
@@ -47,6 +48,7 @@ import { TypeModule } from './type/type.module';
     PermissionModule,
     RoleModule,
     RolePermissionModule,
+    CustomerModule,
   ],
   controllers: [],
   providers: [],
