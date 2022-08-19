@@ -8,6 +8,7 @@ import configuration from './config/configuration';
 import { ContactUsModule } from './contactUs/contactUs.module';
 import { FaqModule } from './faq/faq.module';
 import { HostModule } from './host/host.module';
+import { PermissionModule } from './permission/permission.module';
 import { ProvinceModule } from './province/province.module';
 import { ResidenceModule } from './residence/residence.module';
 import { ResidenceAttributeModule } from './residenceAttribute/residenceAttribute.module';
@@ -41,6 +42,7 @@ import { TypeModule } from './type/type.module';
     ResidenceCategoryModule,
     ResidenceAttributeModule,
     SupportModule,
+    PermissionModule,
   ],
   controllers: [],
   providers: [],
