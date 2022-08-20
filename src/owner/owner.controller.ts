@@ -9,20 +9,51 @@ import {
   UsePipes,
   ValidationPipe,
   Query,
+  UseGuards,
+  Request,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
+  ApiBody,
   ApiOperation,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { OwnerService } from './owner.service';
-import { Owner, FilterOwnerDto, CreateOwnerDto, UpdateOwnerDto } from './dto';
+import {
+  Owner,
+  FilterOwnerDto,
+  CreateOwnerDto,
+  UpdateOwnerDto,
+  LoginResponse,
+  LoginRequest,
+} from './dto';
+import { LocalAuthGuard } from '../auth/guard';
+import { AuthService } from 'src/auth/auth.service';
 
 @ApiTags('Owner')
 @Controller('owner')
 export class OwnerController {
-  constructor(private readonly ownerService: OwnerService) {}
+  constructor(
+    private readonly ownerService: OwnerService,
+    private authService: AuthService,
+  ) {}
+
+  @UseGuards(LocalAuthGuard)
+  @Post('login')
+  @ApiOperation({ summary: 'Create new Owner' })
+  @ApiBody({
+    description: 'Required body fields',
+    type: LoginRequest,
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns auth_token for the Owner',
+    type: LoginResponse,
+  })
+  async login(@Request() req): Promise<LoginResponse> {
+    return this.authService.login(req.owner);
+  }
 
   // @ApiBearerAuth()
   @UsePipes(new ValidationPipe())

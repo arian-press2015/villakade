@@ -9,6 +9,8 @@ import {
   UsePipes,
   ValidationPipe,
   Query,
+  UseGuards,
+  Request,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -18,15 +20,17 @@ import {
 } from '@nestjs/swagger';
 import { HostService } from './host.service';
 import { Host, FilterHostDto, CreateHostDto, UpdateHostDto } from './dto';
+import { JwtAuthGuard } from '../auth/guard';
 
 @ApiTags('Host')
 @Controller('host')
 export class HostController {
   constructor(private readonly hostService: HostService) {}
 
-  // @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @UsePipes(new ValidationPipe())
   @Post()
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Create new Host' })
   @ApiResponse({
     status: 201,
@@ -47,7 +51,7 @@ export class HostController {
     description: 'No User found',
   })
   @Post()
-  create(@Body() createHostDto: CreateHostDto): Promise<Host> {
+  create(@Body() createHostDto: CreateHostDto, @Request() req): Promise<Host> {
     return this.hostService.create(createHostDto);
   }
 
