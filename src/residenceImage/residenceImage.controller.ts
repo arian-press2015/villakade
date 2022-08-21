@@ -41,15 +41,16 @@ export class ResidenceImageController {
   @ApiResponse({
     status: 400,
     description:
-      'ResidenceImage already exists|Title must be a string|width must be a string',
+      'residenceimage already exists|residence_id is required|residence_id must be a positive number|url is required' +
+      '|url must be a string|width is required|width must be a positive number|height is required|height must be a positive number',
   })
   @ApiResponse({
     status: 403,
-    description: "You don't have permission to do that",
+    description: "you don't have permission to do that",
   })
   @ApiResponse({
     status: 404,
-    description: 'No User found',
+    description: 'owner not found',
   })
   @Post()
   create(
@@ -67,7 +68,7 @@ export class ResidenceImageController {
   })
   @ApiResponse({
     status: 400,
-    description: 'Title must be a string|width must be a string',
+    description: 'residence_id must be a positive number',
   })
   @Get()
   findAll(
@@ -84,11 +85,11 @@ export class ResidenceImageController {
   })
   @ApiResponse({
     status: 400,
-    description: 'Id must be a positive number',
+    description: 'id must be a positive number',
   })
   @ApiResponse({
     status: 404,
-    description: 'No ResidenceImage found',
+    description: 'residenceimage not found',
   })
   @Get(':id')
   findOne(@Param('id') id: string): Promise<ResidenceImage> {
@@ -105,11 +106,11 @@ export class ResidenceImageController {
   })
   @ApiResponse({
     status: 403,
-    description: "You don't have permission to do that",
+    description: "you don't have permission to do that",
   })
   @ApiResponse({
     status: 404,
-    description: 'No ResidenceImage found|No User found',
+    description: 'residenceimage not found|owner not found',
   })
   @Patch(':id')
   update(
@@ -128,11 +129,11 @@ export class ResidenceImageController {
   })
   @ApiResponse({
     status: 403,
-    description: "You don't have permission to do that",
+    description: "you don't have permission to do that",
   })
   @ApiResponse({
     status: 404,
-    description: 'No ResidenceImage found|No User found',
+    description: 'residenceimage not found|owner not found',
   })
   @Delete(':id')
   remove(@Param('id') id: string): Promise<boolean> {
