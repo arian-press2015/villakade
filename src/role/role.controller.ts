@@ -36,7 +36,7 @@ export class RoleController {
   @ApiResponse({
     status: 400,
     description:
-      'role already exists|title must be a string|fa_title must be a string',
+      'role already exists|title must be a string|fa_title must be a string|fa_title is required|title is required',
   })
   @ApiResponse({
     status: 403,

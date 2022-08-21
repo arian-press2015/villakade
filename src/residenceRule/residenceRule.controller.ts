@@ -41,7 +41,7 @@ export class ResidenceRuleController {
   @ApiResponse({
     status: 400,
     description:
-      'residencerule already exists|title must be a string|rule_body must be a string',
+      'residencerule already exists|residence_id must be a string|residence_id is required|rule_body must be a string|rule_body is required',
   })
   @ApiResponse({
     status: 403,
