@@ -36,15 +36,15 @@ export class RoleController {
   @ApiResponse({
     status: 400,
     description:
-      'Role already exists|Title must be a string|Fa_title must be a string',
+      'role already exists|title must be a string|fa_title must be a string',
   })
   @ApiResponse({
     status: 403,
-    description: "You don't have permission to do that",
+    description: "you don't have permission to do that",
   })
   @ApiResponse({
     status: 404,
-    description: 'No User found',
+    description: 'owner not found',
   })
   @Post()
   create(@Body() createRoleDto: CreateRoleDto): Promise<Role> {
@@ -60,7 +60,7 @@ export class RoleController {
   })
   @ApiResponse({
     status: 400,
-    description: 'Title must be a string|Fa_title must be a string',
+    description: 'title must be a string|fa_title must be a string',
   })
   @Get()
   findAll(@Query() filterRoleDto: FilterRoleDto): Promise<Role[]> {
@@ -75,11 +75,11 @@ export class RoleController {
   })
   @ApiResponse({
     status: 400,
-    description: 'Id must be a positive number',
+    description: 'id must be a positive number',
   })
   @ApiResponse({
     status: 404,
-    description: 'No Role found',
+    description: 'role not found',
   })
   @Get(':id')
   findOne(@Param('id') id: string): Promise<Role> {
@@ -96,11 +96,11 @@ export class RoleController {
   })
   @ApiResponse({
     status: 403,
-    description: "You don't have permission to do that",
+    description: "you don't have permission to do that",
   })
   @ApiResponse({
     status: 404,
-    description: 'No Role found|No User found',
+    description: 'role not found|owner not found',
   })
   @Patch(':id')
   update(
@@ -119,11 +119,11 @@ export class RoleController {
   })
   @ApiResponse({
     status: 403,
-    description: "You don't have permission to do that",
+    description: "you don't have permission to do that",
   })
   @ApiResponse({
     status: 404,
-    description: 'No Role found|No User found',
+    description: 'role not found|owner not found',
   })
   @Delete(':id')
   remove(@Param('id') id: string): Promise<boolean> {
