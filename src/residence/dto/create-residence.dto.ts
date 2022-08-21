@@ -6,7 +6,7 @@ export class CreateResidenceDto {
   @ApiProperty({ example: 12345, description: 'host_id of the residence' })
   readonly host_id: number;
 
-  @IsString({ message: 'Title must be a string' })
+  @IsString({ message: 'title must be a string' })
   @ApiProperty({
     example: 'آپارتمان در شیراز',
     description: 'title of the Residence',

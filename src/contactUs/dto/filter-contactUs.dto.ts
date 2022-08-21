@@ -3,7 +3,7 @@ import { IsOptional, IsString } from 'class-validator';
 
 export class FilterContactUsDto {
   @IsOptional()
-  @IsString({ message: 'Title must be a string' })
+  @IsString({ message: 'title must be a string' })
   @ApiProperty({
     example: 'arian.press2015@gmail.com',
     description: 'email of the ContactUs',

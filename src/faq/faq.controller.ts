@@ -36,15 +36,15 @@ export class FaqController {
   @ApiResponse({
     status: 400,
     description:
-      'Faq already exists|Title must be a string|Fa_faq_type must be a string',
+      'Faq already exists|title must be a string|Fa_faq_type must be a string',
   })
   @ApiResponse({
     status: 403,
-    description: "You don't have permission to do that",
+    description: "you don't have permission to do that",
   })
   @ApiResponse({
     status: 404,
-    description: 'No User found',
+    description: 'owner not found',
   })
   @Post()
   create(@Body() createFaqDto: CreateFaqDto): Promise<Faq> {
@@ -60,7 +60,7 @@ export class FaqController {
   })
   @ApiResponse({
     status: 400,
-    description: 'Title must be a string|Fa_faq_type must be a string',
+    description: 'title must be a string|Fa_faq_type must be a string',
   })
   @Get()
   findAll(@Query() filterFaqDto: FilterFaqDto): Promise<Faq[]> {
@@ -75,7 +75,7 @@ export class FaqController {
   })
   @ApiResponse({
     status: 400,
-    description: 'Id must be a positive number',
+    description: 'id must be a positive number',
   })
   @ApiResponse({
     status: 404,
@@ -96,11 +96,11 @@ export class FaqController {
   })
   @ApiResponse({
     status: 403,
-    description: "You don't have permission to do that",
+    description: "you don't have permission to do that",
   })
   @ApiResponse({
     status: 404,
-    description: 'No Faq found|No User found',
+    description: 'No Faq found|owner not found',
   })
   @Patch(':id')
   update(
@@ -119,11 +119,11 @@ export class FaqController {
   })
   @ApiResponse({
     status: 403,
-    description: "You don't have permission to do that",
+    description: "you don't have permission to do that",
   })
   @ApiResponse({
     status: 404,
-    description: 'No Faq found|No User found',
+    description: 'No Faq found|owner not found',
   })
   @Delete(':id')
   remove(@Param('id') id: string): Promise<boolean> {

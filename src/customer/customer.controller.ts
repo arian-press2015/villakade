@@ -17,7 +17,12 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { CustomerService } from './customer.service';
-import { Customer, FilterCustomerDto, CreateCustomerDto, UpdateCustomerDto } from './dto';
+import {
+  Customer,
+  FilterCustomerDto,
+  CreateCustomerDto,
+  UpdateCustomerDto,
+} from './dto';
 
 @ApiTags('Customer')
 @Controller('customer')
@@ -36,15 +41,15 @@ export class CustomerController {
   @ApiResponse({
     status: 400,
     description:
-      'Customer already exists|Title must be a string|Fa_first_name must be a string',
+      'Customer already exists|title must be a string|Fa_first_name must be a string',
   })
   @ApiResponse({
     status: 403,
-    description: "You don't have permission to do that",
+    description: "you don't have permission to do that",
   })
   @ApiResponse({
     status: 404,
-    description: 'No User found',
+    description: 'owner not found',
   })
   @Post()
   create(@Body() createCustomerDto: CreateCustomerDto): Promise<Customer> {
@@ -60,7 +65,7 @@ export class CustomerController {
   })
   @ApiResponse({
     status: 400,
-    description: 'Title must be a string|Fa_first_name must be a string',
+    description: 'title must be a string|Fa_first_name must be a string',
   })
   @Get()
   findAll(@Query() filterCustomerDto: FilterCustomerDto): Promise<Customer[]> {
@@ -75,7 +80,7 @@ export class CustomerController {
   })
   @ApiResponse({
     status: 400,
-    description: 'Id must be a positive number',
+    description: 'id must be a positive number',
   })
   @ApiResponse({
     status: 404,
@@ -96,11 +101,11 @@ export class CustomerController {
   })
   @ApiResponse({
     status: 403,
-    description: "You don't have permission to do that",
+    description: "you don't have permission to do that",
   })
   @ApiResponse({
     status: 404,
-    description: 'No Customer found|No User found',
+    description: 'No Customer found|owner not found',
   })
   @Patch(':id')
   update(
@@ -119,11 +124,11 @@ export class CustomerController {
   })
   @ApiResponse({
     status: 403,
-    description: "You don't have permission to do that",
+    description: "you don't have permission to do that",
   })
   @ApiResponse({
     status: 404,
-    description: 'No Customer found|No User found',
+    description: 'No Customer found|owner not found',
   })
   @Delete(':id')
   remove(@Param('id') id: string): Promise<boolean> {
