@@ -36,15 +36,16 @@ export class CityController {
   @ApiResponse({
     status: 400,
     description:
-      'City already exists|Name must be a string|Fa_name must be a string',
+      'city already exists|name is required|fa_name is required|name must be a string|fa_name must be a string' +
+      '|province is required|province must be a positive number',
   })
   @ApiResponse({
     status: 403,
-    description: "You don't have permission to do that",
+    description: "you don't have permission to do that",
   })
   @ApiResponse({
     status: 404,
-    description: 'No User found',
+    description: 'owner not found',
   })
   @Post()
   create(@Body() createCityDto: CreateCityDto): Promise<City> {
@@ -60,7 +61,7 @@ export class CityController {
   })
   @ApiResponse({
     status: 400,
-    description: 'Name must be a string|Fa_name must be a string',
+    description: 'name must be a string|fa_name must be a string',
   })
   @Get()
   findAll(@Query() filterCityDto: FilterCityDto): Promise<City[]> {
@@ -75,11 +76,11 @@ export class CityController {
   })
   @ApiResponse({
     status: 400,
-    description: 'Id must be a positive number',
+    description: 'id must be a positive number',
   })
   @ApiResponse({
     status: 404,
-    description: 'No City found',
+    description: 'city not found',
   })
   @Get(':id')
   findOne(@Param('id') id: string): Promise<City> {
@@ -96,11 +97,11 @@ export class CityController {
   })
   @ApiResponse({
     status: 403,
-    description: "You don't have permission to do that",
+    description: "you don't have permission to do that",
   })
   @ApiResponse({
     status: 404,
-    description: 'No City found|No User found',
+    description: 'city not found|owner not found',
   })
   @Patch(':id')
   update(
@@ -119,11 +120,11 @@ export class CityController {
   })
   @ApiResponse({
     status: 403,
-    description: "You don't have permission to do that",
+    description: "you don't have permission to do that",
   })
   @ApiResponse({
     status: 404,
-    description: 'No City found|No User found',
+    description: 'city not found|owner not found',
   })
   @Delete(':id')
   remove(@Param('id') id: string): Promise<boolean> {
