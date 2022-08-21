@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsPositive } from 'class-validator';
+import { IsNotEmpty, IsPositive } from 'class-validator';
 
 export class CreateResidenceCategoryDto {
+  @IsNotEmpty({ message: 'residence_id is required' })
   @IsPositive({ message: 'residence_id must be a positive number' })
   @ApiProperty({
     example: 12345,
@@ -9,6 +10,7 @@ export class CreateResidenceCategoryDto {
   })
   readonly residence_id: number;
 
+  @IsNotEmpty({ message: 'category_id is required' })
   @IsPositive({ message: 'category_id must be a positive number' })
   @ApiProperty({
     example: 123,
