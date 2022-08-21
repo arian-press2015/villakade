@@ -3,7 +3,7 @@ import { IsOptional, IsString } from 'class-validator';
 
 export class FilterSupportDto {
   @IsOptional()
-  @IsString({ message: 'Title must be a string' })
+  @IsString({ message: 'title must be a string' })
   @ApiProperty({
     example: 'AP2015',
     description: 'full_name of the Support',
@@ -19,7 +19,7 @@ export class FilterSupportDto {
   readonly phone?: string;
 
   @IsOptional()
-  @IsString({ message: 'active must be a string' })
+  @IsString({ message: 'activation status must be a string' })
   @ApiProperty({
     example: true,
     description: 'activation status of the Support',
