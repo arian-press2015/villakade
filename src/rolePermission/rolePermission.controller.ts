@@ -41,15 +41,15 @@ export class RolePermissionController {
   @ApiResponse({
     status: 400,
     description:
-      'RolePermission already exists|role_id must be a string|permission_id must be a string',
+      'rolepermission already exists|role_id must be a positive number|role_id is required|permission_id must be a positive number|permission_id is required',
   })
   @ApiResponse({
     status: 403,
-    description: "You don't have permission to do that",
+    description: "you don't have permission to do that",
   })
   @ApiResponse({
     status: 404,
-    description: 'No User found',
+    description: 'owner not found',
   })
   @Post()
   create(
@@ -67,7 +67,8 @@ export class RolePermissionController {
   })
   @ApiResponse({
     status: 400,
-    description: 'role_id must be a string|permission_id must be a string',
+    description:
+      'role_id must be a positive number|permission_id must be a positive number',
   })
   @Get()
   findAll(
@@ -84,11 +85,11 @@ export class RolePermissionController {
   })
   @ApiResponse({
     status: 400,
-    description: 'Id must be a positive number',
+    description: 'id must be a positive number',
   })
   @ApiResponse({
     status: 404,
-    description: 'No RolePermission found',
+    description: 'rolepermission not found',
   })
   @Get(':id')
   findOne(@Param('id') id: string): Promise<RolePermission> {
@@ -105,11 +106,11 @@ export class RolePermissionController {
   })
   @ApiResponse({
     status: 403,
-    description: "You don't have permission to do that",
+    description: "you don't have permission to do that",
   })
   @ApiResponse({
     status: 404,
-    description: 'No RolePermission found|No User found',
+    description: 'rolepermission not found|owner not found',
   })
   @Patch(':id')
   update(
@@ -128,11 +129,11 @@ export class RolePermissionController {
   })
   @ApiResponse({
     status: 403,
-    description: "You don't have permission to do that",
+    description: "you don't have permission to do that",
   })
   @ApiResponse({
     status: 404,
-    description: 'No RolePermission found|No User found',
+    description: 'rolepermission not found|owner not found',
   })
   @Delete(':id')
   remove(@Param('id') id: string): Promise<boolean> {
