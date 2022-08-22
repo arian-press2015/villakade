@@ -41,7 +41,8 @@ export class ContactUsController {
   @ApiResponse({
     status: 400,
     description:
-      'ContactUs already exists|title must be a string|Fa_email must be a string',
+      'contactus already exists|title must be a string|title is required|phone must be a string|phone is required|full_name is required' +
+      '|full_name must be a string|description is required|description must be a string',
   })
   @ApiResponse({
     status: 403,
@@ -65,7 +66,7 @@ export class ContactUsController {
   })
   @ApiResponse({
     status: 400,
-    description: 'title must be a string|Fa_email must be a string',
+    description: 'full_name must be a string|description must be a string',
   })
   @Get()
   findAll(
@@ -86,7 +87,7 @@ export class ContactUsController {
   })
   @ApiResponse({
     status: 404,
-    description: 'No ContactUs found',
+    description: 'contactus not found',
   })
   @Get(':id')
   findOne(@Param('id') id: string): Promise<ContactUs> {
@@ -107,7 +108,7 @@ export class ContactUsController {
   })
   @ApiResponse({
     status: 404,
-    description: 'No ContactUs found|owner not found',
+    description: 'contactus not found|owner not found',
   })
   @Patch(':id')
   update(
@@ -130,7 +131,7 @@ export class ContactUsController {
   })
   @ApiResponse({
     status: 404,
-    description: 'No ContactUs found|owner not found',
+    description: 'contactus not found|owner not found',
   })
   @Delete(':id')
   remove(@Param('id') id: string): Promise<boolean> {
