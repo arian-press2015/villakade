@@ -41,7 +41,8 @@ export class CustomerController {
   @ApiResponse({
     status: 400,
     description:
-      'Customer already exists|title must be a string|Fa_first_name must be a string',
+      'customer already exists|first_name must be a string|first_name is required|last_name must be a string|last_name is required' +
+      '|phone is required|phone must be a string|activation status is required|activation status must be a boolean',
   })
   @ApiResponse({
     status: 403,
@@ -65,7 +66,8 @@ export class CustomerController {
   })
   @ApiResponse({
     status: 400,
-    description: 'title must be a string|Fa_first_name must be a string',
+    description:
+      'first_name must be a string|last_name must be a string|phone must be a string|active must be a boolean',
   })
   @Get()
   findAll(@Query() filterCustomerDto: FilterCustomerDto): Promise<Customer[]> {
@@ -84,7 +86,7 @@ export class CustomerController {
   })
   @ApiResponse({
     status: 404,
-    description: 'No Customer found',
+    description: 'customer not found',
   })
   @Get(':id')
   findOne(@Param('id') id: string): Promise<Customer> {
@@ -105,7 +107,7 @@ export class CustomerController {
   })
   @ApiResponse({
     status: 404,
-    description: 'No Customer found|owner not found',
+    description: 'customer not found|owner not found',
   })
   @Patch(':id')
   update(
@@ -128,7 +130,7 @@ export class CustomerController {
   })
   @ApiResponse({
     status: 404,
-    description: 'No Customer found|owner not found',
+    description: 'customer not found|owner not found',
   })
   @Delete(':id')
   remove(@Param('id') id: string): Promise<boolean> {

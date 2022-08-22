@@ -3,7 +3,7 @@ import { IsOptional, IsString } from 'class-validator';
 
 export class FilterCustomerDto {
   @IsOptional()
-  @IsString({ message: 'title must be a string' })
+  @IsString({ message: 'first_name must be a string' })
   @ApiProperty({
     example: 'arian',
     description: 'first_name of the Customer',
@@ -11,7 +11,7 @@ export class FilterCustomerDto {
   readonly first_name?: string;
 
   @IsOptional()
-  @IsString({ message: 'Last_name must be a string' })
+  @IsString({ message: 'last_name must be a string' })
   @ApiProperty({
     example: 'press2015',
     description: 'last_name of the Customer',
@@ -19,7 +19,7 @@ export class FilterCustomerDto {
   readonly last_name?: string;
 
   @IsOptional()
-  @IsString({ message: 'Phone must be a string' })
+  @IsString({ message: 'phone must be a string' })
   @ApiProperty({
     example: '+989012883045',
     description: 'phone of the Customer',
@@ -27,7 +27,7 @@ export class FilterCustomerDto {
   readonly phone?: string;
 
   @IsOptional()
-  @IsString({ message: 'Active must be a string' })
+  @IsString({ message: 'active must be a boolean' })
   @ApiProperty({
     example: 'true',
     description: 'activation status of the Customer',
