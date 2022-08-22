@@ -36,7 +36,8 @@ export class HostController {
   @ApiResponse({
     status: 400,
     description:
-      'Host already exists|Title must be a string|Fa_first_name must be a string',
+      'host already exists|first_name is required|first_name must be a string|last_name is required|last_name must be a string' +
+      '|phone is required|phone must be a string|vip is required|vip must be a boolean|activation status is required|activation status must be a boolean',
   })
   @ApiResponse({
     status: 403,
@@ -60,7 +61,8 @@ export class HostController {
   })
   @ApiResponse({
     status: 400,
-    description: 'Title must be a string|Fa_first_name must be a string',
+    description:
+      'first_name must be a string|last_name must be a string|phone must be a string|vip must be a boolean|activation status must be a boolean',
   })
   @Get()
   findAll(@Query() filterHostDto: FilterHostDto): Promise<Host[]> {
@@ -79,7 +81,7 @@ export class HostController {
   })
   @ApiResponse({
     status: 404,
-    description: 'No Host found',
+    description: 'host not found',
   })
   @Get(':id')
   findOne(@Param('id') id: string): Promise<Host> {
@@ -100,7 +102,7 @@ export class HostController {
   })
   @ApiResponse({
     status: 404,
-    description: 'No Host found|owner not found',
+    description: 'host not found|owner not found',
   })
   @Patch(':id')
   update(
@@ -123,7 +125,7 @@ export class HostController {
   })
   @ApiResponse({
     status: 404,
-    description: 'No Host found|owner not found',
+    description: 'host not found|owner not found',
   })
   @Delete(':id')
   remove(@Param('id') id: string): Promise<boolean> {

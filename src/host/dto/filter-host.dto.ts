@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsString } from 'class-validator';
+import { IsBooleanString, IsOptional, IsString } from 'class-validator';
 
 export class FilterHostDto {
   @IsOptional()
-  @IsString({ message: 'title must be a string' })
+  @IsString({ message: 'first_name must be a string' })
   @ApiProperty({
     example: 'arian',
     description: 'first_name of the Host',
@@ -11,7 +11,7 @@ export class FilterHostDto {
   readonly first_name?: string;
 
   @IsOptional()
-  @IsString({ message: 'Last_name must be a string' })
+  @IsString({ message: 'last_name must be a string' })
   @ApiProperty({
     example: 'press2015',
     description: 'last_name of the Host',
@@ -19,7 +19,7 @@ export class FilterHostDto {
   readonly last_name?: string;
 
   @IsOptional()
-  @IsString({ message: 'Phone must be a string' })
+  @IsString({ message: 'phone must be a string' })
   @ApiProperty({
     example: '+989012883045',
     description: 'phone of the Host',
@@ -27,7 +27,7 @@ export class FilterHostDto {
   readonly phone?: string;
 
   @IsOptional()
-  @IsString({ message: 'Vip must be a string' })
+  @IsBooleanString({ message: 'vip must be a boolean' })
   @ApiProperty({
     example: 'true',
     description: 'vip status of the Host',
@@ -35,7 +35,7 @@ export class FilterHostDto {
   readonly vip?: string;
 
   @IsOptional()
-  @IsString({ message: 'Active must be a string' })
+  @IsBooleanString({ message: 'activation status must be a boolean' })
   @ApiProperty({
     example: 'true',
     description: 'activation status of the Host',
