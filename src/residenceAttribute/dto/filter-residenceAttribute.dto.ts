@@ -1,5 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsNumberString, IsString } from 'class-validator';
+import {
+  IsOptional,
+  IsNumberString,
+  IsString,
+  IsBooleanString,
+} from 'class-validator';
 
 export class FilterResidenceAttributeDto {
   @IsOptional()
@@ -59,7 +64,7 @@ export class FilterResidenceAttributeDto {
   readonly out_time?: string;
 
   @IsOptional()
-  @IsString({ message: 'pet must be a boolean' })
+  @IsBooleanString({ message: 'pet must be a boolean' })
   @ApiProperty({
     example: 'false',
     description: 'pet status of the ResidenceAttribute',
@@ -67,7 +72,7 @@ export class FilterResidenceAttributeDto {
   readonly pet?: string;
 
   @IsOptional()
-  @IsString({ message: 'instant_delivery must be a boolean' })
+  @IsBooleanString({ message: 'instant_delivery must be a boolean' })
   @ApiProperty({
     example: 'false',
     description: 'instant_delivery status of the ResidenceAttribute',
@@ -75,7 +80,7 @@ export class FilterResidenceAttributeDto {
   readonly instant_delivery?: string;
 
   @IsOptional()
-  @IsString({ message: 'dishes must be a boolean' })
+  @IsBooleanString({ message: 'dishes must be a boolean' })
   @ApiProperty({
     example: 'false',
     description: 'dishes status of the ResidenceAttribute',
@@ -83,7 +88,7 @@ export class FilterResidenceAttributeDto {
   readonly dishes?: string;
 
   @IsOptional()
-  @IsString({ message: 'dining_table must be a boolean' })
+  @IsBooleanString({ message: 'dining_table must be a boolean' })
   @ApiProperty({
     example: 'false',
     description: 'dining_table status of the ResidenceAttribute',
@@ -91,7 +96,7 @@ export class FilterResidenceAttributeDto {
   readonly dining_table?: string;
 
   @IsOptional()
-  @IsString({ message: 'microwave must be a boolean' })
+  @IsBooleanString({ message: 'microwave must be a boolean' })
   @ApiProperty({
     example: 'false',
     description: 'microwave status of the ResidenceAttribute',
@@ -99,7 +104,7 @@ export class FilterResidenceAttributeDto {
   readonly microwave?: string;
 
   @IsOptional()
-  @IsString({ message: 'fridge must be a boolean' })
+  @IsBooleanString({ message: 'fridge must be a boolean' })
   @ApiProperty({
     example: 'false',
     description: 'fridge status of the ResidenceAttribute',
@@ -107,7 +112,7 @@ export class FilterResidenceAttributeDto {
   readonly fridge?: string;
 
   @IsOptional()
-  @IsString({ message: 'water must be a boolean' })
+  @IsBooleanString({ message: 'water must be a boolean' })
   @ApiProperty({
     example: 'false',
     description: 'water status of the ResidenceAttribute',
@@ -115,7 +120,7 @@ export class FilterResidenceAttributeDto {
   readonly water?: string;
 
   @IsOptional()
-  @IsString({ message: 'electricity must be a boolean' })
+  @IsBooleanString({ message: 'electricity must be a boolean' })
   @ApiProperty({
     example: 'false',
     description: 'electricity status of the ResidenceAttribute',
@@ -123,7 +128,7 @@ export class FilterResidenceAttributeDto {
   readonly electricity?: string;
 
   @IsOptional()
-  @IsString({ message: 'gas must be a boolean' })
+  @IsBooleanString({ message: 'gas must be a boolean' })
   @ApiProperty({
     example: 'false',
     description: 'gas status of the ResidenceAttribute',
@@ -131,7 +136,7 @@ export class FilterResidenceAttributeDto {
   readonly gas?: string;
 
   @IsOptional()
-  @IsString({ message: 'tv must be a boolean' })
+  @IsBooleanString({ message: 'tv must be a boolean' })
   @ApiProperty({
     example: 'false',
     description: 'tv status of the ResidenceAttribute',
@@ -139,7 +144,7 @@ export class FilterResidenceAttributeDto {
   readonly tv?: string;
 
   @IsOptional()
-  @IsString({ message: 'elevator must be a boolean' })
+  @IsBooleanString({ message: 'elevator must be a boolean' })
   @ApiProperty({
     example: 'false',
     description: 'elevator status of the ResidenceAttribute',
@@ -147,7 +152,7 @@ export class FilterResidenceAttributeDto {
   readonly elevator?: string;
 
   @IsOptional()
-  @IsString({ message: 'local_wc must be a boolean' })
+  @IsBooleanString({ message: 'local_wc must be a boolean' })
   @ApiProperty({
     example: 'false',
     description: 'local_wc status of the ResidenceAttribute',
@@ -155,7 +160,7 @@ export class FilterResidenceAttributeDto {
   readonly local_wc?: string;
 
   @IsOptional()
-  @IsString({ message: 'wc must be a boolean' })
+  @IsBooleanString({ message: 'wc must be a boolean' })
   @ApiProperty({
     example: 'false',
     description: 'wc status of the ResidenceAttribute',
@@ -163,7 +168,7 @@ export class FilterResidenceAttributeDto {
   readonly wc?: string;
 
   @IsOptional()
-  @IsString({ message: 'pool_table must be a boolean' })
+  @IsBooleanString({ message: 'pool_table must be a boolean' })
   @ApiProperty({
     example: 'false',
     description: 'pool_table status of the ResidenceAttribute',
@@ -171,7 +176,7 @@ export class FilterResidenceAttributeDto {
   readonly pool_table?: string;
 
   @IsOptional()
-  @IsString({ message: 'ping_pong_table must be a boolean' })
+  @IsBooleanString({ message: 'ping_pong_table must be a boolean' })
   @ApiProperty({
     example: 'false',
     description: 'ping_pong_table status of the ResidenceAttribute',
@@ -179,7 +184,7 @@ export class FilterResidenceAttributeDto {
   readonly ping_pong_table?: string;
 
   @IsOptional()
-  @IsString({ message: 'pool must be a boolean' })
+  @IsBooleanString({ message: 'pool must be a boolean' })
   @ApiProperty({
     example: 'false',
     description: 'pool status of the ResidenceAttribute',
