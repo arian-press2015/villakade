@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsString } from 'class-validator';
+import { IsNumberString, IsOptional, IsString } from 'class-validator';
 
 export class FilterOwnerDto {
   @IsOptional()
@@ -11,7 +11,7 @@ export class FilterOwnerDto {
   readonly first_name?: string;
 
   @IsOptional()
-  @IsString({ message: 'Last_name must be a string' })
+  @IsString({ message: 'last_name must be a string' })
   @ApiProperty({
     example: 'press2015',
     description: 'last_name of the Owner',
@@ -19,7 +19,7 @@ export class FilterOwnerDto {
   readonly last_name?: string;
 
   @IsOptional()
-  @IsString({ message: 'Phone must be a string' })
+  @IsString({ message: 'phone must be a string' })
   @ApiProperty({
     example: '+989012883045',
     description: 'phone of the Owner',
@@ -35,7 +35,7 @@ export class FilterOwnerDto {
   readonly username?: string;
 
   @IsOptional()
-  @IsString({ message: 'role_id must be a positive number' })
+  @IsNumberString({ message: 'role_id must be a positive number' })
   @ApiProperty({
     example: '12345',
     description: 'role of the Owner',

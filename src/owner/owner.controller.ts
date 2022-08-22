@@ -36,7 +36,9 @@ export class OwnerController {
   @ApiResponse({
     status: 400,
     description:
-      'Owner already exists|Title must be a string|Fa_first_name must be a string',
+      'owner already exists|first_name is required|first_name must be a string|last_name is required|last_name must be a string|phone is required' +
+      '|phone must be a string|username is required|username must be a string|password is required|password must be a string' +
+      '|role_id is required|role_id must be a positive number',
   })
   @ApiResponse({
     status: 403,
@@ -60,7 +62,8 @@ export class OwnerController {
   })
   @ApiResponse({
     status: 400,
-    description: 'Title must be a string|Fa_first_name must be a string',
+    description:
+      'first_name is required|last_name must be a string|phone is required|username must be a string|role_id is required',
   })
   @Get()
   findAll(@Query() filterOwnerDto: FilterOwnerDto): Promise<Owner[]> {
@@ -79,7 +82,7 @@ export class OwnerController {
   })
   @ApiResponse({
     status: 404,
-    description: 'No Owner found',
+    description: 'owner not found',
   })
   @Get(':id')
   findOne(@Param('id') id: string): Promise<Owner> {
@@ -100,7 +103,7 @@ export class OwnerController {
   })
   @ApiResponse({
     status: 404,
-    description: 'No Owner found|owner not found',
+    description: 'owner not found|owner not found',
   })
   @Patch(':id')
   update(
@@ -123,7 +126,7 @@ export class OwnerController {
   })
   @ApiResponse({
     status: 404,
-    description: 'No Owner found|owner not found',
+    description: 'owner not found|owner not found',
   })
   @Delete(':id')
   remove(@Param('id') id: string): Promise<boolean> {
