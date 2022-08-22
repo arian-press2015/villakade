@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsString } from 'class-validator';
+import { IsBooleanString, IsOptional, IsString } from 'class-validator';
 
 export class FilterCustomerDto {
   @IsOptional()
@@ -27,7 +27,7 @@ export class FilterCustomerDto {
   readonly phone?: string;
 
   @IsOptional()
-  @IsString({ message: 'active must be a boolean' })
+  @IsBooleanString({ message: 'activation status must be a boolean' })
   @ApiProperty({
     example: 'true',
     description: 'activation status of the Customer',

@@ -32,7 +32,7 @@ export class CreateResidenceDto {
   @ApiProperty({ example: 200000, description: 'price of the residence' })
   readonly price: number;
 
-  @IsBoolean({ message: 'active must be a boolean' })
+  @IsBoolean({ message: 'activation status must be a boolean' })
   @ApiProperty({
     example: true,
     description: 'activity status of the residence',

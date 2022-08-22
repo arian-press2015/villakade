@@ -67,7 +67,7 @@ export class CustomerController {
   @ApiResponse({
     status: 400,
     description:
-      'first_name must be a string|last_name must be a string|phone must be a string|active must be a boolean',
+      'first_name must be a string|last_name must be a string|phone must be a string|activation status must be a boolean',
   })
   @Get()
   findAll(@Query() filterCustomerDto: FilterCustomerDto): Promise<Customer[]> {

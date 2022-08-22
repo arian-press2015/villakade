@@ -27,7 +27,7 @@ export class UpdateCustomerDto {
   readonly phone?: string;
 
   @IsOptional()
-  @IsBoolean({ message: 'active must be a boolean' })
+  @IsBoolean({ message: 'activation status must be a boolean' })
   @ApiProperty({
     example: true,
     description: 'activation status of the Customer',

@@ -39,7 +39,7 @@ export class UpdateResidenceDto {
   readonly price?: number;
 
   @IsOptional()
-  @IsBoolean({ message: 'active must be a boolean' })
+  @IsBoolean({ message: 'activation status must be a boolean' })
   @ApiProperty({
     example: true,
     description: 'activity status of the residence',
