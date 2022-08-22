@@ -41,7 +41,7 @@ export class ProvinceController {
   @ApiResponse({
     status: 400,
     description:
-      'Province already exists|Name must be a string|Fa_name must be a string',
+      'province already exists|name must be a string|name is required|fa_name must be a string|fa_name is required',
   })
   @ApiResponse({
     status: 403,
@@ -65,7 +65,7 @@ export class ProvinceController {
   })
   @ApiResponse({
     status: 400,
-    description: 'Name must be a string|Fa_name must be a string',
+    description: 'name must be a string|fa_name must be a string',
   })
   @Get()
   findAll(@Query() filterProvinceDto: FilterProvinceDto): Promise<Province[]> {
@@ -84,7 +84,7 @@ export class ProvinceController {
   })
   @ApiResponse({
     status: 404,
-    description: 'No Province found',
+    description: 'province not found',
   })
   @Get(':id')
   findOne(@Param('id') id: string): Promise<Province> {
@@ -105,7 +105,7 @@ export class ProvinceController {
   })
   @ApiResponse({
     status: 404,
-    description: 'No Province found|owner not found',
+    description: 'province not found|owner not found',
   })
   @Patch(':id')
   update(
@@ -128,7 +128,7 @@ export class ProvinceController {
   })
   @ApiResponse({
     status: 404,
-    description: 'No Province found|owner not found',
+    description: 'province not found|owner not found',
   })
   @Delete(':id')
   remove(@Param('id') id: string): Promise<boolean> {
