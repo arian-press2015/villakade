@@ -36,7 +36,8 @@ export class FaqController {
   @ApiResponse({
     status: 400,
     description:
-      'Faq already exists|title must be a string|Fa_faq_type must be a string',
+      'faq already exists|faq_type must be a string|faq_type is required|question must be a string|question is required' +
+      '| answer must be a string| answer is required',
   })
   @ApiResponse({
     status: 403,
@@ -60,7 +61,8 @@ export class FaqController {
   })
   @ApiResponse({
     status: 400,
-    description: 'title must be a string|Fa_faq_type must be a string',
+    description:
+      'faq_type must be a string|question must be a string|answer must be a string',
   })
   @Get()
   findAll(@Query() filterFaqDto: FilterFaqDto): Promise<Faq[]> {
@@ -79,7 +81,7 @@ export class FaqController {
   })
   @ApiResponse({
     status: 404,
-    description: 'No Faq found',
+    description: 'faq not found',
   })
   @Get(':id')
   findOne(@Param('id') id: string): Promise<Faq> {
@@ -100,7 +102,7 @@ export class FaqController {
   })
   @ApiResponse({
     status: 404,
-    description: 'No Faq found|owner not found',
+    description: 'faq not found|owner not found',
   })
   @Patch(':id')
   update(
@@ -123,7 +125,7 @@ export class FaqController {
   })
   @ApiResponse({
     status: 404,
-    description: 'No Faq found|owner not found',
+    description: 'faq not found|owner not found',
   })
   @Delete(':id')
   remove(@Param('id') id: string): Promise<boolean> {

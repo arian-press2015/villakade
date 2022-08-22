@@ -1,22 +1,25 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateFaqDto {
-  @IsString({ message: 'Faq_type must be a string' })
+  @IsNotEmpty({ message: 'faq_type is required' })
+  @IsString({ message: 'faq_type must be a string' })
   @ApiProperty({
     example: 'residence',
     description: 'faq_type of the Faq',
   })
   readonly faq_type: string;
 
-  @IsString({ message: 'Question must be a string' })
+  @IsNotEmpty({ message: 'question is required' })
+  @IsString({ message: 'question must be a string' })
   @ApiProperty({
     example: 'چطور ویلا اجاره کنیم؟',
     description: 'question of the Faq',
   })
   readonly question: string;
 
-  @IsString({ message: 'Answer must be a string' })
+  @IsNotEmpty({ message: 'answer is required' })
+  @IsString({ message: 'answer must be a string' })
   @ApiProperty({
     example: 'به سادگی',
     description: 'faq_type of the Faq',
