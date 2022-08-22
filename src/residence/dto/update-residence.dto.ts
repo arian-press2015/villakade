@@ -8,7 +8,7 @@ export class UpdateResidenceDto {
   readonly host_id?: number;
 
   @IsOptional()
-  @IsString({ message: 'Title must be a string' })
+  @IsString({ message: 'title must be a string' })
   @ApiProperty({
     example: 'آپارتمان در شیراز',
     description: 'title of the Residence',
@@ -39,7 +39,7 @@ export class UpdateResidenceDto {
   readonly price?: number;
 
   @IsOptional()
-  @IsBoolean({ message: 'active must be a boolean' })
+  @IsBoolean({ message: 'activation status must be a boolean' })
   @ApiProperty({
     example: true,
     description: 'activity status of the residence',

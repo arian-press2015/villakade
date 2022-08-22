@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsPositive, IsString } from 'class-validator';
+import { IsNotEmpty, IsPositive, IsString } from 'class-validator';
 
 export class CreateOwnerDto {
+  @IsNotEmpty({ message: 'first_name is required' })
   @IsString({ message: 'first_name must be a string' })
   @ApiProperty({
     example: 'arian',
@@ -9,20 +10,23 @@ export class CreateOwnerDto {
   })
   readonly first_name: string;
 
-  @IsString({ message: 'Last_name must be a string' })
+  @IsNotEmpty({ message: 'last_name is required' })
+  @IsString({ message: 'last_name must be a string' })
   @ApiProperty({
     example: 'press2015',
     description: 'last_name of the Owner',
   })
   readonly last_name: string;
 
-  @IsString({ message: 'Phone must be a string' })
+  @IsNotEmpty({ message: 'phone is required' })
+  @IsString({ message: 'phone must be a string' })
   @ApiProperty({
     example: '+989012883045',
     description: 'phone of the Owner',
   })
   readonly phone: string;
 
+  @IsNotEmpty({ message: 'username is required' })
   @IsString({ message: 'username must be a string' })
   @ApiProperty({
     example: 'AP2015',
@@ -30,6 +34,7 @@ export class CreateOwnerDto {
   })
   readonly username: string;
 
+  @IsNotEmpty({ message: 'password is required' })
   @IsString({ message: 'password must be a string' })
   @ApiProperty({
     example: 'APPassword',
@@ -37,6 +42,7 @@ export class CreateOwnerDto {
   })
   readonly password: string;
 
+  @IsNotEmpty({ message: 'role_id is required' })
   @IsPositive({ message: 'role_id must be a positive number' })
   @ApiProperty({
     example: 12345,

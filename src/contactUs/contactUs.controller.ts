@@ -41,15 +41,16 @@ export class ContactUsController {
   @ApiResponse({
     status: 400,
     description:
-      'ContactUs already exists|Title must be a string|Fa_email must be a string',
+      'contactus already exists|title must be a string|title is required|phone must be a string|phone is required|full_name is required' +
+      '|full_name must be a string|description is required|description must be a string',
   })
   @ApiResponse({
     status: 403,
-    description: "You don't have permission to do that",
+    description: "you don't have permission to do that",
   })
   @ApiResponse({
     status: 404,
-    description: 'No User found',
+    description: 'owner not found',
   })
   @Post()
   create(@Body() createContactUsDto: CreateContactUsDto): Promise<ContactUs> {
@@ -65,7 +66,7 @@ export class ContactUsController {
   })
   @ApiResponse({
     status: 400,
-    description: 'Title must be a string|Fa_email must be a string',
+    description: 'full_name must be a string|description must be a string',
   })
   @Get()
   findAll(
@@ -82,11 +83,11 @@ export class ContactUsController {
   })
   @ApiResponse({
     status: 400,
-    description: 'Id must be a positive number',
+    description: 'id must be a positive number',
   })
   @ApiResponse({
     status: 404,
-    description: 'No ContactUs found',
+    description: 'contactus not found',
   })
   @Get(':id')
   findOne(@Param('id') id: string): Promise<ContactUs> {
@@ -103,11 +104,11 @@ export class ContactUsController {
   })
   @ApiResponse({
     status: 403,
-    description: "You don't have permission to do that",
+    description: "you don't have permission to do that",
   })
   @ApiResponse({
     status: 404,
-    description: 'No ContactUs found|No User found',
+    description: 'contactus not found|owner not found',
   })
   @Patch(':id')
   update(
@@ -126,11 +127,11 @@ export class ContactUsController {
   })
   @ApiResponse({
     status: 403,
-    description: "You don't have permission to do that",
+    description: "you don't have permission to do that",
   })
   @ApiResponse({
     status: 404,
-    description: 'No ContactUs found|No User found',
+    description: 'contactus not found|owner not found',
   })
   @Delete(':id')
   remove(@Param('id') id: string): Promise<boolean> {

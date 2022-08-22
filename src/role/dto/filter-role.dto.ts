@@ -3,7 +3,7 @@ import { IsOptional, IsString } from 'class-validator';
 
 export class FilterRoleDto {
   @IsOptional()
-  @IsString({ message: 'Title must be a string' })
+  @IsString({ message: 'title must be a string' })
   @ApiProperty({
     example: 'residence-management',
     description: 'title of the Role',
@@ -11,7 +11,7 @@ export class FilterRoleDto {
   readonly title?: string;
 
   @IsOptional()
-  @IsString({ message: 'Fa_title must be a string' })
+  @IsString({ message: 'fa_title must be a string' })
   @ApiProperty({
     example: 'ویرایش اقامتگاه ها',
     description: 'fa_title of the Role',

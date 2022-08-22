@@ -43,15 +43,21 @@ export class ResidenceAttributeController {
   @ApiResponse({
     status: 400,
     description:
-      'ResidenceAttribute already exists|residence_size must be a string|residence_yard_size must be a string',
+      'residenceattribute already exists|residence_id is required|residence_id must be a positive number|residence_size must be a positive number' +
+      '|residence_size is required|residence_yard_size is required|residence_yard_size must be a positive number|bedroom_count is required' +
+      '|bedroom_count must be a positive number|capacity is required|capacity must be a positive number|in_time is required|in_time must be a string' +
+      '|out_time is required|out_time must be a string|pet must be a boolean|instant_delivery must be a boolean|dishes must be a boolean' +
+      '|dining_table must be a boolean|microwave must be a boolean|fridge must be a boolean|water must be a boolean|electricity must be a boolean' +
+      '|gas must be a boolean|tv must be a boolean|elevator must be a boolean|local_wc must be a boolean|wc must be a boolean|pool_table must be a boolean' +
+      '|ping_pong_table must be a boolean|pool must be a boolean',
   })
   @ApiResponse({
     status: 403,
-    description: "You don't have permission to do that",
+    description: "you don't have permission to do that",
   })
   @ApiResponse({
     status: 404,
-    description: 'No User found',
+    description: 'owner not found',
   })
   @Post()
   create(
@@ -70,7 +76,11 @@ export class ResidenceAttributeController {
   @ApiResponse({
     status: 400,
     description:
-      'residence_size must be a string|residence_yard_size must be a string',
+      'residenceattribute already exists|residence_id must be a positive number|residence_size must be a positive number|residence_yard_size must be a positive number' +
+      '|bedroom_count must be a positive number|capacity must be a positive number|in_time must be a string|out_time must be a string|pet must be a boolean' +
+      '|instant_delivery must be a boolean|dishes must be a boolean|dining_table must be a boolean|microwave must be a boolean|fridge must be a boolean' +
+      '|water must be a boolean|electricity must be a boolean|gas must be a boolean|tv must be a boolean|elevator must be a boolean|local_wc must be a boolean' +
+      '|wc must be a boolean|pool_table must be a boolean|ping_pong_table must be a boolean|pool must be a boolean',
   })
   @Get()
   findAll(
@@ -87,11 +97,11 @@ export class ResidenceAttributeController {
   })
   @ApiResponse({
     status: 400,
-    description: 'Id must be a positive number',
+    description: 'id must be a positive number',
   })
   @ApiResponse({
     status: 404,
-    description: 'No ResidenceAttribute found',
+    description: 'residenceattribute not found',
   })
   @Get(':id')
   findOne(@Param('id') id: string): Promise<ResidenceAttribute> {
@@ -108,11 +118,11 @@ export class ResidenceAttributeController {
   })
   @ApiResponse({
     status: 403,
-    description: "You don't have permission to do that",
+    description: "you don't have permission to do that",
   })
   @ApiResponse({
     status: 404,
-    description: 'No ResidenceAttribute found|No User found',
+    description: 'residenceattribute not found|owner not found',
   })
   @Patch(':id')
   update(
@@ -134,11 +144,11 @@ export class ResidenceAttributeController {
   })
   @ApiResponse({
     status: 403,
-    description: "You don't have permission to do that",
+    description: "you don't have permission to do that",
   })
   @ApiResponse({
     status: 404,
-    description: 'No ResidenceAttribute found|No User found',
+    description: 'residenceattribute not found|owner not found',
   })
   @Delete(':id')
   remove(@Param('id') id: string): Promise<boolean> {

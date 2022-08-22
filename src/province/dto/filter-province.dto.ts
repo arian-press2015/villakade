@@ -3,7 +3,7 @@ import { IsOptional, IsString } from 'class-validator';
 
 export class FilterProvinceDto {
   @IsOptional()
-  @IsString({ message: 'Name must be a string' })
+  @IsString({ message: 'name must be a string' })
   @ApiProperty({
     example: 'fars',
     description: 'name of the Province',
@@ -11,7 +11,7 @@ export class FilterProvinceDto {
   readonly name?: string;
 
   @IsOptional()
-  @IsString({ message: 'Fa_name must be a string' })
+  @IsString({ message: 'fa_name must be a string' })
   @ApiProperty({
     example: 'فارس',
     description: 'fa_name of the Province',

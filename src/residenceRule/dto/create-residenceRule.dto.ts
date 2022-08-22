@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsPositive, IsString } from 'class-validator';
+import { IsNotEmpty, IsPositive, IsString } from 'class-validator';
 
 export class CreateResidenceRuleDto {
+  @IsNotEmpty({ message: 'residence_id is required' })
   @IsPositive({ message: 'residence_id must be a positive number' })
   @ApiProperty({
     example: 12345,
@@ -9,7 +10,8 @@ export class CreateResidenceRuleDto {
   })
   readonly residence_id: number;
 
-  @IsString({ message: 'Title must be a string' })
+  @IsNotEmpty({ message: 'rule_body is required' })
+  @IsString({ message: 'rule_body must be a string' })
   @ApiProperty({
     example: 'خونه را کثیف نکنین لطفا',
     description: 'rule_body of the ResidenceRule',

@@ -41,15 +41,15 @@ export class ResidenceRuleController {
   @ApiResponse({
     status: 400,
     description:
-      'ResidenceRule already exists|Title must be a string|Fa_rule_body must be a string',
+      'residencerule already exists|residence_id must be a string|residence_id is required|rule_body must be a string|rule_body is required',
   })
   @ApiResponse({
     status: 403,
-    description: "You don't have permission to do that",
+    description: "you don't have permission to do that",
   })
   @ApiResponse({
     status: 404,
-    description: 'No User found',
+    description: 'owner not found',
   })
   @Post()
   create(
@@ -64,10 +64,6 @@ export class ResidenceRuleController {
     status: 200,
     description: 'Returns all of the Categories',
     type: [ResidenceRule],
-  })
-  @ApiResponse({
-    status: 400,
-    description: 'Title must be a string|Fa_rule_body must be a string',
   })
   @Get()
   findAll(
@@ -84,11 +80,11 @@ export class ResidenceRuleController {
   })
   @ApiResponse({
     status: 400,
-    description: 'Id must be a positive number',
+    description: 'id must be a positive number',
   })
   @ApiResponse({
     status: 404,
-    description: 'No ResidenceRule found',
+    description: 'residencerule not found',
   })
   @Get(':id')
   findOne(@Param('id') id: string): Promise<ResidenceRule> {
@@ -105,11 +101,11 @@ export class ResidenceRuleController {
   })
   @ApiResponse({
     status: 403,
-    description: "You don't have permission to do that",
+    description: "you don't have permission to do that",
   })
   @ApiResponse({
     status: 404,
-    description: 'No ResidenceRule found|No User found',
+    description: 'residencerule not found|owner not found',
   })
   @Patch(':id')
   update(
@@ -128,11 +124,11 @@ export class ResidenceRuleController {
   })
   @ApiResponse({
     status: 403,
-    description: "You don't have permission to do that",
+    description: "you don't have permission to do that",
   })
   @ApiResponse({
     status: 404,
-    description: 'No ResidenceRule found|No User found',
+    description: 'residencerule not found|owner not found',
   })
   @Delete(':id')
   remove(@Param('id') id: string): Promise<boolean> {
