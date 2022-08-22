@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreatePermissionDto {
+  @IsNotEmpty({ message: 'title is required' })
   @IsString({ message: 'title must be a string' })
   @ApiProperty({
     example: 'delete-residence',
@@ -9,6 +10,7 @@ export class CreatePermissionDto {
   })
   readonly title: string;
 
+  @IsNotEmpty({ message: 'fa_title is required' })
   @IsString({ message: 'fa_title must be a string' })
   @ApiProperty({
     example: 'ویرایش اقامتگاه ها',

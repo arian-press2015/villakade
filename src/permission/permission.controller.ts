@@ -41,7 +41,7 @@ export class PermissionController {
   @ApiResponse({
     status: 400,
     description:
-      'Permission already exists|title must be a string|fa_title must be a string',
+      'permission already exists|title must be a string|title is required|fa_title must be a string|fa_title is required',
   })
   @ApiResponse({
     status: 403,
@@ -88,7 +88,7 @@ export class PermissionController {
   })
   @ApiResponse({
     status: 404,
-    description: 'No Permission found',
+    description: 'permission not found',
   })
   @Get(':id')
   findOne(@Param('id') id: string): Promise<Permission> {
@@ -109,7 +109,7 @@ export class PermissionController {
   })
   @ApiResponse({
     status: 404,
-    description: 'No Permission found|owner not found',
+    description: 'permission not found|owner not found',
   })
   @Patch(':id')
   update(
@@ -132,7 +132,7 @@ export class PermissionController {
   })
   @ApiResponse({
     status: 404,
-    description: 'No Permission found|owner not found',
+    description: 'permission not found|owner not found',
   })
   @Delete(':id')
   remove(@Param('id') id: string): Promise<boolean> {
