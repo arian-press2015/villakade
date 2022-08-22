@@ -1,5 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsNumberString, IsString } from 'class-validator';
+import {
+  IsOptional,
+  IsNumberString,
+  IsString,
+  IsBooleanString,
+} from 'class-validator';
 
 export class FilterResidenceDto {
   @IsOptional()
@@ -39,7 +44,7 @@ export class FilterResidenceDto {
   readonly price?: string;
 
   @IsOptional()
-  @IsString({ message: 'active must be a string' })
+  @IsBooleanString({ message: 'activation status must be a boolean' })
   @ApiProperty({
     example: 'true',
     description: 'activity status of the residence',

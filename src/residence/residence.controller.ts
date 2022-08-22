@@ -41,7 +41,9 @@ export class ResidenceController {
   @ApiResponse({
     status: 400,
     description:
-      'Residence already exists|title must be a string|fa_title must be a string',
+      'residence already exists|host_id must be a positive number|host_id is required|title must be a string|type_id must be a positive number' +
+      '|type_id is required|location is required|location must be a string|title is required|city_id must be a positive number|city_id is required' +
+      '|price must be a positive number|price is required|activation status is required|activation status must be a boolean',
   })
   @ApiResponse({
     status: 403,
@@ -65,7 +67,9 @@ export class ResidenceController {
   })
   @ApiResponse({
     status: 400,
-    description: 'title must be a string|fa_title must be a string',
+    description:
+      'host_id must be a positive number|type_id must be a positive number|location must be a string|city_id must be a positive number' +
+      '|price must be a positive number|activation status must be a boolean',
   })
   @Get()
   findAll(
@@ -86,7 +90,7 @@ export class ResidenceController {
   })
   @ApiResponse({
     status: 404,
-    description: 'No Residence found',
+    description: 'residence not found',
   })
   @Get(':id')
   findOne(@Param('id') id: string): Promise<Residence> {
@@ -107,7 +111,7 @@ export class ResidenceController {
   })
   @ApiResponse({
     status: 404,
-    description: 'No Residence found|owner not found',
+    description: 'residence not found|owner not found',
   })
   @Patch(':id')
   update(
@@ -130,7 +134,7 @@ export class ResidenceController {
   })
   @ApiResponse({
     status: 404,
-    description: 'No Residence found|owner not found',
+    description: 'residence not found|owner not found',
   })
   @Delete(':id')
   remove(@Param('id') id: string): Promise<boolean> {
