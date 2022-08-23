@@ -22,6 +22,10 @@ export class ResidenceService {
     return residence;
   }
 
+  async getCount(filterResidenceDto: FilterResidenceDto): Promise<number> {
+    return 1;
+  }
+
   async findAll(filterResidenceDto: FilterResidenceDto): Promise<Residence[]> {
     const residence = [
       {

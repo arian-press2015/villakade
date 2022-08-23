@@ -17,6 +17,10 @@ export class PermissionService {
     return permission;
   }
 
+  async getCount(filterPermissionDto: FilterPermissionDto): Promise<number> {
+    return 1;
+  }
+
   async findAll(
     filterPermissionDto: FilterPermissionDto,
   ): Promise<Permission[]> {

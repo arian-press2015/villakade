@@ -12,6 +12,10 @@ export class RoleService {
     return role;
   }
 
+  async getCount(filterRoleDto: FilterRoleDto): Promise<number> {
+    return 1;
+  }
+
   async findAll(filterRoleDto: FilterRoleDto): Promise<Role[]> {
     const role = [
       {

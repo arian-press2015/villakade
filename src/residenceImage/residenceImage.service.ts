@@ -20,6 +20,12 @@ export class ResidenceImageService {
     return residenceImage;
   }
 
+  async getCount(
+    filterResidenceImageDto: FilterResidenceImageDto,
+  ): Promise<number> {
+    return 1;
+  }
+
   async findAll(
     filterResidenceImageDto: FilterResidenceImageDto,
   ): Promise<ResidenceImage[]> {

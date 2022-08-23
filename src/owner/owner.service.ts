@@ -16,6 +16,10 @@ export class OwnerService {
     return owner;
   }
 
+  async getCount(filterOwnerDto: FilterOwnerDto): Promise<number> {
+    return 1;
+  }
+
   async findAll(filterOwnerDto: FilterOwnerDto): Promise<Owner[]> {
     const owner = [
       {
