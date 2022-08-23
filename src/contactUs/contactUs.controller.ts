@@ -58,10 +58,26 @@ export class ContactUsController {
   }
 
   @UsePipes(new ValidationPipe())
+  @ApiOperation({ summary: 'Get count of the ContactUss' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns count of the ContactUss',
+    type: Number,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'full_name must be a string|description must be a string',
+  })
+  @Get('count')
+  count(@Query() filterContactUsDto: FilterContactUsDto): Promise<number> {
+    return this.contactUsService.getCount(filterContactUsDto);
+  }
+
+  @UsePipes(new ValidationPipe())
   @ApiOperation({ summary: 'Get all of the ContactUss' })
   @ApiResponse({
     status: 200,
-    description: 'Returns all of the Categories',
+    description: 'Returns all of the ContactUss',
     type: [ContactUs],
   })
   @ApiResponse({
