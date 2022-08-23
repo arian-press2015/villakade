@@ -57,7 +57,7 @@ export class CityController {
   @ApiResponse({
     status: 200,
     description: 'Returns count of the Cities',
-    type: [City],
+    type: Number,
   })
   @ApiResponse({
     status: 400,

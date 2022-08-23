@@ -61,7 +61,7 @@ export class CategoryController {
   @ApiResponse({
     status: 200,
     description: 'Returns count of the Categories',
-    type: [Category],
+    type: Number,
   })
   @ApiResponse({
     status: 400,
