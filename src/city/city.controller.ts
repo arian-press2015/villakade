@@ -53,10 +53,26 @@ export class CityController {
   }
 
   @UsePipes(new ValidationPipe())
-  @ApiOperation({ summary: 'Get all of the Citys' })
+  @ApiOperation({ summary: 'Get count of the Cities' })
   @ApiResponse({
     status: 200,
-    description: 'Returns all of the Categories',
+    description: 'Returns count of the Cities',
+    type: [City],
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'name must be a string|fa_name must be a string',
+  })
+  @Get('count')
+  count(@Query() filterCityDto: FilterCityDto): Promise<number> {
+    return this.cityService.getCount(filterCityDto);
+  }
+
+  @UsePipes(new ValidationPipe())
+  @ApiOperation({ summary: 'Get all of the Cities' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns all of the Cities',
     type: [City],
   })
   @ApiResponse({
