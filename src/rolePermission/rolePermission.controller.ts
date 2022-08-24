@@ -59,6 +59,25 @@ export class RolePermissionController {
   }
 
   @UsePipes(new ValidationPipe())
+  @ApiOperation({ summary: 'Get count of the RolePermissions' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns count of the Categories',
+    type: Number,
+  })
+  @ApiResponse({
+    status: 400,
+    description:
+      'role_id must be a positive number|permission_id must be a positive number',
+  })
+  @Get('count')
+  count(
+    @Query() filterRolePermissionDto: FilterRolePermissionDto,
+  ): Promise<number> {
+    return this.rolePermissionService.getCount(filterRolePermissionDto);
+  }
+
+  @UsePipes(new ValidationPipe())
   @ApiOperation({ summary: 'Get all of the RolePermissions' })
   @ApiResponse({
     status: 200,
