@@ -67,6 +67,29 @@ export class ResidenceAttributeController {
   }
 
   @UsePipes(new ValidationPipe())
+  @ApiOperation({ summary: 'Get count of the ResidenceAttributes' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns count of the Categories',
+    type: Number,
+  })
+  @ApiResponse({
+    status: 400,
+    description:
+      'residenceattribute already exists|residence_id must be a positive number|residence_size must be a positive number|residence_yard_size must be a positive number' +
+      '|bedroom_count must be a positive number|capacity must be a positive number|in_time must be a string|out_time must be a string|pet must be a boolean' +
+      '|instant_delivery must be a boolean|dishes must be a boolean|dining_table must be a boolean|microwave must be a boolean|fridge must be a boolean' +
+      '|water must be a boolean|electricity must be a boolean|gas must be a boolean|tv must be a boolean|elevator must be a boolean|local_wc must be a boolean' +
+      '|wc must be a boolean|pool_table must be a boolean|ping_pong_table must be a boolean|pool must be a boolean',
+  })
+  @Get('count')
+  count(
+    @Query() filterResidenceAttributeDto: FilterResidenceAttributeDto,
+  ): Promise<number> {
+    return this.residenceAttributeService.getCount(filterResidenceAttributeDto);
+  }
+
+  @UsePipes(new ValidationPipe())
   @ApiOperation({ summary: 'Get all of the ResidenceAttributes' })
   @ApiResponse({
     status: 200,
