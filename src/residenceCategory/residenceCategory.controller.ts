@@ -61,6 +61,25 @@ export class ResidenceCategoryController {
   }
 
   @UsePipes(new ValidationPipe())
+  @ApiOperation({ summary: 'Get count of the ResidenceCategorys' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns count of the Categories',
+    type: Number,
+  })
+  @ApiResponse({
+    status: 400,
+    description:
+      'category_id must be a positive number|residence_id must be a positive number',
+  })
+  @Get('count')
+  count(
+    @Query() filterResidenceCategoryDto: FilterResidenceCategoryDto,
+  ): Promise<number> {
+    return this.residenceCategoryService.getCount(filterResidenceCategoryDto);
+  }
+
+  @UsePipes(new ValidationPipe())
   @ApiOperation({ summary: 'Get all of the ResidenceCategorys' })
   @ApiResponse({
     status: 200,
