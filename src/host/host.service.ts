@@ -15,6 +15,10 @@ export class HostService {
     return host;
   }
 
+  async getCount(filterHostDto: FilterHostDto): Promise<number> {
+    return 1;
+  }
+
   async findAll(filterHostDto: FilterHostDto): Promise<Host[]> {
     const host = [
       {

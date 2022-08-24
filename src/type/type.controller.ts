@@ -52,6 +52,22 @@ export class TypeController {
   }
 
   @UsePipes(new ValidationPipe())
+  @ApiOperation({ summary: 'Get count of the Types' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns count of the Categories',
+    type: Number,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'title must be a string|fa_title must be a string',
+  })
+  @Get('count')
+  count(@Query() filterTypeDto: FilterTypeDto): Promise<number> {
+    return this.typeService.getCount(filterTypeDto);
+  }
+
+  @UsePipes(new ValidationPipe())
   @ApiOperation({ summary: 'Get all of the Types' })
   @ApiResponse({
     status: 200,

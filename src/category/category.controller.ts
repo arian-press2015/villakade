@@ -57,7 +57,23 @@ export class CategoryController {
   }
 
   @UsePipes(new ValidationPipe())
-  @ApiOperation({ summary: 'Get all of the Categorys' })
+  @ApiOperation({ summary: 'Get count of the Categories' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns count of the Categories',
+    type: Number,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'title must be a string|fa_title must be a string',
+  })
+  @Get('count')
+  count(@Query() filterCategoryDto: FilterCategoryDto): Promise<number> {
+    return this.categoryService.getCount(filterCategoryDto);
+  }
+
+  @UsePipes(new ValidationPipe())
+  @ApiOperation({ summary: 'Get all of the Categories' })
   @ApiResponse({
     status: 200,
     description: 'Returns all of the Categories',

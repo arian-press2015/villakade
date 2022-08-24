@@ -19,6 +19,10 @@ export class CustomerService {
     return customer;
   }
 
+  async getCount(filterCustomerDto: FilterCustomerDto): Promise<number> {
+    return 1;
+  }
+
   async findAll(filterCustomerDto: FilterCustomerDto): Promise<Customer[]> {
     const customer = [
       {

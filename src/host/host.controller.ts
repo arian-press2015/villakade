@@ -53,6 +53,23 @@ export class HostController {
   }
 
   @UsePipes(new ValidationPipe())
+  @ApiOperation({ summary: 'Get count of the Hosts' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns count of the Categories',
+    type: Number,
+  })
+  @ApiResponse({
+    status: 400,
+    description:
+      'first_name must be a string|last_name must be a string|phone must be a string|vip must be a boolean|activation status must be a boolean',
+  })
+  @Get('count')
+  count(@Query() filterHostDto: FilterHostDto): Promise<number> {
+    return this.hostService.getCount(filterHostDto);
+  }
+
+  @UsePipes(new ValidationPipe())
   @ApiOperation({ summary: 'Get all of the Hosts' })
   @ApiResponse({
     status: 200,

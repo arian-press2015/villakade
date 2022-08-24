@@ -58,10 +58,27 @@ export class CustomerController {
   }
 
   @UsePipes(new ValidationPipe())
+  @ApiOperation({ summary: 'Get count of the Customers' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns count of the Customers',
+    type: Number,
+  })
+  @ApiResponse({
+    status: 400,
+    description:
+      'first_name must be a string|last_name must be a string|phone must be a string|activation status must be a boolean',
+  })
+  @Get('count')
+  count(@Query() filterCustomerDto: FilterCustomerDto): Promise<number> {
+    return this.customerService.getCount(filterCustomerDto);
+  }
+
+  @UsePipes(new ValidationPipe())
   @ApiOperation({ summary: 'Get all of the Customers' })
   @ApiResponse({
     status: 200,
-    description: 'Returns all of the Categories',
+    description: 'Returns all of the Customers',
     type: [Customer],
   })
   @ApiResponse({

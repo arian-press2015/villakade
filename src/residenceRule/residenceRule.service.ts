@@ -18,6 +18,12 @@ export class ResidenceRuleService {
     return residenceRule;
   }
 
+  async getCount(
+    filterResidenceRuleDto: FilterResidenceRuleDto,
+  ): Promise<number> {
+    return 1;
+  }
+
   async findAll(
     filterResidenceRuleDto: FilterResidenceRuleDto,
   ): Promise<ResidenceRule[]> {

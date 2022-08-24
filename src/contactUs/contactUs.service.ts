@@ -19,6 +19,10 @@ export class ContactUsService {
     return contactUs;
   }
 
+  async getCount(filterContactUsDto: FilterContactUsDto): Promise<number> {
+    return 1;
+  }
+
   async findAll(filterContactUsDto: FilterContactUsDto): Promise<ContactUs[]> {
     const contactUs = [
       {

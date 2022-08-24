@@ -53,6 +53,23 @@ export class FaqController {
   }
 
   @UsePipes(new ValidationPipe())
+  @ApiOperation({ summary: 'Get count of the Faqs' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns count of the Categories',
+    type: Number,
+  })
+  @ApiResponse({
+    status: 400,
+    description:
+      'faq_type must be a string|question must be a string|answer must be a string',
+  })
+  @Get('count')
+  count(@Query() filterFaqDto: FilterFaqDto): Promise<number> {
+    return this.faqService.getCount(filterFaqDto);
+  }
+
+  @UsePipes(new ValidationPipe())
   @ApiOperation({ summary: 'Get all of the Faqs' })
   @ApiResponse({
     status: 200,

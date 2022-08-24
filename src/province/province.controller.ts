@@ -57,6 +57,22 @@ export class ProvinceController {
   }
 
   @UsePipes(new ValidationPipe())
+  @ApiOperation({ summary: 'Get count of the Provinces' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns count of the Categories',
+    type: Number,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'name must be a string|fa_name must be a string',
+  })
+  @Get('count')
+  count(@Query() filterProvinceDto: FilterProvinceDto): Promise<number> {
+    return this.provinceService.getCount(filterProvinceDto);
+  }
+
+  @UsePipes(new ValidationPipe())
   @ApiOperation({ summary: 'Get all of the Provinces' })
   @ApiResponse({
     status: 200,

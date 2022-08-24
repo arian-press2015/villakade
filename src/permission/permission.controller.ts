@@ -59,6 +59,22 @@ export class PermissionController {
   }
 
   @UsePipes(new ValidationPipe())
+  @ApiOperation({ summary: 'Get count of the Permissions' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns count of the Categories',
+    type: Number,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'title must be a string|fa_title must be a string',
+  })
+  @Get('count')
+  count(@Query() filterPermissionDto: FilterPermissionDto): Promise<number> {
+    return this.permissionService.getCount(filterPermissionDto);
+  }
+
+  @UsePipes(new ValidationPipe())
   @ApiOperation({ summary: 'Get all of the Permissions' })
   @ApiResponse({
     status: 200,

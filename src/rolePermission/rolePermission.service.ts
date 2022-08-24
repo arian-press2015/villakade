@@ -19,6 +19,12 @@ export class RolePermissionService {
     return rolePermission;
   }
 
+  async getCount(
+    filterRolePermissionDto: FilterRolePermissionDto,
+  ): Promise<number> {
+    return 1;
+  }
+
   async findAll(
     filterRolePermissionDto: FilterRolePermissionDto,
   ): Promise<RolePermission[]> {

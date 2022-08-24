@@ -60,6 +60,24 @@ export class ResidenceImageController {
   }
 
   @UsePipes(new ValidationPipe())
+  @ApiOperation({ summary: 'Get count of the ResidenceImages' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns count of the Categories',
+    type: Number,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'residence_id must be a positive number',
+  })
+  @Get('count')
+  count(
+    @Query() filterResidenceImageDto: FilterResidenceImageDto,
+  ): Promise<number> {
+    return this.residenceImageService.getCount(filterResidenceImageDto);
+  }
+
+  @UsePipes(new ValidationPipe())
   @ApiOperation({ summary: 'Get all of the ResidenceImages' })
   @ApiResponse({
     status: 200,

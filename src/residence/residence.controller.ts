@@ -59,6 +59,24 @@ export class ResidenceController {
   }
 
   @UsePipes(new ValidationPipe())
+  @ApiOperation({ summary: 'Get count of the Residences' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns count of the Categories',
+    type: Number,
+  })
+  @ApiResponse({
+    status: 400,
+    description:
+      'host_id must be a positive number|type_id must be a positive number|location must be a string|city_id must be a positive number' +
+      '|price must be a positive number|activation status must be a boolean',
+  })
+  @Get('count')
+  count(@Query() filterResidenceDto: FilterResidenceDto): Promise<number> {
+    return this.residenceService.getCount(filterResidenceDto);
+  }
+
+  @UsePipes(new ValidationPipe())
   @ApiOperation({ summary: 'Get all of the Residences' })
   @ApiResponse({
     status: 200,
