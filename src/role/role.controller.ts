@@ -52,6 +52,22 @@ export class RoleController {
   }
 
   @UsePipes(new ValidationPipe())
+  @ApiOperation({ summary: 'Get count of the Roles' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns count of the Categories',
+    type: Number,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'title must be a string|fa_title must be a string',
+  })
+  @Get('count')
+  count(@Query() filterRoleDto: FilterRoleDto): Promise<number> {
+    return this.roleService.getCount(filterRoleDto);
+  }
+
+  @UsePipes(new ValidationPipe())
   @ApiOperation({ summary: 'Get all of the Roles' })
   @ApiResponse({
     status: 200,
