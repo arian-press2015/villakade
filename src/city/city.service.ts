@@ -14,6 +14,10 @@ export class CityService {
     return city;
   }
 
+  async getCount(filterCityDto: FilterCityDto): Promise<number> {
+    return 1;
+  }
+
   async findAll(filterCityDto: FilterCityDto): Promise<City[]> {
     const city = [
       {

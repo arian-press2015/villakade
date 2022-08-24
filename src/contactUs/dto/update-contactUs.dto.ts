@@ -3,7 +3,7 @@ import { IsOptional, IsString } from 'class-validator';
 
 export class UpdateContactUsDto {
   @IsOptional()
-  @IsString({ message: 'Title must be a string' })
+  @IsString({ message: 'title must be a string' })
   @ApiProperty({
     example: 'arian.press2015@gmail.com',
     description: 'email of the ContactUs',
@@ -11,7 +11,7 @@ export class UpdateContactUsDto {
   readonly email?: string;
 
   @IsOptional()
-  @IsString({ message: 'Phone must be a string' })
+  @IsString({ message: 'phone must be a string' })
   @ApiProperty({
     example: 'ساحلی و رو به دریا',
     description: 'phone of the ContactUs',
@@ -19,7 +19,7 @@ export class UpdateContactUsDto {
   readonly phone?: string;
 
   @IsOptional()
-  @IsString({ message: 'Full_name must be a string' })
+  @IsString({ message: 'full_name must be a string' })
   @ApiProperty({
     example: 'AP2015',
     description: 'full_name of the ContactUs',
@@ -27,7 +27,7 @@ export class UpdateContactUsDto {
   readonly full_name?: string;
 
   @IsOptional()
-  @IsString({ message: 'Description must be a string' })
+  @IsString({ message: 'description must be a string' })
   @ApiProperty({
     example: 'Help me get a villa',
     description: 'description of the ContactUs',

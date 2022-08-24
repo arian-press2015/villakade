@@ -12,6 +12,10 @@ export class TypeService {
     return type;
   }
 
+  async getCount(filterTypeDto: FilterTypeDto): Promise<number> {
+    return 1;
+  }
+
   async findAll(filterTypeDto: FilterTypeDto): Promise<Type[]> {
     const type = [
       {

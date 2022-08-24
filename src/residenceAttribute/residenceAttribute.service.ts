@@ -39,6 +39,12 @@ export class ResidenceAttributeService {
     return residenceAttribute;
   }
 
+  async getCount(
+    filterResidenceAttributeDto: FilterResidenceAttributeDto,
+  ): Promise<number> {
+    return 1;
+  }
+
   async findAll(
     filterResidenceAttributeDto: FilterResidenceAttributeDto,
   ): Promise<ResidenceAttribute[]> {

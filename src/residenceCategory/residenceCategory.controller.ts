@@ -42,21 +42,41 @@ export class ResidenceCategoryController {
   @ApiResponse({
     status: 400,
     description:
-      'ResidenceCategory already exists|category_id must be a string|Fa_category_id must be a string',
+      'residencecategory already exists|residence_id must be a positive number|category_id must be a positive number' +
+      '|category_id is required|residence_id is required',
   })
   @ApiResponse({
     status: 403,
-    description: "You don't have permission to do that",
+    description: "you don't have permission to do that",
   })
   @ApiResponse({
     status: 404,
-    description: 'No User found',
+    description: 'owner not found',
   })
   @Post()
   create(
     @Body() createResidenceCategoryDto: CreateResidenceCategoryDto,
   ): Promise<ResidenceCategory> {
     return this.residenceCategoryService.create(createResidenceCategoryDto);
+  }
+
+  @UsePipes(new ValidationPipe())
+  @ApiOperation({ summary: 'Get count of the ResidenceCategorys' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns count of the Categories',
+    type: Number,
+  })
+  @ApiResponse({
+    status: 400,
+    description:
+      'category_id must be a positive number|residence_id must be a positive number',
+  })
+  @Get('count')
+  count(
+    @Query() filterResidenceCategoryDto: FilterResidenceCategoryDto,
+  ): Promise<number> {
+    return this.residenceCategoryService.getCount(filterResidenceCategoryDto);
   }
 
   @UsePipes(new ValidationPipe())
@@ -68,7 +88,8 @@ export class ResidenceCategoryController {
   })
   @ApiResponse({
     status: 400,
-    description: 'category_id must be a string|Fa_category_id must be a string',
+    description:
+      'category_id must be a positive number|residence_id must be a positive number',
   })
   @Get()
   findAll(
@@ -86,11 +107,11 @@ export class ResidenceCategoryController {
   })
   @ApiResponse({
     status: 403,
-    description: "You don't have permission to do that",
+    description: "you don't have permission to do that",
   })
   @ApiResponse({
     status: 404,
-    description: 'No ResidenceCategory found|No User found',
+    description: 'residencecategory not found|owner not found',
   })
   @Delete()
   remove(

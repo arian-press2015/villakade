@@ -18,6 +18,12 @@ export class ResidenceCategoryService {
     return residenceResidenceCategory;
   }
 
+  async getCount(
+    filterResidenceCategoryDto: FilterResidenceCategoryDto,
+  ): Promise<number> {
+    return 1;
+  }
+
   async findAll(
     filterResidenceCategoryDto: FilterResidenceCategoryDto,
   ): Promise<ResidenceCategory[]> {

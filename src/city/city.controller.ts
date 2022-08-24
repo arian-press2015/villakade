@@ -36,15 +36,16 @@ export class CityController {
   @ApiResponse({
     status: 400,
     description:
-      'City already exists|Name must be a string|Fa_name must be a string',
+      'city already exists|name is required|fa_name is required|name must be a string|fa_name must be a string' +
+      '|province is required|province must be a positive number',
   })
   @ApiResponse({
     status: 403,
-    description: "You don't have permission to do that",
+    description: "you don't have permission to do that",
   })
   @ApiResponse({
     status: 404,
-    description: 'No User found',
+    description: 'owner not found',
   })
   @Post()
   create(@Body() createCityDto: CreateCityDto): Promise<City> {
@@ -52,15 +53,31 @@ export class CityController {
   }
 
   @UsePipes(new ValidationPipe())
-  @ApiOperation({ summary: 'Get all of the Citys' })
+  @ApiOperation({ summary: 'Get count of the Cities' })
   @ApiResponse({
     status: 200,
-    description: 'Returns all of the Categories',
+    description: 'Returns count of the Cities',
+    type: Number,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'name must be a string|fa_name must be a string',
+  })
+  @Get('count')
+  count(@Query() filterCityDto: FilterCityDto): Promise<number> {
+    return this.cityService.getCount(filterCityDto);
+  }
+
+  @UsePipes(new ValidationPipe())
+  @ApiOperation({ summary: 'Get all of the Cities' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns all of the Cities',
     type: [City],
   })
   @ApiResponse({
     status: 400,
-    description: 'Name must be a string|Fa_name must be a string',
+    description: 'name must be a string|fa_name must be a string',
   })
   @Get()
   findAll(@Query() filterCityDto: FilterCityDto): Promise<City[]> {
@@ -75,11 +92,11 @@ export class CityController {
   })
   @ApiResponse({
     status: 400,
-    description: 'Id must be a positive number',
+    description: 'id must be a positive number',
   })
   @ApiResponse({
     status: 404,
-    description: 'No City found',
+    description: 'city not found',
   })
   @Get(':id')
   findOne(@Param('id') id: string): Promise<City> {
@@ -96,11 +113,11 @@ export class CityController {
   })
   @ApiResponse({
     status: 403,
-    description: "You don't have permission to do that",
+    description: "you don't have permission to do that",
   })
   @ApiResponse({
     status: 404,
-    description: 'No City found|No User found',
+    description: 'city not found|owner not found',
   })
   @Patch(':id')
   update(
@@ -119,11 +136,11 @@ export class CityController {
   })
   @ApiResponse({
     status: 403,
-    description: "You don't have permission to do that",
+    description: "you don't have permission to do that",
   })
   @ApiResponse({
     status: 404,
-    description: 'No City found|No User found',
+    description: 'city not found|owner not found',
   })
   @Delete(':id')
   remove(@Param('id') id: string): Promise<boolean> {

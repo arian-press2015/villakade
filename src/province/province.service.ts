@@ -17,6 +17,10 @@ export class ProvinceService {
     return province;
   }
 
+  async getCount(filterProvinceDto: FilterProvinceDto): Promise<number> {
+    return 1;
+  }
+
   async findAll(filterProvinceDto: FilterProvinceDto): Promise<Province[]> {
     const province = [
       {

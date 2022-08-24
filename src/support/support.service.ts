@@ -18,6 +18,10 @@ export class SupportService {
     return support;
   }
 
+  async getCount(filterSupportDto: FilterSupportDto): Promise<number> {
+    return 1;
+  }
+
   async findAll(filterSupportDto: FilterSupportDto): Promise<Support[]> {
     const support = [
       {

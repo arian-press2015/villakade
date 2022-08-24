@@ -13,6 +13,10 @@ export class FaqService {
     return faq;
   }
 
+  async getCount(filterFaqDto: FilterFaqDto): Promise<number> {
+    return 1;
+  }
+
   async findAll(filterFaqDto: FilterFaqDto): Promise<Faq[]> {
     const faq = [
       {

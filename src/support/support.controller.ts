@@ -41,19 +41,36 @@ export class SupportController {
   @ApiResponse({
     status: 400,
     description:
-      'Support already exists|Title must be a string|Fa_full_name must be a string',
+      'Support already exists|full_name is required|phone is required|phone must be a string|activation status is required|activation status must be a boolean',
   })
   @ApiResponse({
     status: 403,
-    description: "You don't have permission to do that",
+    description: "you don't have permission to do that",
   })
   @ApiResponse({
     status: 404,
-    description: 'No User found',
+    description: 'owner not found',
   })
   @Post()
   create(@Body() createSupportDto: CreateSupportDto): Promise<Support> {
     return this.supportService.create(createSupportDto);
+  }
+
+  @UsePipes(new ValidationPipe())
+  @ApiOperation({ summary: 'Get count of the Supports' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns count of the Categories',
+    type: Number,
+  })
+  @ApiResponse({
+    status: 400,
+    description:
+      'full_name must be a string|phone must be a string|activation status must be a string',
+  })
+  @Get('count')
+  count(@Query() filterSupportDto: FilterSupportDto): Promise<number> {
+    return this.supportService.getCount(filterSupportDto);
   }
 
   @UsePipes(new ValidationPipe())
@@ -65,7 +82,8 @@ export class SupportController {
   })
   @ApiResponse({
     status: 400,
-    description: 'Title must be a string|Fa_full_name must be a string',
+    description:
+      'full_name must be a string|phone must be a string|activation status must be a string',
   })
   @Get()
   findAll(@Query() filterSupportDto: FilterSupportDto): Promise<Support[]> {
@@ -80,11 +98,12 @@ export class SupportController {
   })
   @ApiResponse({
     status: 400,
-    description: 'Id must be a positive number',
+    description:
+      'id must be a positive number|full_name must be a string|phone must be a string|activation status must be a boolean',
   })
   @ApiResponse({
     status: 404,
-    description: 'No Support found',
+    description: 'support not found',
   })
   @Get(':id')
   findOne(@Param('id') id: string): Promise<Support> {
@@ -100,12 +119,17 @@ export class SupportController {
     type: Support,
   })
   @ApiResponse({
+    status: 400,
+    description:
+      'id must be a positive number|full_name must be a string|phone must be a string|activation status must be a boolean',
+  })
+  @ApiResponse({
     status: 403,
-    description: "You don't have permission to do that",
+    description: "you don't have permission to do that",
   })
   @ApiResponse({
     status: 404,
-    description: 'No Support found|No User found',
+    description: 'support not found|owner not found',
   })
   @Patch(':id')
   update(
@@ -124,11 +148,11 @@ export class SupportController {
   })
   @ApiResponse({
     status: 403,
-    description: "You don't have permission to do that",
+    description: "you don't have permission to do that",
   })
   @ApiResponse({
     status: 404,
-    description: 'No Support found|No User found',
+    description: 'No Support found|owner not found',
   })
   @Delete(':id')
   remove(@Param('id') id: string): Promise<boolean> {

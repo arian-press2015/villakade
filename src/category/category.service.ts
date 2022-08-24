@@ -17,6 +17,10 @@ export class CategoryService {
     return category;
   }
 
+  async getCount(filterCategoryDto: FilterCategoryDto): Promise<number> {
+    return 1;
+  }
+
   async findAll(filterCategoryDto: FilterCategoryDto): Promise<Category[]> {
     const category = [
       {
