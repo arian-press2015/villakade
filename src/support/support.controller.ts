@@ -57,6 +57,23 @@ export class SupportController {
   }
 
   @UsePipes(new ValidationPipe())
+  @ApiOperation({ summary: 'Get count of the Supports' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns count of the Categories',
+    type: Number,
+  })
+  @ApiResponse({
+    status: 400,
+    description:
+      'full_name must be a string|phone must be a string|activation status must be a string',
+  })
+  @Get('count')
+  count(@Query() filterSupportDto: FilterSupportDto): Promise<number> {
+    return this.supportService.getCount(filterSupportDto);
+  }
+
+  @UsePipes(new ValidationPipe())
   @ApiOperation({ summary: 'Get all of the Supports' })
   @ApiResponse({
     status: 200,
