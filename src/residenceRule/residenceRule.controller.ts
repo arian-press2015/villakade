@@ -59,6 +59,20 @@ export class ResidenceRuleController {
   }
 
   @UsePipes(new ValidationPipe())
+  @ApiOperation({ summary: 'Get count of the ResidenceRules' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns count of the Categories',
+    type: Number,
+  })
+  @Get('count')
+  count(
+    @Query() filterResidenceRuleDto: FilterResidenceRuleDto,
+  ): Promise<number> {
+    return this.residenceRuleService.getCount(filterResidenceRuleDto);
+  }
+
+  @UsePipes(new ValidationPipe())
   @ApiOperation({ summary: 'Get all of the ResidenceRules' })
   @ApiResponse({
     status: 200,
