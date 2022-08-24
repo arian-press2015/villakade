@@ -54,6 +54,23 @@ export class OwnerController {
   }
 
   @UsePipes(new ValidationPipe())
+  @ApiOperation({ summary: 'Get count of the Owners' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns count of the Categories',
+    type: Number,
+  })
+  @ApiResponse({
+    status: 400,
+    description:
+      'first_name is required|last_name must be a string|phone is required|username must be a string|role_id is required',
+  })
+  @Get('count')
+  count(@Query() filterOwnerDto: FilterOwnerDto): Promise<number> {
+    return this.ownerService.getCount(filterOwnerDto);
+  }
+
+  @UsePipes(new ValidationPipe())
   @ApiOperation({ summary: 'Get all of the Owners' })
   @ApiResponse({
     status: 200,
