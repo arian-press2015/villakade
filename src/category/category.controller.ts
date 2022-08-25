@@ -9,6 +9,7 @@ import {
   UsePipes,
   ValidationPipe,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -16,6 +17,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { OwnerJwtGuard } from '../auth/guard';
 import { CategoryService } from './category.service';
 import {
   Category,
@@ -29,7 +31,8 @@ import {
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
-  // @ApiBearerAuth()
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @UsePipes(new ValidationPipe())
   @Post()
   @ApiOperation({ summary: 'Create new Category' })
@@ -107,8 +110,9 @@ export class CategoryController {
     return this.categoryService.findOne(+id);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @UsePipes(new ValidationPipe())
-  // @ApiBearerAuth()
   @ApiOperation({ summary: 'Update current Category' })
   @ApiResponse({
     status: 200,
@@ -131,7 +135,8 @@ export class CategoryController {
     return this.categoryService.update(+id, updateCategoryDto);
   }
 
-  // @ApiBearerAuth()
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @ApiOperation({ summary: 'Delete current Category' })
   @ApiResponse({
     status: 200,
