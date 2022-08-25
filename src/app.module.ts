@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { CategoryModule } from './category/category.module';
+import { CategoryImageModule } from './categoryImage/categoryImage.module';
 import { CityModule } from './city/city.module';
 import configuration from './config/configuration';
 import { ContactUsModule } from './contactUs/contactUs.module';
@@ -51,6 +52,7 @@ import { TypeModule } from './type/type.module';
     RolePermissionModule,
     CustomerModule,
     OwnerModule,
+    CategoryImageModule,
   ],
   controllers: [],
   providers: [],
