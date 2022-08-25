@@ -9,6 +9,7 @@ import {
   UsePipes,
   ValidationPipe,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -23,13 +24,15 @@ import {
   CreateResidenceRuleDto,
   UpdateResidenceRuleDto,
 } from './dto';
+import { HostJwtGuard } from '../auth/guard';
 
 @ApiTags('ResidenceRule')
 @Controller('residenceRule')
 export class ResidenceRuleController {
   constructor(private readonly residenceRuleService: ResidenceRuleService) {}
 
-  // @ApiBearerAuth()
+  @ApiBearerAuth()
+  @UseGuards(HostJwtGuard)
   @UsePipes(new ValidationPipe())
   @Post()
   @ApiOperation({ summary: 'Create new ResidenceRule' })
@@ -105,8 +108,9 @@ export class ResidenceRuleController {
     return this.residenceRuleService.findOne(+id);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(HostJwtGuard)
   @UsePipes(new ValidationPipe())
-  // @ApiBearerAuth()
   @ApiOperation({ summary: 'Update current ResidenceRule' })
   @ApiResponse({
     status: 200,
@@ -129,7 +133,8 @@ export class ResidenceRuleController {
     return this.residenceRuleService.update(+id, updateResidenceRuleDto);
   }
 
-  // @ApiBearerAuth()
+  @ApiBearerAuth()
+  @UseGuards(HostJwtGuard)
   @ApiOperation({ summary: 'Delete current ResidenceRule' })
   @ApiResponse({
     status: 200,
