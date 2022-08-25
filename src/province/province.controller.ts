@@ -9,6 +9,7 @@ import {
   UsePipes,
   ValidationPipe,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -23,13 +24,15 @@ import {
   CreateProvinceDto,
   UpdateProvinceDto,
 } from './dto';
+import { OwnerJwtGuard } from '../auth/guard';
 
 @ApiTags('Province')
 @Controller('province')
 export class ProvinceController {
   constructor(private readonly provinceService: ProvinceService) {}
 
-  // @ApiBearerAuth()
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @UsePipes(new ValidationPipe())
   @Post()
   @ApiOperation({ summary: 'Create new Province' })
@@ -107,8 +110,9 @@ export class ProvinceController {
     return this.provinceService.findOne(+id);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @UsePipes(new ValidationPipe())
-  // @ApiBearerAuth()
   @ApiOperation({ summary: 'Update current Province' })
   @ApiResponse({
     status: 200,
@@ -131,7 +135,8 @@ export class ProvinceController {
     return this.provinceService.update(+id, updateProvinceDto);
   }
 
-  // @ApiBearerAuth()
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @ApiOperation({ summary: 'Delete current Province' })
   @ApiResponse({
     status: 200,
