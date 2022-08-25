@@ -13,7 +13,14 @@ export class ResidenceCategoryService {
   ): Promise<ResidenceCategory> {
     const residenceResidenceCategory = {
       category_id: createResidenceCategoryDto.category_id,
-      residence_id: createResidenceCategoryDto.residence_id,
+      id: 1,
+      host_id: 123,
+      title: 'آپارتمان در شیراز',
+      type_id: 123,
+      location: 'شیراز دست چپ پلاک ۲',
+      price: 200000,
+      active: true,
+      city_id: 123,
     };
     return residenceResidenceCategory;
   }
@@ -30,7 +37,14 @@ export class ResidenceCategoryService {
     const residenceResidenceCategory = [
       {
         category_id: 123,
-        residence_id: 12345,
+        id: 1,
+        host_id: 123,
+        title: 'آپارتمان در شیراز',
+        type_id: 123,
+        location: 'شیراز دست چپ پلاک ۲',
+        price: 200000,
+        active: true,
+        city_id: 123,
       },
     ];
     return residenceResidenceCategory;
