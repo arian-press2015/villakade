@@ -27,6 +27,7 @@ import { OwnerJwtGuard } from '../auth/guard';
 export class HostController {
   constructor(private readonly hostService: HostService) {}
 
+  @ApiBearerAuth()
   @UseGuards(OwnerJwtGuard)
   @UsePipes(new ValidationPipe())
   @Post()
@@ -56,6 +57,8 @@ export class HostController {
     return this.hostService.create(createHostDto);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @UsePipes(new ValidationPipe())
   @ApiOperation({ summary: 'Get count of the Hosts' })
   @ApiResponse({
@@ -73,6 +76,8 @@ export class HostController {
     return this.hostService.getCount(filterHostDto);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @UsePipes(new ValidationPipe())
   @ApiOperation({ summary: 'Get all of the Hosts' })
   @ApiResponse({
@@ -90,6 +95,8 @@ export class HostController {
     return this.hostService.findAll(filterHostDto);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @ApiOperation({ summary: 'Get the Host data' })
   @ApiResponse({
     status: 200,
@@ -109,8 +116,9 @@ export class HostController {
     return this.hostService.findOne(+id);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @UsePipes(new ValidationPipe())
-  // @ApiBearerAuth()
   @ApiOperation({ summary: 'Update current Host' })
   @ApiResponse({
     status: 200,
@@ -133,7 +141,8 @@ export class HostController {
     return this.hostService.update(+id, updateHostDto);
   }
 
-  // @ApiBearerAuth()
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @ApiOperation({ summary: 'Delete current Host' })
   @ApiResponse({
     status: 200,
