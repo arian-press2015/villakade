@@ -1,2 +1,2 @@
-export { JwtAuthGuard } from './jwt-auth.guard';
-export { LocalAuthGuard } from './local-auth.guard';
+export { OwnerJwtGuard } from './owner-jwt.guard';
+export { OwnerLocalGuard } from './owner-local.guard';

@@ -1,2 +1,2 @@
-export { JwtStrategy } from './jwt.strategy';
-export { LocalStrategy } from './local.strategy';
+export { OwnerJwtStrategy } from './owner-jwt.strategy';
+export { OwnerLocalStrategy } from './owner-local.strategy';

@@ -28,7 +28,7 @@ import {
   LoginResponse,
   LoginRequest,
 } from './dto';
-import { LocalAuthGuard } from '../auth/guard';
+import { OwnerLocalGuard } from '../auth/guard';
 import { AuthService } from 'src/auth/auth.service';
 
 @ApiTags('Owner')
@@ -39,9 +39,9 @@ export class OwnerController {
     private authService: AuthService,
   ) {}
 
-  @UseGuards(LocalAuthGuard)
+  @UseGuards(OwnerLocalGuard)
   @Post('login')
-  @ApiOperation({ summary: 'Create new Owner' })
+  @ApiOperation({ summary: 'login Owner' })
   @ApiBody({
     description: 'Required body fields',
     type: LoginRequest,

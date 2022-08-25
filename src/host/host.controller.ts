@@ -20,14 +20,14 @@ import {
 } from '@nestjs/swagger';
 import { HostService } from './host.service';
 import { Host, FilterHostDto, CreateHostDto, UpdateHostDto } from './dto';
-import { JwtAuthGuard } from '../auth/guard';
+import { OwnerJwtGuard } from '../auth/guard';
 
 @ApiTags('Host')
 @Controller('host')
 export class HostController {
   constructor(private readonly hostService: HostService) {}
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(OwnerJwtGuard)
   @UsePipes(new ValidationPipe())
   @Post()
   @ApiBearerAuth()
