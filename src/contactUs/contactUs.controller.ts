@@ -9,6 +9,7 @@ import {
   UsePipes,
   ValidationPipe,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -16,6 +17,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { OwnerJwtGuard } from '../auth/guard';
 import { ContactUsService } from './contactUs.service';
 import {
   ContactUs,
@@ -29,7 +31,6 @@ import {
 export class ContactUsController {
   constructor(private readonly contactUsService: ContactUsService) {}
 
-  // @ApiBearerAuth()
   @UsePipes(new ValidationPipe())
   @Post()
   @ApiOperation({ summary: 'Create new ContactUs' })
@@ -110,8 +111,9 @@ export class ContactUsController {
     return this.contactUsService.findOne(+id);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @UsePipes(new ValidationPipe())
-  // @ApiBearerAuth()
   @ApiOperation({ summary: 'Update current ContactUs' })
   @ApiResponse({
     status: 200,
@@ -134,7 +136,8 @@ export class ContactUsController {
     return this.contactUsService.update(+id, updateContactUsDto);
   }
 
-  // @ApiBearerAuth()
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @ApiOperation({ summary: 'Delete current ContactUs' })
   @ApiResponse({
     status: 200,
