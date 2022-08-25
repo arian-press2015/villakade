@@ -9,6 +9,7 @@ import {
   UsePipes,
   ValidationPipe,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -23,13 +24,15 @@ import {
   CreateRolePermissionDto,
   UpdateRolePermissionDto,
 } from './dto';
+import { OwnerJwtGuard } from '../auth/guard';
 
 @ApiTags('RolePermission')
 @Controller('rolePermission')
 export class RolePermissionController {
   constructor(private readonly rolePermissionService: RolePermissionService) {}
 
-  // @ApiBearerAuth()
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @UsePipes(new ValidationPipe())
   @Post()
   @ApiOperation({ summary: 'Create new RolePermission' })
@@ -115,8 +118,9 @@ export class RolePermissionController {
     return this.rolePermissionService.findOne(+id);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @UsePipes(new ValidationPipe())
-  // @ApiBearerAuth()
   @ApiOperation({ summary: 'Update current RolePermission' })
   @ApiResponse({
     status: 200,
@@ -139,7 +143,8 @@ export class RolePermissionController {
     return this.rolePermissionService.update(+id, updateRolePermissionDto);
   }
 
-  // @ApiBearerAuth()
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @ApiOperation({ summary: 'Delete current RolePermission' })
   @ApiResponse({
     status: 200,
