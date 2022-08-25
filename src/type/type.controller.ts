@@ -9,6 +9,7 @@ import {
   UsePipes,
   ValidationPipe,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -18,13 +19,15 @@ import {
 } from '@nestjs/swagger';
 import { TypeService } from './type.service';
 import { Type, FilterTypeDto, CreateTypeDto, UpdateTypeDto } from './dto';
+import { OwnerJwtGuard } from '../auth/guard';
 
 @ApiTags('Type')
 @Controller('type')
 export class TypeController {
   constructor(private readonly typeService: TypeService) {}
 
-  // @ApiBearerAuth()
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @UsePipes(new ValidationPipe())
   @Post()
   @ApiOperation({ summary: 'Create new Type' })
@@ -102,8 +105,9 @@ export class TypeController {
     return this.typeService.findOne(+id);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @UsePipes(new ValidationPipe())
-  // @ApiBearerAuth()
   @ApiOperation({ summary: 'Update current Type' })
   @ApiResponse({
     status: 200,
@@ -126,7 +130,8 @@ export class TypeController {
     return this.typeService.update(+id, updateTypeDto);
   }
 
-  // @ApiBearerAuth()
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @ApiOperation({ summary: 'Delete current Type' })
   @ApiResponse({
     status: 200,
