@@ -9,6 +9,7 @@ import {
   UsePipes,
   ValidationPipe,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -23,13 +24,15 @@ import {
   CreatePermissionDto,
   UpdatePermissionDto,
 } from './dto';
+import { OwnerJwtGuard } from '../auth/guard';
 
 @ApiTags('Permission')
 @Controller('permission')
 export class PermissionController {
   constructor(private readonly permissionService: PermissionService) {}
 
-  // @ApiBearerAuth()
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @UsePipes(new ValidationPipe())
   @Post()
   @ApiOperation({ summary: 'Create new Permission' })
@@ -111,8 +114,9 @@ export class PermissionController {
     return this.permissionService.findOne(+id);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @UsePipes(new ValidationPipe())
-  // @ApiBearerAuth()
   @ApiOperation({ summary: 'Update current Permission' })
   @ApiResponse({
     status: 200,
@@ -135,7 +139,8 @@ export class PermissionController {
     return this.permissionService.update(+id, updatePermissionDto);
   }
 
-  // @ApiBearerAuth()
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @ApiOperation({ summary: 'Delete current Permission' })
   @ApiResponse({
     status: 200,

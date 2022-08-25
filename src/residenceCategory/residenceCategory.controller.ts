@@ -7,6 +7,7 @@ import {
   UsePipes,
   ValidationPipe,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -22,6 +23,7 @@ import {
   CreateResidenceCategoryDto,
 } from './dto';
 import { DeleteResidenceCategoryDto } from './dto/delete-residenceCategory.dto';
+import { HostJwtGuard } from '../auth/guard';
 
 @ApiTags('ResidenceCategory')
 @Controller('residenceCategory')
@@ -30,7 +32,8 @@ export class ResidenceCategoryController {
     private readonly residenceCategoryService: ResidenceCategoryService,
   ) {}
 
-  // @ApiBearerAuth()
+  @ApiBearerAuth()
+  @UseGuards(HostJwtGuard)
   @UsePipes(new ValidationPipe())
   @Post()
   @ApiOperation({ summary: 'Create new ResidenceCategory' })
@@ -98,7 +101,8 @@ export class ResidenceCategoryController {
     return this.residenceCategoryService.findAll(filterResidenceCategoryDto);
   }
 
-  // @ApiBearerAuth()
+  @ApiBearerAuth()
+  @UseGuards(HostJwtGuard)
   @ApiOperation({ summary: 'Delete current ResidenceCategory' })
   @ApiResponse({
     status: 200,

@@ -9,24 +9,55 @@ import {
   UsePipes,
   ValidationPipe,
   Query,
+  UseGuards,
+  Request,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
+  ApiBody,
   ApiOperation,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { HostService } from './host.service';
-import { Host, FilterHostDto, CreateHostDto, UpdateHostDto } from './dto';
+import {
+  Host,
+  FilterHostDto,
+  CreateHostDto,
+  UpdateHostDto,
+  HostLoginRequest,
+  HostLoginResponse,
+} from './dto';
+import { HostLocalGuard, OwnerJwtGuard } from '../auth/guard';
+import { AuthService } from '../auth/auth.service';
 
 @ApiTags('Host')
 @Controller('host')
 export class HostController {
-  constructor(private readonly hostService: HostService) {}
+  constructor(
+    private readonly hostService: HostService,
+    private readonly authService: AuthService,
+  ) {}
 
-  // @ApiBearerAuth()
+  @UseGuards(HostLocalGuard)
+  @Post('login')
+  @ApiOperation({ summary: 'login Owner' })
+  @ApiBody({
+    description: 'Required body fields',
+    type: HostLoginRequest,
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns auth_token for the Owner',
+    type: HostLoginResponse,
+  })
+  async login(@Request() req): Promise<HostLoginResponse> {
+    return this.authService.hostLogin(req.hostInfo);
+  }
+
   @UsePipes(new ValidationPipe())
   @Post()
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Create new Host' })
   @ApiResponse({
     status: 201,
@@ -48,10 +79,12 @@ export class HostController {
     description: 'owner not found',
   })
   @Post()
-  create(@Body() createHostDto: CreateHostDto): Promise<Host> {
+  create(@Body() createHostDto: CreateHostDto, @Request() req): Promise<Host> {
     return this.hostService.create(createHostDto);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @UsePipes(new ValidationPipe())
   @ApiOperation({ summary: 'Get count of the Hosts' })
   @ApiResponse({
@@ -69,6 +102,8 @@ export class HostController {
     return this.hostService.getCount(filterHostDto);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @UsePipes(new ValidationPipe())
   @ApiOperation({ summary: 'Get all of the Hosts' })
   @ApiResponse({
@@ -86,6 +121,8 @@ export class HostController {
     return this.hostService.findAll(filterHostDto);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @ApiOperation({ summary: 'Get the Host data' })
   @ApiResponse({
     status: 200,
@@ -105,8 +142,9 @@ export class HostController {
     return this.hostService.findOne(+id);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @UsePipes(new ValidationPipe())
-  // @ApiBearerAuth()
   @ApiOperation({ summary: 'Update current Host' })
   @ApiResponse({
     status: 200,
@@ -129,7 +167,8 @@ export class HostController {
     return this.hostService.update(+id, updateHostDto);
   }
 
-  // @ApiBearerAuth()
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @ApiOperation({ summary: 'Delete current Host' })
   @ApiResponse({
     status: 200,

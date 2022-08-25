@@ -48,6 +48,19 @@ export class OwnerService {
     return owner;
   }
 
+  async findByUsername(username: string): Promise<Owner> {
+    const owner = {
+      id: 1,
+      first_name: 'arian',
+      last_name: 'press2015',
+      phone: '+989012883045',
+      username,
+      password: 'APPassword',
+      role_id: 123,
+    };
+    return owner;
+  }
+
   async update(id: number, updateOwnerDto: UpdateOwnerDto): Promise<Owner> {
     const owner = {
       id,

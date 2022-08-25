@@ -9,22 +9,54 @@ import {
   UsePipes,
   ValidationPipe,
   Query,
+  UseGuards,
+  Request,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
+  ApiBody,
   ApiOperation,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { OwnerService } from './owner.service';
-import { Owner, FilterOwnerDto, CreateOwnerDto, UpdateOwnerDto } from './dto';
+import {
+  Owner,
+  FilterOwnerDto,
+  CreateOwnerDto,
+  UpdateOwnerDto,
+  OwnerLoginRequest,
+  OwnerLoginResponse,
+} from './dto';
+import { OwnerLocalGuard, OwnerJwtGuard } from '../auth/guard';
+import { AuthService } from '../auth/auth.service';
 
 @ApiTags('Owner')
 @Controller('owner')
 export class OwnerController {
-  constructor(private readonly ownerService: OwnerService) {}
+  constructor(
+    private readonly ownerService: OwnerService,
+    private authService: AuthService,
+  ) {}
 
-  // @ApiBearerAuth()
+  @UseGuards(OwnerLocalGuard)
+  @Post('login')
+  @ApiOperation({ summary: 'login Owner' })
+  @ApiBody({
+    description: 'Required body fields',
+    type: OwnerLoginRequest,
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns auth_token for the Owner',
+    type: OwnerLoginResponse,
+  })
+  async login(@Request() req): Promise<OwnerLoginResponse> {
+    return this.authService.ownerLogin(req.owner);
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @UsePipes(new ValidationPipe())
   @Post()
   @ApiOperation({ summary: 'Create new Owner' })
@@ -53,6 +85,8 @@ export class OwnerController {
     return this.ownerService.create(createOwnerDto);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @UsePipes(new ValidationPipe())
   @ApiOperation({ summary: 'Get count of the Owners' })
   @ApiResponse({
@@ -70,6 +104,8 @@ export class OwnerController {
     return this.ownerService.getCount(filterOwnerDto);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @UsePipes(new ValidationPipe())
   @ApiOperation({ summary: 'Get all of the Owners' })
   @ApiResponse({
@@ -87,6 +123,8 @@ export class OwnerController {
     return this.ownerService.findAll(filterOwnerDto);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @ApiOperation({ summary: 'Get the Owner data' })
   @ApiResponse({
     status: 200,
@@ -106,8 +144,9 @@ export class OwnerController {
     return this.ownerService.findOne(+id);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @UsePipes(new ValidationPipe())
-  // @ApiBearerAuth()
   @ApiOperation({ summary: 'Update current Owner' })
   @ApiResponse({
     status: 200,
@@ -130,7 +169,8 @@ export class OwnerController {
     return this.ownerService.update(+id, updateOwnerDto);
   }
 
-  // @ApiBearerAuth()
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @ApiOperation({ summary: 'Delete current Owner' })
   @ApiResponse({
     status: 200,

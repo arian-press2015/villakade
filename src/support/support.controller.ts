@@ -9,6 +9,7 @@ import {
   UsePipes,
   ValidationPipe,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -23,13 +24,15 @@ import {
   CreateSupportDto,
   UpdateSupportDto,
 } from './dto';
+import { OwnerJwtGuard } from '../auth/guard';
 
 @ApiTags('Support')
 @Controller('support')
 export class SupportController {
   constructor(private readonly supportService: SupportService) {}
 
-  // @ApiBearerAuth()
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @UsePipes(new ValidationPipe())
   @Post()
   @ApiOperation({ summary: 'Create new Support' })
@@ -110,8 +113,9 @@ export class SupportController {
     return this.supportService.findOne(+id);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @UsePipes(new ValidationPipe())
-  // @ApiBearerAuth()
   @ApiOperation({ summary: 'Update current Support' })
   @ApiResponse({
     status: 200,
@@ -139,7 +143,8 @@ export class SupportController {
     return this.supportService.update(+id, updateSupportDto);
   }
 
-  // @ApiBearerAuth()
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @ApiOperation({ summary: 'Delete current Support' })
   @ApiResponse({
     status: 200,

@@ -9,6 +9,7 @@ import {
   UsePipes,
   ValidationPipe,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -23,13 +24,15 @@ import {
   CreateResidenceImageDto,
   UpdateResidenceImageDto,
 } from './dto';
+import { HostJwtGuard } from '../auth/guard';
 
 @ApiTags('ResidenceImage')
 @Controller('residenceImage')
 export class ResidenceImageController {
   constructor(private readonly residenceImageService: ResidenceImageService) {}
 
-  // @ApiBearerAuth()
+  @ApiBearerAuth()
+  @UseGuards(HostJwtGuard)
   @UsePipes(new ValidationPipe())
   @Post()
   @ApiOperation({ summary: 'Create new ResidenceImage' })
@@ -114,8 +117,9 @@ export class ResidenceImageController {
     return this.residenceImageService.findOne(+id);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(HostJwtGuard)
   @UsePipes(new ValidationPipe())
-  // @ApiBearerAuth()
   @ApiOperation({ summary: 'Update current ResidenceImage' })
   @ApiResponse({
     status: 200,
@@ -138,7 +142,8 @@ export class ResidenceImageController {
     return this.residenceImageService.update(+id, updateResidenceImageDto);
   }
 
-  // @ApiBearerAuth()
+  @ApiBearerAuth()
+  @UseGuards(HostJwtGuard)
   @ApiOperation({ summary: 'Delete current ResidenceImage' })
   @ApiResponse({
     status: 200,

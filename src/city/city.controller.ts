@@ -9,6 +9,7 @@ import {
   UsePipes,
   ValidationPipe,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -16,6 +17,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { OwnerJwtGuard } from '../auth/guard';
 import { CityService } from './city.service';
 import { City, FilterCityDto, CreateCityDto, UpdateCityDto } from './dto';
 
@@ -24,7 +26,8 @@ import { City, FilterCityDto, CreateCityDto, UpdateCityDto } from './dto';
 export class CityController {
   constructor(private readonly cityService: CityService) {}
 
-  // @ApiBearerAuth()
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @UsePipes(new ValidationPipe())
   @Post()
   @ApiOperation({ summary: 'Create new City' })
@@ -103,8 +106,9 @@ export class CityController {
     return this.cityService.findOne(+id);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @UsePipes(new ValidationPipe())
-  // @ApiBearerAuth()
   @ApiOperation({ summary: 'Update current City' })
   @ApiResponse({
     status: 200,
@@ -127,7 +131,8 @@ export class CityController {
     return this.cityService.update(+id, updateCityDto);
   }
 
-  // @ApiBearerAuth()
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @ApiOperation({ summary: 'Delete current City' })
   @ApiResponse({
     status: 200,
