@@ -25,8 +25,8 @@ import {
   FilterOwnerDto,
   CreateOwnerDto,
   UpdateOwnerDto,
-  LoginResponse,
-  LoginRequest,
+  OwnerLoginRequest,
+  OwnerLoginResponse,
 } from './dto';
 import { OwnerLocalGuard, OwnerJwtGuard } from '../auth/guard';
 import { AuthService } from '../auth/auth.service';
@@ -44,14 +44,14 @@ export class OwnerController {
   @ApiOperation({ summary: 'login Owner' })
   @ApiBody({
     description: 'Required body fields',
-    type: LoginRequest,
+    type: OwnerLoginRequest,
   })
   @ApiResponse({
     status: 200,
     description: 'Returns auth_token for the Owner',
-    type: LoginResponse,
+    type: OwnerLoginResponse,
   })
-  async login(@Request() req): Promise<LoginResponse> {
+  async login(@Request() req): Promise<OwnerLoginResponse> {
     return this.authService.ownerLogin(req.owner);
   }
 

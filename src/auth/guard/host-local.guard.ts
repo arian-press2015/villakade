@@ -5,7 +5,7 @@ import { AuthGuard } from '@nestjs/passport';
 export class HostLocalGuard extends AuthGuard('host-local') {
   constructor() {
     super({
-      property: 'host',
+      property: 'hostInfo',
     });
   }
 }

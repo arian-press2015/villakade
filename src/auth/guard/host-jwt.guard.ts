@@ -5,7 +5,7 @@ import { AuthGuard } from '@nestjs/passport';
 export class HostJwtGuard extends AuthGuard('host-jwt') {
   constructor() {
     super({
-      property: 'host',
+      property: 'hostInfo',
     });
   }
 }
