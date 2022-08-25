@@ -29,7 +29,7 @@ import {
   LoginRequest,
 } from './dto';
 import { OwnerLocalGuard } from '../auth/guard';
-import { AuthService } from 'src/auth/auth.service';
+import { AuthService } from '../auth/auth.service';
 
 @ApiTags('Owner')
 @Controller('owner')
@@ -52,7 +52,7 @@ export class OwnerController {
     type: LoginResponse,
   })
   async login(@Request() req): Promise<LoginResponse> {
-    return this.authService.login(req.owner);
+    return this.authService.ownerLogin(req.owner);
   }
 
   // @ApiBearerAuth()

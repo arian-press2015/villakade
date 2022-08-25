@@ -4,11 +4,13 @@ import { OwnerJwtStrategy, OwnerLocalStrategy } from './strategy';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
-import { OwnerModule } from 'src/owner/owner.module';
+import { OwnerModule } from '../owner/owner.module';
+import { HostModule } from '../host/host.module';
 
 @Module({
   imports: [
     forwardRef(() => OwnerModule),
+    forwardRef(() => HostModule),
     PassportModule,
     JwtModule.register({
       secret: jwtConstants.secret,

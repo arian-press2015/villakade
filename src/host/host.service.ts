@@ -45,6 +45,18 @@ export class HostService {
     return host;
   }
 
+  async findByPhone(phone: string): Promise<Host> {
+    const host = {
+      id: 123,
+      first_name: 'arian',
+      last_name: 'press2015',
+      phone,
+      vip: true,
+      active: true,
+    };
+    return host;
+  }
+
   async update(id: number, updateHostDto: UpdateHostDto): Promise<Host> {
     const host = {
       id,
