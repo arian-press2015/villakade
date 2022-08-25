@@ -9,6 +9,7 @@ import {
   UsePipes,
   ValidationPipe,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -18,13 +19,15 @@ import {
 } from '@nestjs/swagger';
 import { FaqService } from './faq.service';
 import { Faq, FilterFaqDto, CreateFaqDto, UpdateFaqDto } from './dto';
+import { OwnerJwtGuard } from '../auth/guard';
 
 @ApiTags('Faq')
 @Controller('faq')
 export class FaqController {
   constructor(private readonly faqService: FaqService) {}
 
-  // @ApiBearerAuth()
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @UsePipes(new ValidationPipe())
   @Post()
   @ApiOperation({ summary: 'Create new Faq' })
@@ -105,8 +108,9 @@ export class FaqController {
     return this.faqService.findOne(+id);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @UsePipes(new ValidationPipe())
-  // @ApiBearerAuth()
   @ApiOperation({ summary: 'Update current Faq' })
   @ApiResponse({
     status: 200,
@@ -129,7 +133,8 @@ export class FaqController {
     return this.faqService.update(+id, updateFaqDto);
   }
 
-  // @ApiBearerAuth()
+  @ApiBearerAuth()
+  @UseGuards(OwnerJwtGuard)
   @ApiOperation({ summary: 'Delete current Faq' })
   @ApiResponse({
     status: 200,
