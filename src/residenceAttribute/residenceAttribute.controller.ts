@@ -9,6 +9,7 @@ import {
   UsePipes,
   ValidationPipe,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -23,6 +24,7 @@ import {
   CreateResidenceAttributeDto,
   UpdateResidenceAttributeDto,
 } from './dto';
+import { HostJwtGuard } from '../auth/guard';
 
 @ApiTags('ResidenceAttribute')
 @Controller('residenceAttribute')
@@ -31,7 +33,8 @@ export class ResidenceAttributeController {
     private readonly residenceAttributeService: ResidenceAttributeService,
   ) {}
 
-  // @ApiBearerAuth()
+  @ApiBearerAuth()
+  @UseGuards(HostJwtGuard)
   @UsePipes(new ValidationPipe())
   @Post()
   @ApiOperation({ summary: 'Create new ResidenceAttribute' })
@@ -131,8 +134,9 @@ export class ResidenceAttributeController {
     return this.residenceAttributeService.findOne(+id);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(HostJwtGuard)
   @UsePipes(new ValidationPipe())
-  // @ApiBearerAuth()
   @ApiOperation({ summary: 'Update current ResidenceAttribute' })
   @ApiResponse({
     status: 200,
@@ -158,7 +162,8 @@ export class ResidenceAttributeController {
     );
   }
 
-  // @ApiBearerAuth()
+  @ApiBearerAuth()
+  @UseGuards(HostJwtGuard)
   @ApiOperation({ summary: 'Delete current ResidenceAttribute' })
   @ApiResponse({
     status: 200,
