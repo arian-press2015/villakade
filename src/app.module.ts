@@ -26,7 +26,7 @@ import { TypeModule } from './type/type.module';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '../..', 'public'),
+      rootPath: join(__dirname, '..', 'public'),
     }),
     ConfigModule.forRoot({
       envFilePath: `${process.cwd()}/.env.${process.env.NODE_ENV}`,
