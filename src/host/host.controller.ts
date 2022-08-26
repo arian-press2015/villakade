@@ -25,10 +25,11 @@ import {
   FilterHostDto,
   CreateHostDto,
   UpdateHostDto,
+  UpdateMyHostDto,
   HostLoginRequest,
   HostLoginResponse,
 } from './dto';
-import { HostLocalGuard, OwnerJwtGuard } from '../auth/guard';
+import { HostJwtGuard, HostLocalGuard, OwnerJwtGuard } from '../auth/guard';
 import { AuthService } from '../auth/auth.service';
 
 @ApiTags('Host')
@@ -41,7 +42,7 @@ export class HostController {
 
   @UseGuards(HostLocalGuard)
   @Post('login')
-  @ApiOperation({ summary: 'login Owner' })
+  @ApiOperation({ summary: 'login Host' })
   @ApiBody({
     description: 'Required body fields',
     type: HostLoginRequest,
@@ -57,7 +58,6 @@ export class HostController {
 
   @UsePipes(new ValidationPipe())
   @Post()
-  @ApiBearerAuth()
   @ApiOperation({ summary: 'Create new Host' })
   @ApiResponse({
     status: 201,
@@ -122,6 +122,20 @@ export class HostController {
   }
 
   @ApiBearerAuth()
+  @UseGuards(HostJwtGuard)
+  @ApiOperation({ summary: 'Get current Host data' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns current Host associated with given id',
+    type: Host,
+  })
+  @Get('me')
+  findMe(@Request() req): Promise<Host> {
+    console.log('controller', req.hostInfo);
+    return this.hostService.findOne(req.hostInfo.host_id);
+  }
+
+  @ApiBearerAuth()
   @UseGuards(OwnerJwtGuard)
   @ApiOperation({ summary: 'Get the Host data' })
   @ApiResponse({
@@ -140,6 +154,23 @@ export class HostController {
   @Get(':id')
   findOne(@Param('id') id: string): Promise<Host> {
     return this.hostService.findOne(+id);
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(HostJwtGuard)
+  @UsePipes(new ValidationPipe())
+  @ApiOperation({ summary: 'Update my Host' })
+  @ApiResponse({
+    status: 200,
+    description: 'Updates my Host',
+    type: Host,
+  })
+  @Patch('me')
+  updateMe(
+    @Request() req,
+    @Body() updateMyHostDto: UpdateMyHostDto,
+  ): Promise<Host> {
+    return this.hostService.update(req.hostInfo.host_id, updateMyHostDto);
   }
 
   @ApiBearerAuth()
