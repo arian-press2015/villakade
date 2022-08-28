@@ -1,4 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { PrismaService } from '../shared/services/prisma.service';
 import {
   Province,
   FilterProvinceDto,
@@ -6,15 +7,28 @@ import {
   UpdateProvinceDto,
 } from './dto';
 
+const select = {
+  id: true,
+  name: true,
+  fa_name: true,
+};
+
 @Injectable()
 export class ProvinceService {
+  constructor(private prisma: PrismaService) {}
   async create(createProvinceDto: CreateProvinceDto): Promise<Province> {
-    const province = {
-      id: 1,
-      name: createProvinceDto.name,
-      fa_name: createProvinceDto.fa_name,
-    };
-    return province;
+    try {
+      const province = await this.prisma.province.create({
+        select,
+        data: createProvinceDto,
+      });
+      return province;
+    } catch (e) {
+      console.log('Error in ProvinceService.create()', e.code, e.meta);
+      if (e.code && e.code === 'P2002') {
+        throw new BadRequestException('province already exists');
+      }
+    }
   }
 
   async getCount(filterProvinceDto: FilterProvinceDto): Promise<number> {
