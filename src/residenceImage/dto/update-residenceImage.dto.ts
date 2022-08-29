@@ -5,6 +5,7 @@ export class UpdateResidenceImageDto {
   @IsOptional()
   @IsPositive({ message: 'residence_id must be a positive number' })
   @ApiProperty({
+    required: false,
     example: 12345,
     description: 'residence_id of the ResidenceImage',
   })

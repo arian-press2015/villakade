@@ -5,6 +5,7 @@ export class FilterPermissionDto {
   @IsOptional()
   @IsString({ message: 'title must be a string' })
   @ApiProperty({
+    required: false,
     example: 'delete-residence',
     description: 'title of the Permission',
   })
@@ -13,6 +14,7 @@ export class FilterPermissionDto {
   @IsOptional()
   @IsString({ message: 'fa_title must be a string' })
   @ApiProperty({
+    required: false,
     example: 'ویرایش اقامتگاه ها',
     description: 'fa_title of the Permission',
   })

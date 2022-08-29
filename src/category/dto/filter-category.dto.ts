@@ -5,6 +5,7 @@ export class FilterCategoryDto {
   @IsOptional()
   @IsString({ message: 'title must be a string' })
   @ApiProperty({
+    required: false,
     example: 'beach',
     description: 'title of the Category',
   })
@@ -13,6 +14,7 @@ export class FilterCategoryDto {
   @IsOptional()
   @IsString({ message: 'fa_title must be a string' })
   @ApiProperty({
+    required: false,
     example: 'ساحلی و رو به دریا',
     description: 'fa_title of the Category',
   })

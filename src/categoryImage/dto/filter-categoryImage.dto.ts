@@ -5,6 +5,7 @@ export class FilterCategoryImageDto {
   @IsOptional()
   @IsNumberString({ message: 'category_id must be a positive number' })
   @ApiProperty({
+    required: false,
     example: '12345',
     description: 'category_id of the CategoryImage',
   })

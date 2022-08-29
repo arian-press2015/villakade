@@ -5,6 +5,7 @@ export class FilterTypeDto {
   @IsOptional()
   @IsString({ message: 'title must be a string' })
   @ApiProperty({
+    required: false,
     example: 'apartment',
     description: 'title of the Type',
   })
@@ -13,6 +14,7 @@ export class FilterTypeDto {
   @IsOptional()
   @IsString({ message: 'fa_title must be a string' })
   @ApiProperty({
+    required: false,
     example: 'آپارتمان',
     description: 'fa_title of the Type',
   })

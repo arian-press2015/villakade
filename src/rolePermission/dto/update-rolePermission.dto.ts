@@ -5,6 +5,7 @@ export class UpdateRolePermissionDto {
   @IsOptional()
   @IsPositive({ message: 'role_id must be a positive number' })
   @ApiProperty({
+    required: false,
     example: 123,
     description: 'role_id of the RolePermission',
   })
@@ -13,6 +14,7 @@ export class UpdateRolePermissionDto {
   @IsOptional()
   @IsPositive({ message: 'permission_id must be a positive number' })
   @ApiProperty({
+    required: false,
     example: 123,
     description: 'permission_id of the RolePermission',
   })
