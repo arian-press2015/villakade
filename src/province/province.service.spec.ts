@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import configuration from '../config/configuration';
 import { PrismaService } from '../shared/services/prisma.service';
 import prismaMockService from '../shared/services/prismaMock.service';
-import { CreateProvinceDto } from './dto';
+import { CreateProvinceDto, FilterProvinceDto } from './dto';
 import { ProvinceService } from './province.service';
 
 const select = {
@@ -84,6 +84,66 @@ describe('ProvinceService', () => {
       await expect(service.create(dto)).rejects.toThrow(
         'province already exists',
       );
+    });
+  });
+
+  describe('async findAll(dto: FilterProvinceDto): Promise<Province[]>', () => {
+    const provinces = [
+      {
+        id: 1,
+        name: 'fars',
+        fa_name: 'فارس',
+      },
+      {
+        id: 2,
+        name: 'esfahan',
+        fa_name: 'اصفهان',
+      },
+    ];
+
+    it('should return all provinces', async () => {
+      // mock prisma return value
+      prismaMockService.province.findMany.mockResolvedValue(provinces);
+
+      const dto: FilterProvinceDto = {};
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual(provinces);
+      expect(prisma.province.findMany).toBeCalledWith({ select, where: {} });
+      expect(prisma.province.findMany).toBeCalledTimes(1);
+    });
+
+    it("should return all provinces where name === 'fa'", async () => {
+      // mock prisma return value
+      prismaMockService.province.findMany.mockResolvedValue([provinces[0]]);
+
+      const dto: FilterProvinceDto = {
+        name: 'fa',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([provinces[0]]);
+      expect(prisma.province.findMany).toBeCalledWith({
+        select,
+        where: { name: { contains: 'fa' } },
+      });
+      expect(prisma.province.findMany).toBeCalledTimes(1);
+    });
+
+    it("should return all provinces where fa_name === 'فا'", async () => {
+      // mock prisma return value
+      prismaMockService.province.findMany.mockResolvedValue([provinces[0]]);
+
+      const dto: FilterProvinceDto = {
+        fa_name: 'فا',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([provinces[0]]);
+      expect(prisma.province.findMany).toBeCalledWith({
+        select,
+        where: { fa_name: { contains: 'فا' } },
+      });
+      expect(prisma.province.findMany).toBeCalledTimes(1);
     });
   });
 });

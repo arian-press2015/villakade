@@ -36,14 +36,25 @@ export class ProvinceService {
   }
 
   async findAll(filterProvinceDto: FilterProvinceDto): Promise<Province[]> {
-    const province = [
-      {
-        id: 1,
-        name: 'fars',
-        fa_name: 'فارس',
-      },
-    ];
-    return province;
+    const where: {
+      fa_name?: { contains: string };
+      name?: { contains: string };
+    } = {};
+    if (filterProvinceDto.fa_name) {
+      where.fa_name = {
+        contains: filterProvinceDto.fa_name,
+      };
+    } else if (filterProvinceDto.name) {
+      where.name = {
+        contains: filterProvinceDto.name,
+      };
+    }
+
+    const provinces = await this.prisma.province.findMany({
+      select,
+      where,
+    });
+    return provinces;
   }
 
   async findOne(id: number): Promise<Province> {
