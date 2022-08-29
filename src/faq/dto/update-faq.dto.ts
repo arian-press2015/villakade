@@ -5,6 +5,7 @@ export class UpdateFaqDto {
   @IsOptional()
   @IsString({ message: 'faq_type must be a string' })
   @ApiProperty({
+    required: false,
     example: 'residence',
     description: 'faq_type of the Faq',
   })
@@ -13,6 +14,7 @@ export class UpdateFaqDto {
   @IsOptional()
   @IsString({ message: 'question must be a string' })
   @ApiProperty({
+    required: false,
     example: 'چطور ویلا اجاره کنیم؟',
     description: 'question of the Faq',
   })
@@ -21,6 +23,7 @@ export class UpdateFaqDto {
   @IsOptional()
   @IsString({ message: 'answer must be a string' })
   @ApiProperty({
+    required: false,
     example: 'به سادگی',
     description: 'faq_type of the Faq',
   })

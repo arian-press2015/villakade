@@ -5,6 +5,7 @@ export class FilterResidenceCategoryDto {
   @IsOptional()
   @IsNumberString({ message: 'residence_id must be a positive number' })
   @ApiProperty({
+    required: false,
     example: '12345',
     description: 'residence_id of the ResidenceCategory',
   })
@@ -13,6 +14,7 @@ export class FilterResidenceCategoryDto {
   @IsOptional()
   @IsNumberString({ message: 'category_id must be a positive number' })
   @ApiProperty({
+    required: false,
     example: '123',
     description: 'category_id of the ResidenceCategory',
   })

@@ -5,6 +5,7 @@ export class FilterOwnerDto {
   @IsOptional()
   @IsString({ message: 'first_name must be a string' })
   @ApiProperty({
+    required: false,
     example: 'arian',
     description: 'first_name of the Owner',
   })
@@ -13,6 +14,7 @@ export class FilterOwnerDto {
   @IsOptional()
   @IsString({ message: 'last_name must be a string' })
   @ApiProperty({
+    required: false,
     example: 'press2015',
     description: 'last_name of the Owner',
   })
@@ -21,6 +23,7 @@ export class FilterOwnerDto {
   @IsOptional()
   @IsString({ message: 'phone must be a string' })
   @ApiProperty({
+    required: false,
     example: '+989012883045',
     description: 'phone of the Owner',
   })
@@ -29,6 +32,7 @@ export class FilterOwnerDto {
   @IsOptional()
   @IsString({ message: 'username must be a string' })
   @ApiProperty({
+    required: false,
     example: 'AP2015',
     description: 'username of the Owner',
   })
@@ -37,6 +41,7 @@ export class FilterOwnerDto {
   @IsOptional()
   @IsNumberString({ message: 'role_id must be a positive number' })
   @ApiProperty({
+    required: false,
     example: '12345',
     description: 'role of the Owner',
   })

@@ -5,6 +5,7 @@ export class FilterProvinceDto {
   @IsOptional()
   @IsString({ message: 'name must be a string' })
   @ApiProperty({
+    required: false,
     example: 'fars',
     description: 'name of the Province',
   })
@@ -13,6 +14,7 @@ export class FilterProvinceDto {
   @IsOptional()
   @IsString({ message: 'fa_name must be a string' })
   @ApiProperty({
+    required: false,
     example: 'فارس',
     description: 'fa_name of the Province',
   })

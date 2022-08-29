@@ -5,6 +5,7 @@ export class UpdateRoleDto {
   @IsOptional()
   @IsString({ message: 'title must be a string' })
   @ApiProperty({
+    required: false,
     example: 'residence-management',
     description: 'title of the Role',
   })
@@ -13,6 +14,7 @@ export class UpdateRoleDto {
   @IsOptional()
   @IsString({ message: 'fa_title must be a string' })
   @ApiProperty({
+    required: false,
     example: 'ویرایش اقامتگاه ها',
     description: 'fa_title of the Role',
   })
