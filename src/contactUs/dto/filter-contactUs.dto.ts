@@ -1,7 +1,25 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsString } from 'class-validator';
+import { IsNumberString, IsOptional, IsString } from 'class-validator';
 
 export class FilterContactUsDto {
+  @IsOptional()
+  @IsNumberString({ message: 'offset must be a positive number' })
+  @ApiProperty({
+    required: false,
+    example: '0',
+    description: 'offset of the residence',
+  })
+  readonly offset?: string;
+
+  @IsOptional()
+  @IsNumberString({ message: 'limit must be a positive number' })
+  @ApiProperty({
+    required: false,
+    example: '0',
+    description: 'limit of the residence',
+  })
+  readonly limit?: string;
+
   @IsOptional()
   @IsString({ message: 'title must be a string' })
   @ApiProperty({

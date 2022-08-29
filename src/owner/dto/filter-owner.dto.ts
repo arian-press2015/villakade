@@ -3,6 +3,24 @@ import { IsNumberString, IsOptional, IsString } from 'class-validator';
 
 export class FilterOwnerDto {
   @IsOptional()
+  @IsNumberString({ message: 'offset must be a positive number' })
+  @ApiProperty({
+    required: false,
+    example: '0',
+    description: 'offset of the residence',
+  })
+  readonly offset?: string;
+
+  @IsOptional()
+  @IsNumberString({ message: 'limit must be a positive number' })
+  @ApiProperty({
+    required: false,
+    example: '0',
+    description: 'limit of the residence',
+  })
+  readonly limit?: string;
+
+  @IsOptional()
   @IsString({ message: 'first_name must be a string' })
   @ApiProperty({
     required: false,

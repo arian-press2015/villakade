@@ -3,6 +3,24 @@ import { IsNumberString, IsOptional, IsString } from 'class-validator';
 
 export class FilterCityDto {
   @IsOptional()
+  @IsNumberString({ message: 'offset must be a positive number' })
+  @ApiProperty({
+    required: false,
+    example: '0',
+    description: 'offset of the residence',
+  })
+  readonly offset?: string;
+
+  @IsOptional()
+  @IsNumberString({ message: 'limit must be a positive number' })
+  @ApiProperty({
+    required: false,
+    example: '0',
+    description: 'limit of the residence',
+  })
+  readonly limit?: string;
+
+  @IsOptional()
   @IsNumberString({ message: 'province must be a positive number' })
   @ApiProperty({
     required: false,
