@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumberString, IsOptional } from 'class-validator';
+import { IsNumberString, IsOptional, IsString } from 'class-validator';
 
 export class FilterResidenceRuleDto {
   @IsOptional()
@@ -19,4 +19,13 @@ export class FilterResidenceRuleDto {
     description: 'limit of the residence',
   })
   readonly limit?: string;
+
+  @IsOptional()
+  @IsString({ message: 'sort must be a string' })
+  @ApiProperty({
+    required: false,
+    example: 'field1:asc,field2:desc',
+    description: 'sort of the residence',
+  })
+  readonly sort?: string;
 }

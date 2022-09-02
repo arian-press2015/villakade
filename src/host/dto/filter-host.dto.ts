@@ -26,6 +26,15 @@ export class FilterHostDto {
   readonly limit?: string;
 
   @IsOptional()
+  @IsString({ message: 'sort must be a string' })
+  @ApiProperty({
+    required: false,
+    example: 'field1:asc,field2:desc',
+    description: 'sort of the residence',
+  })
+  readonly sort?: string;
+
+  @IsOptional()
   @IsString({ message: 'first_name must be a string' })
   @ApiProperty({
     required: false,
