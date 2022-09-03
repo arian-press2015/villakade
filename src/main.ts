@@ -5,6 +5,7 @@ import {
   SwaggerCustomOptions,
   SwaggerModule,
 } from '@nestjs/swagger';
+import logger from './shared/logger';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -14,6 +15,7 @@ async function bootstrap() {
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
       credentials: true,
     },
+    logger,
   });
   const configService = app.get(ConfigService);
 
