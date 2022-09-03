@@ -10,7 +10,6 @@ import {
   ValidationPipe,
   Query,
   UseGuards,
-  HttpException,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -57,7 +56,6 @@ export class ProvinceController {
   })
   @Post()
   create(@Body() createProvinceDto: CreateProvinceDto): Promise<Province> {
-    throw new HttpException('hi', 400);
     return this.provinceService.create(createProvinceDto);
   }
 

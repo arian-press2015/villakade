@@ -8,6 +8,13 @@ import {
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 
+/*
+ * HOW-TO-USE
+ *
+ * This ExceptionFilter catches all uncought errors and return 500 internal server error instead.
+ *
+ */
+
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
   constructor(private readonly logger: Logger) {}
