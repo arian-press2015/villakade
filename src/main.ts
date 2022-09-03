@@ -7,8 +7,6 @@ import {
 } from '@nestjs/swagger';
 import logger from './shared/logger';
 import { AppModule } from './app.module';
-import { HttpExceptionFilter } from './shared/filters/exception.filter';
-import { Logger } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -20,7 +18,6 @@ async function bootstrap() {
     logger,
   });
   const configService = app.get(ConfigService);
-  app.useGlobalFilters(new HttpExceptionFilter(new Logger()));
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Villakade')
