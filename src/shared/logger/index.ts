@@ -18,6 +18,7 @@ import * as moment from 'moment-jalaali';
 export default WinstonModule.createLogger({
   transports: [
     new winston.transports.Console({
+      level: 'silly',
       format: winston.format.combine(
         winston.format.timestamp({
           format: () => moment().format('jYYYY/jMM/jDD HH:mm:ss'),
@@ -30,6 +31,7 @@ export default WinstonModule.createLogger({
       ),
     }),
     new winston.transports.DailyRotateFile({
+      level: 'silly',
       filename: './log/logger-%DATE%.log',
       datePattern: 'YYYY-MM-DD',
       zippedArchive: true,
