@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { ProvinceUnpopulated } from '../../province/dto';
 
 export class City {
   @ApiProperty({ example: 12345, description: 'ID of the entity in database' })
@@ -24,6 +25,16 @@ export class City {
     description: 'residence count in this city',
   })
   readonly total_residence_count: number;
+
+  @ApiProperty({
+    example: {
+      id: 1,
+      name: 'shiraz',
+      fa_name: 'شیراز',
+    },
+    description: 'ID of the entity in database',
+  })
+  readonly province: ProvinceUnpopulated;
 }
 
 export class ProvinceCity {
