@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { City } from '../../city/dto';
 
 export class Residence {
   @ApiProperty({ example: 12345, description: 'ID of the entity in database' })
@@ -22,8 +23,21 @@ export class Residence {
   })
   readonly location: string;
 
-  @ApiProperty({ example: 12345, description: 'city_id of the residence' })
-  readonly city_id: number;
+  @ApiProperty({
+    example: {
+      id: 1,
+      name: 'shiraz',
+      fa_name: 'شیراز',
+      total_residence_count: 4,
+      province: {
+        id: 1,
+        name: 'shiraz',
+        fa_name: 'شیراز',
+      },
+    },
+    description: 'city_id of the residence',
+  })
+  readonly city: City;
 
   @ApiProperty({ example: 200000, description: 'price of the residence' })
   readonly price: number;

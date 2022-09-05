@@ -17,7 +17,17 @@ export class ResidenceService {
       location: createResidenceDto.location,
       price: createResidenceDto.price,
       active: createResidenceDto.active,
-      city_id: createResidenceDto.city_id,
+      city: {
+        id: 1,
+        name: 'shiraz',
+        fa_name: 'شیراز',
+        total_residence_count: 4,
+        province: {
+          id: 1,
+          name: 'shiraz',
+          fa_name: 'شیراز',
+        },
+      },
     };
     return residence;
   }
@@ -36,7 +46,17 @@ export class ResidenceService {
         location: 'شیراز دست چپ پلاک ۲',
         price: 200000,
         active: true,
-        city_id: 123,
+        city: {
+          id: 1,
+          name: 'shiraz',
+          fa_name: 'شیراز',
+          total_residence_count: 4,
+          province: {
+            id: 1,
+            name: 'shiraz',
+            fa_name: 'شیراز',
+          },
+        },
       },
     ];
     return residence;
@@ -51,7 +71,17 @@ export class ResidenceService {
       location: 'شیراز دست چپ پلاک ۲',
       price: 200000,
       active: true,
-      city_id: 123,
+      city: {
+        id: 1,
+        name: 'shiraz',
+        fa_name: 'شیراز',
+        total_residence_count: 4,
+        province: {
+          id: 1,
+          name: 'shiraz',
+          fa_name: 'شیراز',
+        },
+      },
     };
     return residence;
   }
@@ -68,7 +98,17 @@ export class ResidenceService {
       location: updateResidenceDto.location || 'شیراز دست چپ پلاک دو',
       price: updateResidenceDto.price || 200000,
       active: updateResidenceDto.active || true,
-      city_id: updateResidenceDto.city_id || 123,
+      city: {
+        id: 1,
+        name: 'shiraz',
+        fa_name: 'شیراز',
+        total_residence_count: 4,
+        province: {
+          id: 1,
+          name: 'shiraz',
+          fa_name: 'شیراز',
+        },
+      },
     };
     return residence;
   }
