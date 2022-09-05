@@ -5,9 +5,6 @@ export class City {
   @ApiProperty({ example: 12345, description: 'ID of the entity in database' })
   readonly id: number;
 
-  @ApiProperty({ example: 12345, description: 'Province_id of the city' })
-  readonly province_id: number;
-
   @ApiProperty({
     example: 'shiraz',
     description: 'name of the City',
