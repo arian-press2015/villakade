@@ -208,4 +208,11 @@ export class UpdateResidenceAttributeDto {
     description: 'pool status of the ResidenceAttribute',
   })
   readonly pool?: boolean;
+
+  @IsBoolean({ message: 'vip must be a boolean' })
+  @ApiProperty({
+    example: false,
+    description: 'vip status of the ResidenceAttribute',
+  })
+  readonly vip?: boolean;
 }

@@ -240,4 +240,13 @@ export class FilterResidenceAttributeDto {
     description: 'pool status of the ResidenceAttribute',
   })
   readonly pool?: string;
+
+  @IsOptional()
+  @IsBooleanString({ message: 'vip must be a boolean' })
+  @ApiProperty({
+    required: false,
+    example: 'false',
+    description: 'vip status of the ResidenceAttribute',
+  })
+  readonly vip?: string;
 }
