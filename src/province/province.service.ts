@@ -13,6 +13,7 @@ export class ProvinceService {
       id: 1,
       name: createProvinceDto.name,
       fa_name: createProvinceDto.fa_name,
+      cities: [],
     };
     return province;
   }
@@ -27,6 +28,14 @@ export class ProvinceService {
         id: 1,
         name: 'fars',
         fa_name: 'فارس',
+        cities: [
+          {
+            id: 123,
+            name: 'shiraz',
+            fa_name: 'شیراز',
+            total_residence_count: 12,
+          },
+        ],
       },
     ];
     return province;
@@ -37,6 +46,14 @@ export class ProvinceService {
       id,
       name: 'fars',
       fa_name: 'فارس',
+      cities: [
+        {
+          id: 123,
+          name: 'shiraz',
+          fa_name: 'شیراز',
+          total_residence_count: 12,
+        },
+      ],
     };
     return province;
   }
@@ -49,6 +66,14 @@ export class ProvinceService {
       id,
       name: updateProvinceDto.name || 'fars',
       fa_name: updateProvinceDto.fa_name || 'فارس',
+      cities: [
+        {
+          id: 123,
+          name: 'shiraz',
+          fa_name: 'شیراز',
+          total_residence_count: 12,
+        },
+      ],
     };
     return province;
   }
