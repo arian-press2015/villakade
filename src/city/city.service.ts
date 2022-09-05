@@ -10,6 +10,11 @@ export class CityService {
       name: createCityDto.name,
       fa_name: createCityDto.fa_name,
       total_residence_count: 0,
+      province: {
+        id: 1,
+        name: 'shiraz',
+        fa_name: 'شیراز',
+      },
     };
     return city;
   }
@@ -26,6 +31,11 @@ export class CityService {
         name: 'shiraz',
         fa_name: 'شیراز',
         total_residence_count: 4,
+        province: {
+          id: 1,
+          name: 'shiraz',
+          fa_name: 'شیراز',
+        },
       },
     ];
     return city;
@@ -38,6 +48,11 @@ export class CityService {
       name: 'shiraz',
       fa_name: 'شیراز',
       total_residence_count: 4,
+      province: {
+        id: 1,
+        name: 'shiraz',
+        fa_name: 'شیراز',
+      },
     };
     return city;
   }
@@ -49,6 +64,11 @@ export class CityService {
       name: updateCityDto.name || 'shiraz',
       fa_name: updateCityDto.fa_name || 'شیراز',
       total_residence_count: 4,
+      province: {
+        id: 1,
+        name: 'shiraz',
+        fa_name: 'شیراز',
+      },
     };
     return city;
   }
