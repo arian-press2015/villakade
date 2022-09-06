@@ -32,6 +32,7 @@ export class ResidenceService {
           fa_name: 'شیراز',
         },
       },
+      images: [],
     };
     return residence;
   }
@@ -65,6 +66,14 @@ export class ResidenceService {
             fa_name: 'شیراز',
           },
         },
+        images: [
+          {
+            residence_id: 1,
+            url: '/fake/image/url',
+            width: 480,
+            height: 640,
+          },
+        ],
       },
     ];
     return residence;
@@ -94,6 +103,14 @@ export class ResidenceService {
           fa_name: 'شیراز',
         },
       },
+      images: [
+        {
+          residence_id: 1,
+          url: '/fake/image/url',
+          width: 480,
+          height: 640,
+        },
+      ],
     };
     return residence;
   }
@@ -125,6 +142,14 @@ export class ResidenceService {
           fa_name: 'شیراز',
         },
       },
+      images: [
+        {
+          residence_id: 1,
+          url: '/fake/image/url',
+          width: 480,
+          height: 640,
+        },
+      ],
     };
     return residence;
   }

@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { City } from '../../city/dto';
+import { ResidenceImage } from '../../residenceImage/dto';
 import { Type } from '../../type/dto';
 
 export class Residence {
@@ -55,4 +56,17 @@ export class Residence {
     description: 'activity status of the residence',
   })
   readonly active: boolean;
+
+  @ApiProperty({
+    example: [
+      {
+        residence_id: 1,
+        url: '/fake/image/url',
+        width: 480,
+        height: 640,
+      },
+    ],
+    description: 'images of the residence',
+  })
+  readonly images: ResidenceImage[];
 }
