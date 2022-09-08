@@ -122,5 +122,6 @@
   "ping_pong_table must be a boolean": "وضعیت میز تنیس باید از نوع بولین باشد",
   "pool must be a boolean": "وضعیت استخر باید از نوع بولین باشد",
   "categoryimage already exists": "تصویر دسته بندی قبلا ثبت شده است",
-  "categoryimage not found": "تصویر دسته بندی یافت نشد"
+  "categoryimage not found": "تصویر دسته بندی یافت نشد",
+  "only jpg and png images are supported": "تصاویر فقط با پسوند های jpg و png قابل قبول هستند"
 }
