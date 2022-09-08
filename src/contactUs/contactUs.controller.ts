@@ -84,7 +84,8 @@ export class ContactUsController {
   })
   @ApiResponse({
     status: 400,
-    description: 'full_name must be a string|description must be a string',
+    description:
+      'offset must be a positive number|limit must be a positive number|sort must be a string|full_name must be a string|description must be a string',
   })
   @Get()
   findAll(
@@ -120,6 +121,11 @@ export class ContactUsController {
     status: 200,
     description: 'Updates current ContactUs',
     type: ContactUs,
+  })
+  @ApiResponse({
+    status: 400,
+    description:
+      'title must be a string|phone must be a string|full_name must be a string|description must be a string',
   })
   @ApiResponse({
     status: 403,

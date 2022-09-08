@@ -85,7 +85,8 @@ export class ProvinceController {
   })
   @ApiResponse({
     status: 400,
-    description: 'name must be a string|fa_name must be a string',
+    description:
+      'offset must be a positive number|limit must be a positive number|sort must be a string|name must be a string|fa_name must be a string',
   })
   @Get()
   findAll(@Query() filterProvinceDto: FilterProvinceDto): Promise<Province[]> {
@@ -119,6 +120,10 @@ export class ProvinceController {
     status: 200,
     description: 'Updates current Province',
     type: Province,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'name must be a string|fa_name must be a string',
   })
   @ApiResponse({
     status: 403,

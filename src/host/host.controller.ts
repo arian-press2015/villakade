@@ -115,7 +115,8 @@ export class HostController {
   @ApiResponse({
     status: 400,
     description:
-      'first_name must be a string|last_name must be a string|phone must be a string|vip must be a boolean|activation status must be a boolean',
+      'offset must be a positive number|limit must be a positive number|sort must be a string|first_name must be a string|last_name must be a string' +
+      '|phone must be a string|vip must be a boolean|activation status must be a boolean',
   })
   @Get()
   findAll(@Query() filterHostDto: FilterHostDto): Promise<Host[]> {
@@ -182,6 +183,11 @@ export class HostController {
     status: 200,
     description: 'Updates current Host',
     type: Host,
+  })
+  @ApiResponse({
+    status: 400,
+    description:
+      'first_name must be a string|last_name must be a string|phone must be a string|vip must be a boolean|activation status must be a boolean',
   })
   @ApiResponse({
     status: 403,

@@ -85,7 +85,8 @@ export class CategoryController {
   })
   @ApiResponse({
     status: 400,
-    description: 'title must be a string|fa_title must be a string',
+    description:
+      'offset must be a positive number|limit must be a positive number|sort must be a string|title must be a string|fa_title must be a string',
   })
   @Get()
   findAll(@Query() filterCategoryDto: FilterCategoryDto): Promise<Category[]> {
@@ -119,6 +120,10 @@ export class CategoryController {
     status: 200,
     description: 'Updates current Category',
     type: Category,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'title must be a string|fa_title must be a string',
   })
   @ApiResponse({
     status: 403,

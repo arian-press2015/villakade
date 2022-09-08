@@ -93,7 +93,7 @@ export class ResidenceCategoryController {
   @ApiResponse({
     status: 400,
     description:
-      'category_id must be a positive number|residence_id must be a positive number',
+      'offset must be a positive number|limit must be a positive number|sort must be a string|category_id must be a positive number|residence_id must be a positive number',
   })
   @Get()
   findAll(

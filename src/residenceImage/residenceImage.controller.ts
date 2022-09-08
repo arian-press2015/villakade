@@ -11,9 +11,12 @@ import {
   Query,
   UseGuards,
   HttpCode,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
+  ApiConsumes,
   ApiOperation,
   ApiResponse,
   ApiTags,
@@ -26,6 +29,8 @@ import {
   UpdateResidenceImageDto,
 } from './dto';
 import { HostJwtGuard } from '../auth/guard';
+import multerConfig from '../shared/multer';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('ResidenceImage')
 @Controller('residenceImage')
@@ -35,6 +40,8 @@ export class ResidenceImageController {
   @ApiBearerAuth()
   @UseGuards(HostJwtGuard)
   @UsePipes(new ValidationPipe())
+  @UseInterceptors(FileInterceptor('file', multerConfig('residenceImage')))
+  @ApiConsumes('multipart/form-data')
   @Post()
   @ApiOperation({ summary: 'Create new ResidenceImage' })
   @ApiResponse({
@@ -59,6 +66,7 @@ export class ResidenceImageController {
   @Post()
   create(
     @Body() createResidenceImageDto: CreateResidenceImageDto,
+    @UploadedFile() file: Express.Multer.File,
   ): Promise<ResidenceImage> {
     return this.residenceImageService.create(createResidenceImageDto);
   }
@@ -90,7 +98,8 @@ export class ResidenceImageController {
   })
   @ApiResponse({
     status: 400,
-    description: 'residence_id must be a positive number',
+    description:
+      'offset must be a positive number|limit must be a positive number|sort must be a string|residence_id must be a positive number',
   })
   @Get()
   findAll(
@@ -126,6 +135,10 @@ export class ResidenceImageController {
     status: 200,
     description: 'Updates current ResidenceImage',
     type: ResidenceImage,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'residence_id must be a positive number',
   })
   @ApiResponse({
     status: 403,

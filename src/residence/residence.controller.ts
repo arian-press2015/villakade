@@ -90,7 +90,8 @@ export class ResidenceController {
   @ApiResponse({
     status: 400,
     description:
-      'host_id must be a positive number|type_id must be a positive number|location must be a string|city_id must be a positive number' +
+      'offset must be a positive number|limit must be a positive number|sort must be a string|host_id must be a positive number' +
+      '|type_id must be a positive number|location must be a string|city_id must be a positive number' +
       '|price must be a positive number|activation status must be a boolean',
   })
   @Get()
@@ -127,6 +128,12 @@ export class ResidenceController {
     status: 200,
     description: 'Updates current Residence',
     type: Residence,
+  })
+  @ApiResponse({
+    status: 400,
+    description:
+      'host_id must be a positive number|title must be a string|type_id must be a positive number|location must be a string' +
+      '|city_id must be a positive number|price must be a positive number|activation status must be a boolean',
   })
   @ApiResponse({
     status: 403,

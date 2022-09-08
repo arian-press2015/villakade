@@ -80,7 +80,8 @@ export class TypeController {
   })
   @ApiResponse({
     status: 400,
-    description: 'title must be a string|fa_title must be a string',
+    description:
+      'offset must be a positive number|limit must be a positive number|sort must be a string|title must be a string|fa_title must be a string',
   })
   @Get()
   findAll(@Query() filterTypeDto: FilterTypeDto): Promise<Type[]> {
@@ -114,6 +115,10 @@ export class TypeController {
     status: 200,
     description: 'Updates current Type',
     type: Type,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'title must be a string|fa_title must be a string',
   })
   @ApiResponse({
     status: 403,

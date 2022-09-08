@@ -83,7 +83,8 @@ export class FaqController {
   @ApiResponse({
     status: 400,
     description:
-      'faq_type must be a string|question must be a string|answer must be a string',
+      'offset must be a positive number|limit must be a positive number|sort must be a string|faq_type must be a string|question must be a string' +
+      '|answer must be a string',
   })
   @Get()
   findAll(@Query() filterFaqDto: FilterFaqDto): Promise<Faq[]> {
@@ -117,6 +118,11 @@ export class FaqController {
     status: 200,
     description: 'Updates current Faq',
     type: Faq,
+  })
+  @ApiResponse({
+    status: 400,
+    description:
+      'faq_type must be a string|question must be a string|answer must be a string',
   })
   @ApiResponse({
     status: 403,
