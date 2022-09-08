@@ -24,3 +24,12 @@ export class HostLoginRequest {
   })
   readonly otp: string;
 }
+
+export class HostOtpRequest {
+  @IsString({ message: 'phone must be a string' })
+  @ApiProperty({
+    example: '+989012883045',
+    description: 'phone of the Host',
+  })
+  readonly phone: string;
+}

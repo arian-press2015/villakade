@@ -32,6 +32,7 @@ import {
 } from './dto';
 import { HostJwtGuard, HostLocalGuard, OwnerJwtGuard } from '../auth/guard';
 import { AuthService } from '../auth/auth.service';
+import { HostOtpRequest } from './dto/login-host.dto';
 
 @ApiTags('Host')
 @Controller('host')
@@ -40,6 +41,25 @@ export class HostController {
     private readonly hostService: HostService,
     private readonly authService: AuthService,
   ) {}
+
+  @HttpCode(204)
+  @Get('login')
+  @ApiOperation({ summary: 'login Host' })
+  @ApiBody({
+    description: 'Required body fields',
+    type: HostOtpRequest,
+  })
+  @ApiResponse({
+    status: 204,
+    description: 'Requests otp for the Owner',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'host not found',
+  })
+  async getOtp(hostOtpRequest: HostOtpRequest): Promise<void> {
+    return this.hostService.getOtp(hostOtpRequest);
+  }
 
   @UseGuards(HostLocalGuard)
   @Post('login')
