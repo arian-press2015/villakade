@@ -117,6 +117,11 @@ export class CityController {
     type: City,
   })
   @ApiResponse({
+    status: 400,
+    description:
+      'province must be a positive number|name must be a string|fa_name must be a string',
+  })
+  @ApiResponse({
     status: 403,
     description: "you don't have permission to do that",
   })

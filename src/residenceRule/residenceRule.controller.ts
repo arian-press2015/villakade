@@ -119,6 +119,10 @@ export class ResidenceRuleController {
     type: ResidenceRule,
   })
   @ApiResponse({
+    status: 400,
+    description: 'rule_body must be a string',
+  })
+  @ApiResponse({
     status: 403,
     description: "you don't have permission to do that",
   })

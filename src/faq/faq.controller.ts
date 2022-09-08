@@ -119,6 +119,11 @@ export class FaqController {
     type: Faq,
   })
   @ApiResponse({
+    status: 400,
+    description:
+      'faq_type must be a string|question must be a string|answer must be a string',
+  })
+  @ApiResponse({
     status: 403,
     description: "you don't have permission to do that",
   })

@@ -129,6 +129,11 @@ export class RolePermissionController {
     type: RolePermission,
   })
   @ApiResponse({
+    status: 400,
+    description:
+      'role_id must be a positive number|permission_id must be a positive number',
+  })
+  @ApiResponse({
     status: 403,
     description: "you don't have permission to do that",
   })

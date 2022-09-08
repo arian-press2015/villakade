@@ -155,6 +155,12 @@ export class OwnerController {
     type: Owner,
   })
   @ApiResponse({
+    status: 400,
+    description:
+      'first_name must be a string|last_name must be a string|phone must be a string|username must be a string' +
+      '|password must be a string|role_id must be a positive number',
+  })
+  @ApiResponse({
     status: 403,
     description: "you don't have permission to do that",
   })

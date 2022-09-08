@@ -129,6 +129,12 @@ export class ResidenceController {
     type: Residence,
   })
   @ApiResponse({
+    status: 400,
+    description:
+      'host_id must be a positive number|title must be a string|type_id must be a positive number|location must be a string' +
+      '|city_id must be a positive number|price must be a positive number|activation status must be a boolean',
+  })
+  @ApiResponse({
     status: 403,
     description: "you don't have permission to do that",
   })

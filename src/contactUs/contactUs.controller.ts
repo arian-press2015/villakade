@@ -122,6 +122,11 @@ export class ContactUsController {
     type: ContactUs,
   })
   @ApiResponse({
+    status: 400,
+    description:
+      'title must be a string|phone must be a string|full_name must be a string|description must be a string',
+  })
+  @ApiResponse({
     status: 403,
     description: "you don't have permission to do that",
   })

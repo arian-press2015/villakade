@@ -126,7 +126,7 @@ export class SupportController {
   @ApiResponse({
     status: 400,
     description:
-      'id must be a positive number|full_name must be a string|phone must be a string|activation status must be a boolean',
+      'title must be a string|phone must be a string|activation status must be a boolean',
   })
   @ApiResponse({
     status: 403,

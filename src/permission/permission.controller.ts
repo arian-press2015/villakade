@@ -125,6 +125,10 @@ export class PermissionController {
     type: Permission,
   })
   @ApiResponse({
+    status: 400,
+    description: 'title must be a string|fa_title must be a string',
+  })
+  @ApiResponse({
     status: 403,
     description: "you don't have permission to do that",
   })

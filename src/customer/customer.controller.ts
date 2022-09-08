@@ -120,6 +120,11 @@ export class CustomerController {
     type: Customer,
   })
   @ApiResponse({
+    status: 400,
+    description:
+      'first_name must be a string|last_name must be a string|phone must be a string|activation status must be a boolean',
+  })
+  @ApiResponse({
     status: 403,
     description: "you don't have permission to do that",
   })
