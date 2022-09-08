@@ -13,7 +13,7 @@ export class CategoryImageService {
   ): Promise<CategoryImage> {
     const categoryImage = {
       category_id: createCategoryImageDto.category_id,
-      url: createCategoryImageDto.url,
+      url: '/path/to/file',
       width: createCategoryImageDto.width,
       height: createCategoryImageDto.height,
     };

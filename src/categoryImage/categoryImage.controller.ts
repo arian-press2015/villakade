@@ -11,9 +11,12 @@ import {
   Query,
   UseGuards,
   HttpCode,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
+  ApiConsumes,
   ApiOperation,
   ApiResponse,
   ApiTags,
@@ -26,6 +29,8 @@ import {
   UpdateCategoryImageDto,
 } from './dto';
 import { OwnerJwtGuard } from '../auth/guard';
+import multerConfig from '../shared/multer';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('CategoryImage')
 @Controller('categoryImage')
@@ -35,6 +40,8 @@ export class CategoryImageController {
   @ApiBearerAuth()
   @UseGuards(OwnerJwtGuard)
   @UsePipes(new ValidationPipe())
+  @UseInterceptors(FileInterceptor('file', multerConfig('categoryImage')))
+  @ApiConsumes('multipart/form-data')
   @Post()
   @ApiOperation({ summary: 'Create new CategoryImage' })
   @ApiResponse({
@@ -59,6 +66,7 @@ export class CategoryImageController {
   @Post()
   create(
     @Body() createCategoryImageDto: CreateCategoryImageDto,
+    @UploadedFile() file: Express.Multer.File,
   ): Promise<CategoryImage> {
     return this.categoryImageService.create(createCategoryImageDto);
   }
