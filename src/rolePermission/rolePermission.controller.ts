@@ -91,7 +91,7 @@ export class RolePermissionController {
   @ApiResponse({
     status: 400,
     description:
-      'role_id must be a positive number|permission_id must be a positive number',
+      'offset must be a positive number|limit must be a positive number|sort must be a string|role_id must be a positive number|permission_id must be a positive number',
   })
   @Get()
   findAll(

@@ -87,7 +87,8 @@ export class PermissionController {
   })
   @ApiResponse({
     status: 400,
-    description: 'title must be a string|fa_title must be a string',
+    description:
+      'offset must be a positive number|limit must be a positive number|sort must be a string|title must be a string|fa_title must be a string',
   })
   @Get()
   findAll(

@@ -90,7 +90,8 @@ export class CategoryImageController {
   })
   @ApiResponse({
     status: 400,
-    description: 'category_id must be a positive number',
+    description:
+      'offset must be a positive number|limit must be a positive number|sort must be a string|category_id must be a positive number',
   })
   @Get()
   findAll(

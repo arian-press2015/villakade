@@ -87,7 +87,7 @@ export class SupportController {
   @ApiResponse({
     status: 400,
     description:
-      'full_name must be a string|phone must be a string|activation status must be a string',
+      'offset must be a positive number|limit must be a positive number|sort must be a string|full_name must be a string|phone must be a string|activation status must be a string',
   })
   @Get()
   findAll(@Query() filterSupportDto: FilterSupportDto): Promise<Support[]> {

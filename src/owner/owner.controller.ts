@@ -117,7 +117,8 @@ export class OwnerController {
   @ApiResponse({
     status: 400,
     description:
-      'first_name is required|last_name must be a string|phone is required|username must be a string|role_id is required',
+      'offset must be a positive number|limit must be a positive number|sort must be a string|first_name is required|last_name must be a string' +
+      '|phone is required|username must be a string|role_id is required',
   })
   @Get()
   findAll(@Query() filterOwnerDto: FilterOwnerDto): Promise<Owner[]> {

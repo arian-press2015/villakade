@@ -83,6 +83,11 @@ export class ResidenceRuleController {
     description: 'Returns all of the Categories',
     type: [ResidenceRule],
   })
+  @ApiResponse({
+    status: 400,
+    description:
+      'offset must be a positive number|limit must be a positive number|sort must be a string',
+  })
   @Get()
   findAll(
     @Query() filterResidenceRuleDto: FilterResidenceRuleDto,
