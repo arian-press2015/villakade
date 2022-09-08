@@ -10,6 +10,7 @@ import {
   ValidationPipe,
   Query,
   UseGuards,
+  HttpCode,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -146,9 +147,8 @@ export class CategoryImageController {
   @UseGuards(OwnerJwtGuard)
   @ApiOperation({ summary: 'Delete current CategoryImage' })
   @ApiResponse({
-    status: 200,
+    status: 204,
     description: 'Deletes current CategoryImage',
-    type: Boolean,
   })
   @ApiResponse({
     status: 403,
@@ -158,8 +158,9 @@ export class CategoryImageController {
     status: 404,
     description: 'categoryimage not found|owner not found',
   })
+  @HttpCode(204)
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<boolean> {
+  remove(@Param('id') id: string): Promise<void> {
     return this.categoryImageService.remove(+id);
   }
 }

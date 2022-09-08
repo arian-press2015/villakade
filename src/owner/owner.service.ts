@@ -74,7 +74,7 @@ export class OwnerService {
     return owner;
   }
 
-  async remove(id: number): Promise<boolean> {
-    return true;
+  async remove(id: number): Promise<void> {
+    return;
   }
 }

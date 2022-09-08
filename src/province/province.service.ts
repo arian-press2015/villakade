@@ -78,7 +78,7 @@ export class ProvinceService {
     return province;
   }
 
-  async remove(id: number): Promise<boolean> {
-    return true;
+  async remove(id: number): Promise<void> {
+    return;
   }
 }

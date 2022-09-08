@@ -69,7 +69,7 @@ export class CityService {
     return city;
   }
 
-  async remove(id: number): Promise<boolean> {
-    return true;
+  async remove(id: number): Promise<void> {
+    return;
   }
 }

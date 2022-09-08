@@ -52,7 +52,7 @@ export class ResidenceCategoryService {
 
   async remove(
     deleteResidenceCategoryDto: DeleteResidenceCategoryDto,
-  ): Promise<boolean> {
-    return true;
+  ): Promise<void> {
+    return;
   }
 }

@@ -11,6 +11,7 @@ import {
   Query,
   UseGuards,
   Request,
+  HttpCode,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -202,9 +203,8 @@ export class HostController {
   @UseGuards(OwnerJwtGuard)
   @ApiOperation({ summary: 'Delete current Host' })
   @ApiResponse({
-    status: 200,
+    status: 204,
     description: 'Deletes current Host',
-    type: Boolean,
   })
   @ApiResponse({
     status: 403,
@@ -214,8 +214,9 @@ export class HostController {
     status: 404,
     description: 'host not found|owner not found',
   })
+  @HttpCode(204)
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<boolean> {
+  remove(@Param('id') id: string): Promise<void> {
     return this.hostService.remove(+id);
   }
 }

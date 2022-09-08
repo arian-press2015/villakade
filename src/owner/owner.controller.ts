@@ -11,6 +11,7 @@ import {
   Query,
   UseGuards,
   Request,
+  HttpCode,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -173,9 +174,8 @@ export class OwnerController {
   @UseGuards(OwnerJwtGuard)
   @ApiOperation({ summary: 'Delete current Owner' })
   @ApiResponse({
-    status: 200,
+    status: 204,
     description: 'Deletes current Owner',
-    type: Boolean,
   })
   @ApiResponse({
     status: 403,
@@ -185,8 +185,9 @@ export class OwnerController {
     status: 404,
     description: 'owner not found|owner not found',
   })
+  @HttpCode(204)
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<boolean> {
+  remove(@Param('id') id: string): Promise<void> {
     return this.ownerService.remove(+id);
   }
 }

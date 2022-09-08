@@ -69,7 +69,7 @@ export class HostService {
     return host;
   }
 
-  async remove(id: number): Promise<boolean> {
-    return true;
+  async remove(id: number): Promise<void> {
+    return;
   }
 }

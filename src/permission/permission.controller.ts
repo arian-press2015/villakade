@@ -10,6 +10,7 @@ import {
   ValidationPipe,
   Query,
   UseGuards,
+  HttpCode,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -143,9 +144,8 @@ export class PermissionController {
   @UseGuards(OwnerJwtGuard)
   @ApiOperation({ summary: 'Delete current Permission' })
   @ApiResponse({
-    status: 200,
+    status: 204,
     description: 'Deletes current Permission',
-    type: Boolean,
   })
   @ApiResponse({
     status: 403,
@@ -155,8 +155,9 @@ export class PermissionController {
     status: 404,
     description: 'permission not found|owner not found',
   })
+  @HttpCode(204)
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<boolean> {
+  remove(@Param('id') id: string): Promise<void> {
     return this.permissionService.remove(+id);
   }
 }

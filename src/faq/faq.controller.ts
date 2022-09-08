@@ -10,6 +10,7 @@ import {
   ValidationPipe,
   Query,
   UseGuards,
+  HttpCode,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -137,9 +138,8 @@ export class FaqController {
   @UseGuards(OwnerJwtGuard)
   @ApiOperation({ summary: 'Delete current Faq' })
   @ApiResponse({
-    status: 200,
+    status: 204,
     description: 'Deletes current Faq',
-    type: Boolean,
   })
   @ApiResponse({
     status: 403,
@@ -149,8 +149,9 @@ export class FaqController {
     status: 404,
     description: 'faq not found|owner not found',
   })
+  @HttpCode(204)
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<boolean> {
+  remove(@Param('id') id: string): Promise<void> {
     return this.faqService.remove(+id);
   }
 }

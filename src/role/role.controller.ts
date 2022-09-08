@@ -10,6 +10,7 @@ import {
   ValidationPipe,
   Query,
   UseGuards,
+  HttpCode,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -134,9 +135,8 @@ export class RoleController {
   @UseGuards(OwnerJwtGuard)
   @ApiOperation({ summary: 'Delete current Role' })
   @ApiResponse({
-    status: 200,
+    status: 204,
     description: 'Deletes current Role',
-    type: Boolean,
   })
   @ApiResponse({
     status: 403,
@@ -146,8 +146,9 @@ export class RoleController {
     status: 404,
     description: 'role not found|owner not found',
   })
+  @HttpCode(204)
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<boolean> {
+  remove(@Param('id') id: string): Promise<void> {
     return this.roleService.remove(+id);
   }
 }

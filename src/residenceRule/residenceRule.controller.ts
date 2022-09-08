@@ -10,6 +10,7 @@ import {
   ValidationPipe,
   Query,
   UseGuards,
+  HttpCode,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -137,9 +138,8 @@ export class ResidenceRuleController {
   @UseGuards(HostJwtGuard)
   @ApiOperation({ summary: 'Delete current ResidenceRule' })
   @ApiResponse({
-    status: 200,
+    status: 204,
     description: 'Deletes current ResidenceRule',
-    type: Boolean,
   })
   @ApiResponse({
     status: 403,
@@ -149,8 +149,9 @@ export class ResidenceRuleController {
     status: 404,
     description: 'residencerule not found|owner not found',
   })
+  @HttpCode(204)
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<boolean> {
+  remove(@Param('id') id: string): Promise<void> {
     return this.residenceRuleService.remove(+id);
   }
 }

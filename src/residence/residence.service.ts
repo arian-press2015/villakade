@@ -154,7 +154,7 @@ export class ResidenceService {
     return residence;
   }
 
-  async remove(id: number): Promise<boolean> {
-    return true;
+  async remove(id: number): Promise<void> {
+    return;
   }
 }

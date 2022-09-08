@@ -9,6 +9,7 @@ import {
   UsePipes,
   ValidationPipe,
   Query,
+  HttpCode,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -137,9 +138,8 @@ export class CustomerController {
   // @ApiBearerAuth()
   @ApiOperation({ summary: 'Delete current Customer' })
   @ApiResponse({
-    status: 200,
+    status: 204,
     description: 'Deletes current Customer',
-    type: Boolean,
   })
   @ApiResponse({
     status: 403,
@@ -149,8 +149,9 @@ export class CustomerController {
     status: 404,
     description: 'customer not found|owner not found',
   })
+  @HttpCode(204)
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<boolean> {
+  remove(@Param('id') id: string): Promise<void> {
     return this.customerService.remove(+id);
   }
 }

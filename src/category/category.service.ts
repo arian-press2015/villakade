@@ -53,7 +53,7 @@ export class CategoryService {
     return category;
   }
 
-  async remove(id: number): Promise<boolean> {
-    return true;
+  async remove(id: number): Promise<void> {
+    return;
   }
 }
