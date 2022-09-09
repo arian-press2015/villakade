@@ -34,7 +34,11 @@ export class ProvinceService {
     } catch (e) {
       console.log('Error in ProvinceService.create()', e.code, e.meta);
       if (e.code && e.code === 'P2002') {
-        throw new BadRequestException('province already exists');
+        if (e.meta.target === 'province_name_UN') {
+          throw new BadRequestException('name is taken before');
+        } else if (e.meta.target === 'province_fa_name_UN') {
+          throw new BadRequestException('fa_name is taken before');
+        }
       }
     }
   }

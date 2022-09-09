@@ -80,7 +80,7 @@ describe('ProvinceService', () => {
       expect(prisma.province.create).toBeCalledTimes(1);
     });
 
-    it('should throw error if the province already exists', async () => {
+    it('should throw error if the province name already taken', async () => {
       // mock prisma return value
       PrismaMockService.province.create.mockRejectedValue({
         code: 'P2002',
@@ -92,8 +92,23 @@ describe('ProvinceService', () => {
         fa_name: 'فارس',
       };
 
+      await expect(service.create(dto)).rejects.toThrow('name is taken before');
+    });
+
+    it('should throw error if the province fa_name already taken', async () => {
+      // mock prisma return value
+      PrismaMockService.province.create.mockRejectedValue({
+        code: 'P2002',
+        meta: { target: 'province_fa_name_UN' },
+      });
+
+      const dto: CreateProvinceDto = {
+        name: 'fars',
+        fa_name: 'فارس',
+      };
+
       await expect(service.create(dto)).rejects.toThrow(
-        'province already exists',
+        'fa_name is taken before',
       );
     });
   });
