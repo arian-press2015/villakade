@@ -124,20 +124,34 @@ export class ProvinceService {
     id: number,
     updateProvinceDto: UpdateProvinceDto,
   ): Promise<Province> {
-    const province = {
-      id,
-      name: updateProvinceDto.name || 'fars',
-      fa_name: updateProvinceDto.fa_name || 'فارس',
-      city: [
-        {
-          id: 123,
-          name: 'shiraz',
-          fa_name: 'شیراز',
-          total_residence_count: 12,
+    try {
+      const province = await this.prisma.province.update({
+        select,
+        data: {
+          name: updateProvinceDto.name,
+          fa_name: updateProvinceDto.fa_name,
         },
-      ],
-    };
-    return province;
+        where: {
+          id,
+        },
+      });
+      return province;
+    } catch (e) {
+      console.log('Error in ProvinceService.update()', e.code, e.meta);
+      if (e.code && e.code === 'P2002') {
+        if (e.meta.target === 'province_name_UN') {
+          throw new BadRequestException('name is taken before');
+        } else if (e.meta.target === 'province_fa_name_UN') {
+          throw new BadRequestException('fa_name is taken before');
+        }
+      } else if (
+        e.code &&
+        e.code === 'P2025' &&
+        e.meta.target === 'Record to update not found.'
+      ) {
+        throw new BadRequestException('province not found');
+      }
+    }
   }
 
   async remove(id: number): Promise<void> {

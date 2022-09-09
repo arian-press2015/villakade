@@ -1,4 +1,3 @@
-import { HttpException } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import configuration from '../config/configuration';
@@ -367,6 +366,82 @@ describe('ProvinceService', () => {
       PrismaMockService.province.findUnique.mockResolvedValue(null);
 
       await expect(service.findOne(1000)).rejects.toThrow('province not found');
+    });
+  });
+
+  describe('async update(id: string, updateProvinceDto: UpdateProvinceDto): Promise<Province>', () => {
+    const province = {
+      id: 1,
+      name: 'pars',
+      fa_name: 'فارس',
+      city: [
+        {
+          id: 1,
+          name: 'shiraz',
+          fa_name: 'شیراز',
+          total_residence_count: 1,
+        },
+        {
+          id: 2,
+          name: 'kazerun',
+          fa_name: 'کازرون',
+          total_residence_count: 0,
+        },
+      ],
+    };
+    it('should update province by id', async () => {
+      // mock prisma return value
+      PrismaMockService.province.update.mockResolvedValue(province);
+
+      const result = await service.update(1, { name: 'pars' });
+      expect(result).toStrictEqual(province);
+      expect(prisma.province.update).toBeCalledWith({
+        select,
+        data: {
+          name: 'pars',
+          fa_name: undefined,
+        },
+        where: {
+          id: 1,
+        },
+      });
+      expect(prisma.province.update).toBeCalledTimes(1);
+    });
+
+    it("should throw if id doesn't exist", async () => {
+      // mock prisma return value
+      PrismaMockService.province.update.mockRejectedValue({
+        code: 'P2025',
+        meta: { target: 'Record to update not found.' },
+      });
+
+      await expect(service.update(1000, { name: 'name' })).rejects.toThrow(
+        'province not found',
+      );
+    });
+
+    it('should throw error if the province name already taken', async () => {
+      // mock prisma return value
+      PrismaMockService.province.update.mockRejectedValue({
+        code: 'P2002',
+        meta: { target: 'province_name_UN' },
+      });
+
+      await expect(service.update(2, { name: 'fars' })).rejects.toThrow(
+        'name is taken before',
+      );
+    });
+
+    it('should throw error if the province fa_name already taken', async () => {
+      // mock prisma return value
+      PrismaMockService.province.update.mockRejectedValue({
+        code: 'P2002',
+        meta: { target: 'province_fa_name_UN' },
+      });
+
+      await expect(service.update(2, { fa_name: 'اصفهان' })).rejects.toThrow(
+        'fa_name is taken before',
+      );
     });
   });
 });

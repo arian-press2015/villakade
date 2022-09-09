@@ -123,5 +123,7 @@
   "pool must be a boolean": "وضعیت استخر باید از نوع بولین باشد",
   "categoryimage already exists": "تصویر دسته بندی قبلا ثبت شده است",
   "categoryimage not found": "تصویر دسته بندی یافت نشد",
-  "only jpg and png images are supported": "تصاویر فقط با پسوند های jpg و png قابل قبول هستند"
+  "only jpg and png images are supported": "تصاویر فقط با پسوند های jpg و png قابل قبول هستند",
+  "name is taken before": "فیلد نام تکراری است",
+  "fa_name is taken before": "فیلد نام فارسی تکراری است"
 }
