@@ -147,7 +147,7 @@ export class ProvinceService {
       } else if (
         e.code &&
         e.code === 'P2025' &&
-        e.meta.target === 'Record to update not found.'
+        e.meta.cause === 'Record to update not found.'
       ) {
         throw new BadRequestException('province not found');
       }
@@ -155,6 +155,17 @@ export class ProvinceService {
   }
 
   async remove(id: number): Promise<void> {
-    return;
+    try {
+      await this.prisma.province.delete({ where: { id } });
+      return;
+    } catch (e) {
+      if (
+        e.code &&
+        e.code === 'P2025' &&
+        e.meta.cause === 'Record to delete does not exist.'
+      ) {
+        throw new BadRequestException('province not found');
+      }
+    }
   }
 }

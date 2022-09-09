@@ -412,7 +412,7 @@ describe('ProvinceService', () => {
       // mock prisma return value
       PrismaMockService.province.update.mockRejectedValue({
         code: 'P2025',
-        meta: { target: 'Record to update not found.' },
+        meta: { cause: 'Record to update not found.' },
       });
 
       await expect(service.update(1000, { name: 'name' })).rejects.toThrow(
@@ -442,6 +442,48 @@ describe('ProvinceService', () => {
       await expect(service.update(2, { fa_name: 'اصفهان' })).rejects.toThrow(
         'fa_name is taken before',
       );
+    });
+  });
+
+  describe('async delete(id: string): Promise<void>', () => {
+    const province = {
+      id: 1,
+      name: 'fars',
+      fa_name: 'فارس',
+      city: [
+        {
+          id: 1,
+          name: 'shiraz',
+          fa_name: 'شیراز',
+          total_residence_count: 1,
+        },
+        {
+          id: 2,
+          name: 'kazerun',
+          fa_name: 'کازرون',
+          total_residence_count: 0,
+        },
+      ],
+    };
+    it('should delete province by id', async () => {
+      // mock prisma return value
+      PrismaMockService.province.delete.mockResolvedValue(province);
+
+      await service.remove(1);
+      expect(prisma.province.delete).toBeCalledWith({
+        where: { id: 1 },
+      });
+      expect(prisma.province.delete).toBeCalledTimes(1);
+    });
+
+    it("should throw if id doesn't exist", async () => {
+      // mock prisma return value
+      PrismaMockService.province.delete.mockRejectedValue({
+        code: 'P2025',
+        meta: { cause: 'Record to delete does not exist.' },
+      });
+
+      await expect(service.remove(1000)).rejects.toThrow('province not found');
     });
   });
 });
