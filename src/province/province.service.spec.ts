@@ -2,7 +2,7 @@ import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import configuration from '../config/configuration';
 import { PrismaService } from '../shared/services/prisma.service';
-import prismaMockService from '../shared/services/prismaMock.service';
+import PrismaMockService from '../shared/services/prismaMock.service';
 import { CreateProvinceDto, FilterProvinceDto, Province } from './dto';
 import { ProvinceService } from './province.service';
 
@@ -30,7 +30,7 @@ describe('ProvinceService', () => {
         ProvinceService,
         {
           provide: PrismaService,
-          useFactory: () => prismaMockService,
+          useFactory: () => PrismaMockService,
         },
       ],
       imports: [
@@ -57,7 +57,7 @@ describe('ProvinceService', () => {
   describe('async create(dto: CreateProvinceDto): Promise<Province>', () => {
     it('should create new Province and return it', async () => {
       // mock prisma return value
-      prismaMockService.province.create.mockResolvedValue({
+      PrismaMockService.province.create.mockResolvedValue({
         id: 1,
         name: 'fars',
         fa_name: 'فارس',
@@ -81,7 +81,7 @@ describe('ProvinceService', () => {
 
     it('should throw error if the province already exists', async () => {
       // mock prisma return value
-      prismaMockService.province.create.mockRejectedValue({
+      PrismaMockService.province.create.mockRejectedValue({
         code: 'P2002',
         meta: { target: 'province_name_UN' },
       });
@@ -135,7 +135,7 @@ describe('ProvinceService', () => {
 
     it('should return all provinces', async () => {
       // mock prisma return value
-      prismaMockService.province.findMany.mockResolvedValue(provinces);
+      PrismaMockService.province.findMany.mockResolvedValue(provinces);
 
       const dto: FilterProvinceDto = {};
       const result = await service.findAll(dto);
@@ -152,7 +152,7 @@ describe('ProvinceService', () => {
 
     it("should return all provinces where name === 'fa'", async () => {
       // mock prisma return value
-      prismaMockService.province.findMany.mockResolvedValue([provinces[0]]);
+      PrismaMockService.province.findMany.mockResolvedValue([provinces[0]]);
 
       const dto: FilterProvinceDto = {
         name: 'fa',
@@ -172,7 +172,7 @@ describe('ProvinceService', () => {
 
     it("should return all provinces where fa_name === 'فا'", async () => {
       // mock prisma return value
-      prismaMockService.province.findMany.mockResolvedValue([provinces[0]]);
+      PrismaMockService.province.findMany.mockResolvedValue([provinces[0]]);
 
       const dto: FilterProvinceDto = {
         fa_name: 'فا',
@@ -194,7 +194,7 @@ describe('ProvinceService', () => {
       // mock prisma return value
       const mockData: Province[] = [provinces[0]];
       mockData[0].city.pop();
-      prismaMockService.province.findMany.mockResolvedValue(mockData);
+      PrismaMockService.province.findMany.mockResolvedValue(mockData);
 
       const dto: FilterProvinceDto = {
         fa_name: 'فا',
@@ -215,7 +215,7 @@ describe('ProvinceService', () => {
 
     it('should return provinces based on offset', async () => {
       // mock prisma return value
-      prismaMockService.province.findMany.mockResolvedValue([provinces[1]]);
+      PrismaMockService.province.findMany.mockResolvedValue([provinces[1]]);
 
       const dto: FilterProvinceDto = {
         offset: '1',
@@ -235,7 +235,7 @@ describe('ProvinceService', () => {
 
     it('should sort provinces based on sort', async () => {
       // mock prisma return value
-      prismaMockService.province.findMany.mockResolvedValue([
+      PrismaMockService.province.findMany.mockResolvedValue([
         provinces[1],
         provinces[0],
       ]);
@@ -254,6 +254,62 @@ describe('ProvinceService', () => {
         orderBy: { name: 'asc' },
       });
       expect(prisma.province.findMany).toBeCalledTimes(1);
+    });
+  });
+
+  describe('async getCount(dto: FilterProvinceDto): Promise<number>', () => {
+    it('should return province count based on limit', async () => {
+      // mock prisma return value
+      PrismaMockService.province.count.mockResolvedValue(1);
+
+      const dto: FilterProvinceDto = {
+        limit: '1',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(1);
+      expect(prisma.province.count).toBeCalledWith({
+        where: {},
+        skip: undefined,
+        take: 1,
+      });
+      expect(prisma.province.count).toBeCalledTimes(1);
+    });
+
+    it('should return province count based on offset', async () => {
+      // mock prisma return value
+      PrismaMockService.province.count.mockResolvedValue(1);
+
+      const dto: FilterProvinceDto = {
+        offset: '1',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(1);
+      expect(prisma.province.count).toBeCalledWith({
+        where: {},
+        skip: 1,
+        take: undefined,
+      });
+      expect(prisma.province.count).toBeCalledTimes(1);
+    });
+
+    it("should return province count based on name=='fa'", async () => {
+      // mock prisma return value
+      PrismaMockService.province.count.mockResolvedValue(1);
+
+      const dto: FilterProvinceDto = {
+        name: 'fa',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(1);
+      expect(prisma.province.count).toBeCalledWith({
+        where: { name: { contains: 'fa' } },
+        skip: undefined,
+        take: undefined,
+      });
+      expect(prisma.province.count).toBeCalledTimes(1);
     });
   });
 });

@@ -40,17 +40,36 @@ export class ProvinceService {
   }
 
   async getCount(filterProvinceDto: FilterProvinceDto): Promise<number> {
-    // this.prisma.province.count()
-    return 1;
+    const where: {
+      fa_name?: { contains: string };
+      name?: { contains: string };
+    } = {};
+    if (filterProvinceDto.fa_name) {
+      where.fa_name = {
+        contains: filterProvinceDto.fa_name,
+      };
+    } else if (filterProvinceDto.name) {
+      where.name = {
+        contains: filterProvinceDto.name,
+      };
+    }
+
+    const count = await this.prisma.province.count({
+      where,
+      skip: filterProvinceDto.offset
+        ? parseInt(filterProvinceDto.offset)
+        : undefined,
+      take: filterProvinceDto.limit
+        ? parseInt(filterProvinceDto.limit)
+        : undefined,
+    });
+    return count;
   }
 
   async findAll(filterProvinceDto: FilterProvinceDto): Promise<Province[]> {
     const where: {
       fa_name?: { contains: string };
       name?: { contains: string };
-      offset?: number;
-      limit?: number;
-      sort?: string;
     } = {};
     if (filterProvinceDto.fa_name) {
       where.fa_name = {
