@@ -1,3 +1,4 @@
+import { HttpException } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import configuration from '../config/configuration';
@@ -310,6 +311,47 @@ describe('ProvinceService', () => {
         take: undefined,
       });
       expect(prisma.province.count).toBeCalledTimes(1);
+    });
+  });
+
+  describe('async findOne(id: string): Promise<Province>', () => {
+    const province = {
+      id: 1,
+      name: 'fars',
+      fa_name: 'فارس',
+      city: [
+        {
+          id: 1,
+          name: 'shiraz',
+          fa_name: 'شیراز',
+          total_residence_count: 1,
+        },
+        {
+          id: 2,
+          name: 'kazerun',
+          fa_name: 'کازرون',
+          total_residence_count: 0,
+        },
+      ],
+    };
+    it('should return province by id', async () => {
+      // mock prisma return value
+      PrismaMockService.province.findUnique.mockResolvedValue(province);
+
+      const result = await service.findOne(2);
+      expect(result).toStrictEqual(province);
+      expect(prisma.province.findUnique).toBeCalledWith({
+        select,
+        where: { id: 2 },
+      });
+      expect(prisma.province.findUnique).toBeCalledTimes(1);
+    });
+
+    it("should throw if id doesn't exist", async () => {
+      // mock prisma return value
+      PrismaMockService.province.findUnique.mockResolvedValue(null);
+
+      await expect(service.findOne(1000)).rejects.toThrow('province not found');
     });
   });
 });
