@@ -1,4 +1,4 @@
-import { BadRequestException, HttpException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../shared/services/prisma.service';
 import {
   Province,
@@ -114,7 +114,7 @@ export class ProvinceService {
     });
 
     if (province === null) {
-      throw new HttpException('province not found', 400);
+      throw new BadRequestException('province not found');
     }
 
     return province;
