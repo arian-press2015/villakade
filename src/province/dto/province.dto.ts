@@ -28,7 +28,7 @@ export class Province {
     ],
     description: 'cities of the Province',
   })
-  readonly cities: ProvinceCity[];
+  readonly city: ProvinceCity[];
 }
 
 export class ProvinceUnpopulated {
