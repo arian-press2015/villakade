@@ -10,6 +10,7 @@ import {
   ValidationPipe,
   Query,
   UseGuards,
+  HttpCode,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -79,7 +80,8 @@ export class TypeController {
   })
   @ApiResponse({
     status: 400,
-    description: 'title must be a string|fa_title must be a string',
+    description:
+      'offset must be a positive number|limit must be a positive number|sort must be a string|title must be a string|fa_title must be a string',
   })
   @Get()
   findAll(@Query() filterTypeDto: FilterTypeDto): Promise<Type[]> {
@@ -115,6 +117,10 @@ export class TypeController {
     type: Type,
   })
   @ApiResponse({
+    status: 400,
+    description: 'title must be a string|fa_title must be a string',
+  })
+  @ApiResponse({
     status: 403,
     description: "you don't have permission to do that",
   })
@@ -134,9 +140,8 @@ export class TypeController {
   @UseGuards(OwnerJwtGuard)
   @ApiOperation({ summary: 'Delete current Type' })
   @ApiResponse({
-    status: 200,
+    status: 204,
     description: 'Deletes current Type',
-    type: Boolean,
   })
   @ApiResponse({
     status: 403,
@@ -146,8 +151,9 @@ export class TypeController {
     status: 404,
     description: 'type not found|owner not found',
   })
+  @HttpCode(204)
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<boolean> {
+  remove(@Param('id') id: string): Promise<void> {
     return this.typeService.remove(+id);
   }
 }

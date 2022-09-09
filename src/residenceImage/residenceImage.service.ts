@@ -13,7 +13,7 @@ export class ResidenceImageService {
   ): Promise<ResidenceImage> {
     const residenceImage = {
       residence_id: createResidenceImageDto.residence_id,
-      url: createResidenceImageDto.url,
+      url: '/path/to/image',
       width: createResidenceImageDto.width,
       height: createResidenceImageDto.height,
     };
@@ -63,7 +63,7 @@ export class ResidenceImageService {
     return residenceImage;
   }
 
-  async remove(id: number): Promise<boolean> {
-    return true;
+  async remove(id: number): Promise<void> {
+    return;
   }
 }

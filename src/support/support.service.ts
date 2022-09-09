@@ -57,7 +57,7 @@ export class SupportService {
     return support;
   }
 
-  async remove(id: number): Promise<boolean> {
-    return true;
+  async remove(id: number): Promise<void> {
+    return;
   }
 }

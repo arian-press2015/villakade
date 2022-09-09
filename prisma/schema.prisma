@@ -105,6 +105,7 @@ model residence_attribute {
   pool_table          Boolean   @default(false)
   ping_pong_table     Boolean   @default(false)
   pool                Boolean   @default(false)
+  vip                 Boolean   @default(false)
   residence           residence @relation(fields: [residence_id], references: [id], map: "residence_attribute_FK")
 }
 
@@ -144,6 +145,52 @@ model type {
   title     String      @unique(map: "type_title_UN") @db.VarChar(20)
   fa_title  String      @unique(map: "type_title_fa_UN") @db.VarChar(20)
   residence residence[]
+}
+
+model customer {
+  id         Int     @id @default(autoincrement())
+  first_name String  @default("کاربر") @db.VarChar(20)
+  last_name  String  @default("گرامی") @db.VarChar(30)
+  phone      String  @unique(map: "customer_UN") @db.VarChar(13)
+  active     Boolean @default(false)
+}
+
+model owner {
+  id         Int    @id @default(autoincrement())
+  first_name String @db.VarChar(20)
+  last_name  String @db.VarChar(30)
+  phone      String @unique(map: "owner_UN") @db.VarChar(13)
+  username   String @db.VarChar(20)
+  password   String @db.VarChar(100)
+  role_id    Int
+  role       role   @relation(fields: [role_id], references: [id], map: "owner_FK")
+
+  @@index([role_id], map: "owner_FK")
+}
+
+model permission {
+  id              Int               @id @default(autoincrement())
+  title           String            @unique(map: "permission_UN") @db.VarChar(30)
+  fa_title        String            @unique(map: "permission_UN1") @db.VarChar(30)
+  role_permission role_permission[]
+}
+
+model role {
+  id              Int               @id @default(autoincrement())
+  title           String            @unique(map: "role_UN") @db.VarChar(30)
+  fa_title        String            @unique(map: "role_UN1") @db.VarChar(30)
+  owner           owner[]
+  role_permission role_permission[]
+}
+
+model role_permission {
+  role_id       Int
+  permission_id Int
+  permission    permission @relation(fields: [permission_id], references: [id], map: "role_permission_FK")
+  role          role       @relation(fields: [role_id], references: [id], map: "role_permission_FK_1")
+
+  @@id([role_id, permission_id])
+  @@index([permission_id], map: "role_permission_FK")
 }
 
 enum faq_faq_type {

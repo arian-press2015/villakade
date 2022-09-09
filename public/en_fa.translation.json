@@ -70,7 +70,7 @@
   "faq not found": "پرسش پرکاربرد یافت نشد",
   "host already exists": "میزبان قبلا ثبت شده است",
   "vip is required": "وضعیت حساب ویژه اجباری است",
-  "vip must be a boolean": "وضعیت حساب ویژه باید از نوع بولین است",
+  "vip must be a boolean": "وضعیت ویژه باید از نوع بولین باشد",
   "host not found": "میزبان یافت نشد",
   "username is required": "نام کاربری اجباری است",
   "username must be a string": "نام کاربری باید متنی باشد",
@@ -122,5 +122,6 @@
   "ping_pong_table must be a boolean": "وضعیت میز تنیس باید از نوع بولین باشد",
   "pool must be a boolean": "وضعیت استخر باید از نوع بولین باشد",
   "categoryimage already exists": "تصویر دسته بندی قبلا ثبت شده است",
-  "categoryimage not found": "تصویر دسته بندی یافت نشد"
+  "categoryimage not found": "تصویر دسته بندی یافت نشد",
+  "only jpg and png images are supported": "تصاویر فقط با پسوند های jpg و png قابل قبول هستند"
 }

@@ -10,6 +10,7 @@ import {
   ValidationPipe,
   Query,
   UseGuards,
+  HttpCode,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -83,7 +84,8 @@ export class ContactUsController {
   })
   @ApiResponse({
     status: 400,
-    description: 'full_name must be a string|description must be a string',
+    description:
+      'offset must be a positive number|limit must be a positive number|sort must be a string|full_name must be a string|description must be a string',
   })
   @Get()
   findAll(
@@ -121,6 +123,11 @@ export class ContactUsController {
     type: ContactUs,
   })
   @ApiResponse({
+    status: 400,
+    description:
+      'title must be a string|phone must be a string|full_name must be a string|description must be a string',
+  })
+  @ApiResponse({
     status: 403,
     description: "you don't have permission to do that",
   })
@@ -140,9 +147,8 @@ export class ContactUsController {
   @UseGuards(OwnerJwtGuard)
   @ApiOperation({ summary: 'Delete current ContactUs' })
   @ApiResponse({
-    status: 200,
+    status: 204,
     description: 'Deletes current ContactUs',
-    type: Boolean,
   })
   @ApiResponse({
     status: 403,
@@ -152,8 +158,9 @@ export class ContactUsController {
     status: 404,
     description: 'contactus not found|owner not found',
   })
+  @HttpCode(204)
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<boolean> {
+  remove(@Param('id') id: string): Promise<void> {
     return this.contactUsService.remove(+id);
   }
 }

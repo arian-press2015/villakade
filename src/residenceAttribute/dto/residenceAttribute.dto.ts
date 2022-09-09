@@ -138,4 +138,10 @@ export class ResidenceAttribute {
     description: 'pool status of the ResidenceAttribute',
   })
   readonly pool: boolean;
+
+  @ApiProperty({
+    example: false,
+    description: 'vip status of the ResidenceAttribute',
+  })
+  readonly vip: boolean;
 }

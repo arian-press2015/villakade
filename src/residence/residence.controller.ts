@@ -10,6 +10,7 @@ import {
   ValidationPipe,
   Query,
   UseGuards,
+  HttpCode,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -89,7 +90,8 @@ export class ResidenceController {
   @ApiResponse({
     status: 400,
     description:
-      'host_id must be a positive number|type_id must be a positive number|location must be a string|city_id must be a positive number' +
+      'offset must be a positive number|limit must be a positive number|sort must be a string|host_id must be a positive number' +
+      '|type_id must be a positive number|location must be a string|city_id must be a positive number' +
       '|price must be a positive number|activation status must be a boolean',
   })
   @Get()
@@ -128,6 +130,12 @@ export class ResidenceController {
     type: Residence,
   })
   @ApiResponse({
+    status: 400,
+    description:
+      'host_id must be a positive number|title must be a string|type_id must be a positive number|location must be a string' +
+      '|city_id must be a positive number|price must be a positive number|activation status must be a boolean',
+  })
+  @ApiResponse({
     status: 403,
     description: "you don't have permission to do that",
   })
@@ -147,9 +155,8 @@ export class ResidenceController {
   @UseGuards(HostJwtGuard)
   @ApiOperation({ summary: 'Delete current Residence' })
   @ApiResponse({
-    status: 200,
+    status: 204,
     description: 'Deletes current Residence',
-    type: Boolean,
   })
   @ApiResponse({
     status: 403,
@@ -159,8 +166,9 @@ export class ResidenceController {
     status: 404,
     description: 'residence not found|owner not found',
   })
+  @HttpCode(204)
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<boolean> {
+  remove(@Param('id') id: string): Promise<void> {
     return this.residenceService.remove(+id);
   }
 }

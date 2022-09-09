@@ -10,6 +10,7 @@ import {
   ValidationPipe,
   Query,
   UseGuards,
+  HttpCode,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -82,7 +83,8 @@ export class FaqController {
   @ApiResponse({
     status: 400,
     description:
-      'faq_type must be a string|question must be a string|answer must be a string',
+      'offset must be a positive number|limit must be a positive number|sort must be a string|faq_type must be a string|question must be a string' +
+      '|answer must be a string',
   })
   @Get()
   findAll(@Query() filterFaqDto: FilterFaqDto): Promise<Faq[]> {
@@ -118,6 +120,11 @@ export class FaqController {
     type: Faq,
   })
   @ApiResponse({
+    status: 400,
+    description:
+      'faq_type must be a string|question must be a string|answer must be a string',
+  })
+  @ApiResponse({
     status: 403,
     description: "you don't have permission to do that",
   })
@@ -137,9 +144,8 @@ export class FaqController {
   @UseGuards(OwnerJwtGuard)
   @ApiOperation({ summary: 'Delete current Faq' })
   @ApiResponse({
-    status: 200,
+    status: 204,
     description: 'Deletes current Faq',
-    type: Boolean,
   })
   @ApiResponse({
     status: 403,
@@ -149,8 +155,9 @@ export class FaqController {
     status: 404,
     description: 'faq not found|owner not found',
   })
+  @HttpCode(204)
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<boolean> {
+  remove(@Param('id') id: string): Promise<void> {
     return this.faqService.remove(+id);
   }
 }

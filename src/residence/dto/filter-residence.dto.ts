@@ -8,13 +8,45 @@ import {
 
 export class FilterResidenceDto {
   @IsOptional()
+  @IsNumberString({ message: 'offset must be a positive number' })
+  @ApiProperty({
+    required: false,
+    example: '0',
+    description: 'offset of the residence',
+  })
+  readonly offset?: string;
+
+  @IsOptional()
+  @IsNumberString({ message: 'limit must be a positive number' })
+  @ApiProperty({
+    required: false,
+    example: '0',
+    description: 'limit of the residence',
+  })
+  readonly limit?: string;
+
+  @IsOptional()
+  @IsString({ message: 'sort must be a string' })
+  @ApiProperty({
+    required: false,
+    example: 'field1:asc,field2:desc',
+    description: 'sort of the residence',
+  })
+  readonly sort?: string;
+
+  @IsOptional()
   @IsNumberString({ message: 'host_id must be a positive number' })
-  @ApiProperty({ example: '12345', description: 'host_id of the residence' })
+  @ApiProperty({
+    required: false,
+    example: '12345',
+    description: 'host_id of the residence',
+  })
   readonly host_id?: string;
 
   @IsOptional()
   @IsString({ message: 'title must be a string' })
   @ApiProperty({
+    required: false,
     example: 'آپارتمان در شیراز',
     description: 'title of the Residence',
   })
@@ -22,12 +54,17 @@ export class FilterResidenceDto {
 
   @IsOptional()
   @IsNumberString({ message: 'type_id must be a positive number' })
-  @ApiProperty({ example: '12345', description: 'type_id of the residence' })
+  @ApiProperty({
+    required: false,
+    example: '12345',
+    description: 'type_id of the residence',
+  })
   readonly type_id?: string;
 
   @IsOptional()
   @IsString({ message: 'location must be a string' })
   @ApiProperty({
+    required: false,
     example: 'شیراز دست چپ پلاک دو',
     description: 'location of the Residence',
   })
@@ -35,17 +72,26 @@ export class FilterResidenceDto {
 
   @IsOptional()
   @IsNumberString({ message: 'city_id must be a positive number' })
-  @ApiProperty({ example: '12345', description: 'city_id of the residence' })
+  @ApiProperty({
+    required: false,
+    example: '12345',
+    description: 'city_id of the residence',
+  })
   readonly city_id?: string;
 
   @IsOptional()
   @IsNumberString({ message: 'price must be a positive number' })
-  @ApiProperty({ example: '200000', description: 'price of the residence' })
+  @ApiProperty({
+    required: false,
+    example: '200000',
+    description: 'price of the residence',
+  })
   readonly price?: string;
 
   @IsOptional()
   @IsBooleanString({ message: 'activation status must be a boolean' })
   @ApiProperty({
+    required: false,
     example: 'true',
     description: 'activity status of the residence',
   })

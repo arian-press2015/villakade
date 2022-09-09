@@ -5,10 +5,18 @@ import {
   SwaggerCustomOptions,
   SwaggerModule,
 } from '@nestjs/swagger';
+import logger from './shared/logger';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    cors: {
+      origin: 'http://localhost:3001',
+      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+      credentials: true,
+    },
+    logger,
+  });
   const configService = app.get(ConfigService);
 
   const swaggerConfig = new DocumentBuilder()

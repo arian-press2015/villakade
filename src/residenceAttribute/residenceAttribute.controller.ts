@@ -10,6 +10,7 @@ import {
   ValidationPipe,
   Query,
   UseGuards,
+  HttpCode,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -102,11 +103,12 @@ export class ResidenceAttributeController {
   @ApiResponse({
     status: 400,
     description:
-      'residenceattribute already exists|residence_id must be a positive number|residence_size must be a positive number|residence_yard_size must be a positive number' +
-      '|bedroom_count must be a positive number|capacity must be a positive number|in_time must be a string|out_time must be a string|pet must be a boolean' +
-      '|instant_delivery must be a boolean|dishes must be a boolean|dining_table must be a boolean|microwave must be a boolean|fridge must be a boolean' +
-      '|water must be a boolean|electricity must be a boolean|gas must be a boolean|tv must be a boolean|elevator must be a boolean|local_wc must be a boolean' +
-      '|wc must be a boolean|pool_table must be a boolean|ping_pong_table must be a boolean|pool must be a boolean',
+      'offset must be a positive number|limit must be a positive number|sort must be a string|residence_id must be a positive number' +
+      '|residence_size must be a positive number|residence_yard_size must be a positive number|bedroom_count must be a positive number|capacity must be a positive number' +
+      '|in_time must be a string|out_time must be a string|pet must be a boolean|instant_delivery must be a boolean|dishes must be a boolean' +
+      '|dining_table must be a boolean|microwave must be a boolean|fridge must be a boolean|water must be a boolean|electricity must be a boolean' +
+      '|gas must be a boolean|tv must be a boolean|elevator must be a boolean|local_wc must be a boolean|wc must be a boolean|pool_table must be a boolean' +
+      '|ping_pong_table must be a boolean|pool must be a boolean',
   })
   @Get()
   findAll(
@@ -144,6 +146,10 @@ export class ResidenceAttributeController {
     type: ResidenceAttribute,
   })
   @ApiResponse({
+    status: 400,
+    description: 'residence_id must be a positive number',
+  })
+  @ApiResponse({
     status: 403,
     description: "you don't have permission to do that",
   })
@@ -166,9 +172,8 @@ export class ResidenceAttributeController {
   @UseGuards(HostJwtGuard)
   @ApiOperation({ summary: 'Delete current ResidenceAttribute' })
   @ApiResponse({
-    status: 200,
+    status: 204,
     description: 'Deletes current ResidenceAttribute',
-    type: Boolean,
   })
   @ApiResponse({
     status: 403,
@@ -178,8 +183,9 @@ export class ResidenceAttributeController {
     status: 404,
     description: 'residenceattribute not found|owner not found',
   })
+  @HttpCode(204)
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<boolean> {
+  remove(@Param('id') id: string): Promise<void> {
     return this.residenceAttributeService.remove(+id);
   }
 }

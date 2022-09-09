@@ -9,6 +9,7 @@ import {
   UsePipes,
   ValidationPipe,
   Query,
+  HttpCode,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -84,7 +85,8 @@ export class CustomerController {
   @ApiResponse({
     status: 400,
     description:
-      'first_name must be a string|last_name must be a string|phone must be a string|activation status must be a boolean',
+      'offset must be a positive number|limit must be a positive number|sort must be a string|first_name must be a string' +
+      '|last_name must be a string|phone must be a string|activation status must be a boolean',
   })
   @Get()
   findAll(@Query() filterCustomerDto: FilterCustomerDto): Promise<Customer[]> {
@@ -119,6 +121,11 @@ export class CustomerController {
     type: Customer,
   })
   @ApiResponse({
+    status: 400,
+    description:
+      'first_name must be a string|last_name must be a string|phone must be a string|activation status must be a boolean',
+  })
+  @ApiResponse({
     status: 403,
     description: "you don't have permission to do that",
   })
@@ -137,9 +144,8 @@ export class CustomerController {
   // @ApiBearerAuth()
   @ApiOperation({ summary: 'Delete current Customer' })
   @ApiResponse({
-    status: 200,
+    status: 204,
     description: 'Deletes current Customer',
-    type: Boolean,
   })
   @ApiResponse({
     status: 403,
@@ -149,8 +155,9 @@ export class CustomerController {
     status: 404,
     description: 'customer not found|owner not found',
   })
+  @HttpCode(204)
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<boolean> {
+  remove(@Param('id') id: string): Promise<void> {
     return this.customerService.remove(+id);
   }
 }

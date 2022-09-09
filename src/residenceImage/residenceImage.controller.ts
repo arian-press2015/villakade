@@ -10,9 +10,13 @@ import {
   ValidationPipe,
   Query,
   UseGuards,
+  HttpCode,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
+  ApiConsumes,
   ApiOperation,
   ApiResponse,
   ApiTags,
@@ -25,6 +29,8 @@ import {
   UpdateResidenceImageDto,
 } from './dto';
 import { HostJwtGuard } from '../auth/guard';
+import multerConfig from '../shared/multer';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('ResidenceImage')
 @Controller('residenceImage')
@@ -34,6 +40,8 @@ export class ResidenceImageController {
   @ApiBearerAuth()
   @UseGuards(HostJwtGuard)
   @UsePipes(new ValidationPipe())
+  @UseInterceptors(FileInterceptor('file', multerConfig('residenceImage')))
+  @ApiConsumes('multipart/form-data')
   @Post()
   @ApiOperation({ summary: 'Create new ResidenceImage' })
   @ApiResponse({
@@ -58,6 +66,7 @@ export class ResidenceImageController {
   @Post()
   create(
     @Body() createResidenceImageDto: CreateResidenceImageDto,
+    @UploadedFile() file: Express.Multer.File,
   ): Promise<ResidenceImage> {
     return this.residenceImageService.create(createResidenceImageDto);
   }
@@ -89,7 +98,8 @@ export class ResidenceImageController {
   })
   @ApiResponse({
     status: 400,
-    description: 'residence_id must be a positive number',
+    description:
+      'offset must be a positive number|limit must be a positive number|sort must be a string|residence_id must be a positive number',
   })
   @Get()
   findAll(
@@ -127,6 +137,10 @@ export class ResidenceImageController {
     type: ResidenceImage,
   })
   @ApiResponse({
+    status: 400,
+    description: 'residence_id must be a positive number',
+  })
+  @ApiResponse({
     status: 403,
     description: "you don't have permission to do that",
   })
@@ -146,9 +160,8 @@ export class ResidenceImageController {
   @UseGuards(HostJwtGuard)
   @ApiOperation({ summary: 'Delete current ResidenceImage' })
   @ApiResponse({
-    status: 200,
+    status: 204,
     description: 'Deletes current ResidenceImage',
-    type: Boolean,
   })
   @ApiResponse({
     status: 403,
@@ -158,8 +171,9 @@ export class ResidenceImageController {
     status: 404,
     description: 'residenceimage not found|owner not found',
   })
+  @HttpCode(204)
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<boolean> {
+  remove(@Param('id') id: string): Promise<void> {
     return this.residenceImageService.remove(+id);
   }
 }

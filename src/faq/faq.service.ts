@@ -49,7 +49,7 @@ export class FaqService {
     return faq;
   }
 
-  async remove(id: number): Promise<boolean> {
-    return true;
+  async remove(id: number): Promise<void> {
+    return;
   }
 }

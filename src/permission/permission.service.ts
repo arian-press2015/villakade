@@ -55,7 +55,7 @@ export class PermissionService {
     return permission;
   }
 
-  async remove(id: number): Promise<boolean> {
-    return true;
+  async remove(id: number): Promise<void> {
+    return;
   }
 }

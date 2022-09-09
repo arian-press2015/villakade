@@ -10,6 +10,7 @@ import {
   ValidationPipe,
   Query,
   UseGuards,
+  HttpCode,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -82,6 +83,11 @@ export class ResidenceRuleController {
     description: 'Returns all of the Categories',
     type: [ResidenceRule],
   })
+  @ApiResponse({
+    status: 400,
+    description:
+      'offset must be a positive number|limit must be a positive number|sort must be a string',
+  })
   @Get()
   findAll(
     @Query() filterResidenceRuleDto: FilterResidenceRuleDto,
@@ -118,6 +124,10 @@ export class ResidenceRuleController {
     type: ResidenceRule,
   })
   @ApiResponse({
+    status: 400,
+    description: 'rule_body must be a string',
+  })
+  @ApiResponse({
     status: 403,
     description: "you don't have permission to do that",
   })
@@ -137,9 +147,8 @@ export class ResidenceRuleController {
   @UseGuards(HostJwtGuard)
   @ApiOperation({ summary: 'Delete current ResidenceRule' })
   @ApiResponse({
-    status: 200,
+    status: 204,
     description: 'Deletes current ResidenceRule',
-    type: Boolean,
   })
   @ApiResponse({
     status: 403,
@@ -149,8 +158,9 @@ export class ResidenceRuleController {
     status: 404,
     description: 'residencerule not found|owner not found',
   })
+  @HttpCode(204)
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<boolean> {
+  remove(@Param('id') id: string): Promise<void> {
     return this.residenceRuleService.remove(+id);
   }
 }

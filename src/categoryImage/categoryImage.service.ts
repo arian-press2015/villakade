@@ -13,7 +13,7 @@ export class CategoryImageService {
   ): Promise<CategoryImage> {
     const categoryImage = {
       category_id: createCategoryImageDto.category_id,
-      url: createCategoryImageDto.url,
+      url: '/path/to/file',
       width: createCategoryImageDto.width,
       height: createCategoryImageDto.height,
     };
@@ -63,7 +63,7 @@ export class CategoryImageService {
     return categoryImage;
   }
 
-  async remove(id: number): Promise<boolean> {
-    return true;
+  async remove(id: number): Promise<void> {
+    return;
   }
 }

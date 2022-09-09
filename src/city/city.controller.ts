@@ -10,6 +10,7 @@ import {
   ValidationPipe,
   Query,
   UseGuards,
+  HttpCode,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -80,7 +81,8 @@ export class CityController {
   })
   @ApiResponse({
     status: 400,
-    description: 'name must be a string|fa_name must be a string',
+    description:
+      'offset must be a positive number|limit must be a positive number|sort must be a string|name must be a string|fa_name must be a string',
   })
   @Get()
   findAll(@Query() filterCityDto: FilterCityDto): Promise<City[]> {
@@ -116,6 +118,11 @@ export class CityController {
     type: City,
   })
   @ApiResponse({
+    status: 400,
+    description:
+      'province must be a positive number|name must be a string|fa_name must be a string',
+  })
+  @ApiResponse({
     status: 403,
     description: "you don't have permission to do that",
   })
@@ -135,9 +142,8 @@ export class CityController {
   @UseGuards(OwnerJwtGuard)
   @ApiOperation({ summary: 'Delete current City' })
   @ApiResponse({
-    status: 200,
+    status: 204,
     description: 'Deletes current City',
-    type: Boolean,
   })
   @ApiResponse({
     status: 403,
@@ -147,8 +153,9 @@ export class CityController {
     status: 404,
     description: 'city not found|owner not found',
   })
+  @HttpCode(204)
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<boolean> {
+  remove(@Param('id') id: string): Promise<void> {
     return this.cityService.remove(+id);
   }
 }

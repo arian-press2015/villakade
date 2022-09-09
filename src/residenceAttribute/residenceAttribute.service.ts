@@ -35,6 +35,7 @@ export class ResidenceAttributeService {
       pool_table: createResidenceAttributeDto.pool_table,
       ping_pong_table: createResidenceAttributeDto.ping_pong_table,
       pool: createResidenceAttributeDto.pool,
+      vip: createResidenceAttributeDto.vip,
     };
     return residenceAttribute;
   }
@@ -73,6 +74,7 @@ export class ResidenceAttributeService {
         pool_table: true,
         ping_pong_table: true,
         pool: true,
+        vip: true,
       },
     ];
     return residenceAttribute;
@@ -103,6 +105,7 @@ export class ResidenceAttributeService {
       pool_table: true,
       ping_pong_table: true,
       pool: true,
+      vip: true,
     };
     return residenceAttribute;
   }
@@ -136,11 +139,12 @@ export class ResidenceAttributeService {
       pool_table: updateResidenceAttributeDto.pool_table || true,
       ping_pong_table: updateResidenceAttributeDto.ping_pong_table || true,
       pool: updateResidenceAttributeDto.pool || true,
+      vip: updateResidenceAttributeDto.vip || true,
     };
     return residenceAttribute;
   }
 
-  async remove(id: number): Promise<boolean> {
-    return true;
+  async remove(id: number): Promise<void> {
+    return;
   }
 }

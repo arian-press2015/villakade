@@ -11,6 +11,7 @@ import {
   Query,
   UseGuards,
   Request,
+  HttpCode,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -116,7 +117,8 @@ export class OwnerController {
   @ApiResponse({
     status: 400,
     description:
-      'first_name is required|last_name must be a string|phone is required|username must be a string|role_id is required',
+      'offset must be a positive number|limit must be a positive number|sort must be a string|first_name is required|last_name must be a string' +
+      '|phone is required|username must be a string|role_id is required',
   })
   @Get()
   findAll(@Query() filterOwnerDto: FilterOwnerDto): Promise<Owner[]> {
@@ -154,6 +156,12 @@ export class OwnerController {
     type: Owner,
   })
   @ApiResponse({
+    status: 400,
+    description:
+      'first_name must be a string|last_name must be a string|phone must be a string|username must be a string' +
+      '|password must be a string|role_id must be a positive number',
+  })
+  @ApiResponse({
     status: 403,
     description: "you don't have permission to do that",
   })
@@ -173,9 +181,8 @@ export class OwnerController {
   @UseGuards(OwnerJwtGuard)
   @ApiOperation({ summary: 'Delete current Owner' })
   @ApiResponse({
-    status: 200,
+    status: 204,
     description: 'Deletes current Owner',
-    type: Boolean,
   })
   @ApiResponse({
     status: 403,
@@ -185,8 +192,9 @@ export class OwnerController {
     status: 404,
     description: 'owner not found|owner not found',
   })
+  @HttpCode(204)
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<boolean> {
+  remove(@Param('id') id: string): Promise<void> {
     return this.ownerService.remove(+id);
   }
 }

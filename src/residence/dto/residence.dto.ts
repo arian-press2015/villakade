@@ -1,4 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { City } from '../../city/dto';
+import { ResidenceImage } from '../../residenceImage/dto';
+import { Type } from '../../type/dto';
 
 export class Residence {
   @ApiProperty({ example: 12345, description: 'ID of the entity in database' })
@@ -13,8 +16,15 @@ export class Residence {
   })
   readonly title: string;
 
-  @ApiProperty({ example: 12345, description: 'type_id of the residence' })
-  readonly type_id: number;
+  @ApiProperty({
+    example: {
+      id: 1,
+      title: 'apartment',
+      fa_title: 'آپارتمان',
+    },
+    description: 'type of the residence',
+  })
+  readonly type: Type;
 
   @ApiProperty({
     example: 'شیراز دست چپ پلاک دو',
@@ -22,8 +32,21 @@ export class Residence {
   })
   readonly location: string;
 
-  @ApiProperty({ example: 12345, description: 'city_id of the residence' })
-  readonly city_id: number;
+  @ApiProperty({
+    example: {
+      id: 1,
+      name: 'shiraz',
+      fa_name: 'شیراز',
+      total_residence_count: 4,
+      province: {
+        id: 1,
+        name: 'shiraz',
+        fa_name: 'شیراز',
+      },
+    },
+    description: 'city_id of the residence',
+  })
+  readonly city: City;
 
   @ApiProperty({ example: 200000, description: 'price of the residence' })
   readonly price: number;
@@ -33,4 +56,17 @@ export class Residence {
     description: 'activity status of the residence',
   })
   readonly active: boolean;
+
+  @ApiProperty({
+    example: [
+      {
+        residence_id: 1,
+        url: '/fake/image/url',
+        width: 480,
+        height: 640,
+      },
+    ],
+    description: 'images of the residence',
+  })
+  readonly images: ResidenceImage[];
 }

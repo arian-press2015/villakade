@@ -11,6 +11,14 @@ const select = {
   id: true,
   name: true,
   fa_name: true,
+  city: {
+    select: {
+      id: true,
+      name: true,
+      fa_name: true,
+      total_residence_count: true,
+    },
+  },
 };
 
 @Injectable()
@@ -62,6 +70,14 @@ export class ProvinceService {
       id,
       name: 'fars',
       fa_name: 'فارس',
+      city: [
+        {
+          id: 123,
+          name: 'shiraz',
+          fa_name: 'شیراز',
+          total_residence_count: 12,
+        },
+      ],
     };
     return province;
   }
@@ -74,11 +90,19 @@ export class ProvinceService {
       id,
       name: updateProvinceDto.name || 'fars',
       fa_name: updateProvinceDto.fa_name || 'فارس',
+      city: [
+        {
+          id: 123,
+          name: 'shiraz',
+          fa_name: 'شیراز',
+          total_residence_count: 12,
+        },
+      ],
     };
     return province;
   }
 
-  async remove(id: number): Promise<boolean> {
-    return true;
+  async remove(id: number): Promise<void> {
+    return;
   }
 }

@@ -1,8 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { Host, FilterHostDto, CreateHostDto, UpdateHostDto } from './dto';
+import { HostOtpRequest } from './dto/login-host.dto';
 
 @Injectable()
 export class HostService {
+  async getOtp(hostOtpRequest: HostOtpRequest): Promise<void> {
+    return;
+  }
+
   async create(createHostDto: CreateHostDto): Promise<Host> {
     const host = {
       id: 1,
@@ -69,7 +74,7 @@ export class HostService {
     return host;
   }
 
-  async remove(id: number): Promise<boolean> {
-    return true;
+  async remove(id: number): Promise<void> {
+    return;
   }
 }

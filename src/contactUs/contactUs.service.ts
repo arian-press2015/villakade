@@ -61,7 +61,7 @@ export class ContactUsService {
     return contactUs;
   }
 
-  async remove(id: number): Promise<boolean> {
-    return true;
+  async remove(id: number): Promise<void> {
+    return;
   }
 }

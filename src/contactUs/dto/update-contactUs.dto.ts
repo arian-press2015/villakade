@@ -5,6 +5,7 @@ export class UpdateContactUsDto {
   @IsOptional()
   @IsString({ message: 'title must be a string' })
   @ApiProperty({
+    required: false,
     example: 'arian.press2015@gmail.com',
     description: 'email of the ContactUs',
   })
@@ -13,6 +14,7 @@ export class UpdateContactUsDto {
   @IsOptional()
   @IsString({ message: 'phone must be a string' })
   @ApiProperty({
+    required: false,
     example: 'ساحلی و رو به دریا',
     description: 'phone of the ContactUs',
   })
@@ -21,6 +23,7 @@ export class UpdateContactUsDto {
   @IsOptional()
   @IsString({ message: 'full_name must be a string' })
   @ApiProperty({
+    required: false,
     example: 'AP2015',
     description: 'full_name of the ContactUs',
   })
@@ -29,6 +32,7 @@ export class UpdateContactUsDto {
   @IsOptional()
   @IsString({ message: 'description must be a string' })
   @ApiProperty({
+    required: false,
     example: 'Help me get a villa',
     description: 'description of the ContactUs',
   })

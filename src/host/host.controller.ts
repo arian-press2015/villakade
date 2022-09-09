@@ -11,6 +11,7 @@ import {
   Query,
   UseGuards,
   Request,
+  HttpCode,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -31,6 +32,7 @@ import {
 } from './dto';
 import { HostJwtGuard, HostLocalGuard, OwnerJwtGuard } from '../auth/guard';
 import { AuthService } from '../auth/auth.service';
+import { HostOtpRequest } from './dto/login-host.dto';
 
 @ApiTags('Host')
 @Controller('host')
@@ -39,6 +41,25 @@ export class HostController {
     private readonly hostService: HostService,
     private readonly authService: AuthService,
   ) {}
+
+  @HttpCode(204)
+  @Get('login')
+  @ApiOperation({ summary: 'login Host' })
+  @ApiBody({
+    description: 'Required body fields',
+    type: HostOtpRequest,
+  })
+  @ApiResponse({
+    status: 204,
+    description: 'Requests otp for the Owner',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'host not found',
+  })
+  async getOtp(hostOtpRequest: HostOtpRequest): Promise<void> {
+    return this.hostService.getOtp(hostOtpRequest);
+  }
 
   @UseGuards(HostLocalGuard)
   @Post('login')
@@ -114,7 +135,8 @@ export class HostController {
   @ApiResponse({
     status: 400,
     description:
-      'first_name must be a string|last_name must be a string|phone must be a string|vip must be a boolean|activation status must be a boolean',
+      'offset must be a positive number|limit must be a positive number|sort must be a string|first_name must be a string|last_name must be a string' +
+      '|phone must be a string|vip must be a boolean|activation status must be a boolean',
   })
   @Get()
   findAll(@Query() filterHostDto: FilterHostDto): Promise<Host[]> {
@@ -183,6 +205,11 @@ export class HostController {
     type: Host,
   })
   @ApiResponse({
+    status: 400,
+    description:
+      'first_name must be a string|last_name must be a string|phone must be a string|vip must be a boolean|activation status must be a boolean',
+  })
+  @ApiResponse({
     status: 403,
     description: "you don't have permission to do that",
   })
@@ -202,9 +229,8 @@ export class HostController {
   @UseGuards(OwnerJwtGuard)
   @ApiOperation({ summary: 'Delete current Host' })
   @ApiResponse({
-    status: 200,
+    status: 204,
     description: 'Deletes current Host',
-    type: Boolean,
   })
   @ApiResponse({
     status: 403,
@@ -214,8 +240,9 @@ export class HostController {
     status: 404,
     description: 'host not found|owner not found',
   })
+  @HttpCode(204)
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<boolean> {
+  remove(@Param('id') id: string): Promise<void> {
     return this.hostService.remove(+id);
   }
 }

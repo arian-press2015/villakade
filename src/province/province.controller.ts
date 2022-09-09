@@ -10,6 +10,7 @@ import {
   ValidationPipe,
   Query,
   UseGuards,
+  HttpCode,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -84,7 +85,8 @@ export class ProvinceController {
   })
   @ApiResponse({
     status: 400,
-    description: 'name must be a string|fa_name must be a string',
+    description:
+      'offset must be a positive number|limit must be a positive number|sort must be a string|name must be a string|fa_name must be a string',
   })
   @Get()
   findAll(@Query() filterProvinceDto: FilterProvinceDto): Promise<Province[]> {
@@ -120,6 +122,10 @@ export class ProvinceController {
     type: Province,
   })
   @ApiResponse({
+    status: 400,
+    description: 'name must be a string|fa_name must be a string',
+  })
+  @ApiResponse({
     status: 403,
     description: "you don't have permission to do that",
   })
@@ -139,9 +145,8 @@ export class ProvinceController {
   @UseGuards(OwnerJwtGuard)
   @ApiOperation({ summary: 'Delete current Province' })
   @ApiResponse({
-    status: 200,
+    status: 204,
     description: 'Deletes current Province',
-    type: Boolean,
   })
   @ApiResponse({
     status: 403,
@@ -151,8 +156,9 @@ export class ProvinceController {
     status: 404,
     description: 'province not found|owner not found',
   })
+  @HttpCode(204)
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<boolean> {
+  remove(@Param('id') id: string): Promise<void> {
     return this.provinceService.remove(+id);
   }
 }

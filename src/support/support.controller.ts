@@ -10,6 +10,7 @@ import {
   ValidationPipe,
   Query,
   UseGuards,
+  HttpCode,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -86,7 +87,7 @@ export class SupportController {
   @ApiResponse({
     status: 400,
     description:
-      'full_name must be a string|phone must be a string|activation status must be a string',
+      'offset must be a positive number|limit must be a positive number|sort must be a string|full_name must be a string|phone must be a string|activation status must be a string',
   })
   @Get()
   findAll(@Query() filterSupportDto: FilterSupportDto): Promise<Support[]> {
@@ -125,7 +126,7 @@ export class SupportController {
   @ApiResponse({
     status: 400,
     description:
-      'id must be a positive number|full_name must be a string|phone must be a string|activation status must be a boolean',
+      'title must be a string|phone must be a string|activation status must be a boolean',
   })
   @ApiResponse({
     status: 403,
@@ -147,9 +148,8 @@ export class SupportController {
   @UseGuards(OwnerJwtGuard)
   @ApiOperation({ summary: 'Delete current Support' })
   @ApiResponse({
-    status: 200,
+    status: 204,
     description: 'Deletes current Support',
-    type: Boolean,
   })
   @ApiResponse({
     status: 403,
@@ -159,8 +159,9 @@ export class SupportController {
     status: 404,
     description: 'No Support found|owner not found',
   })
+  @HttpCode(204)
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<boolean> {
+  remove(@Param('id') id: string): Promise<void> {
     return this.supportService.remove(+id);
   }
 }

@@ -13,11 +13,26 @@ export class ResidenceService {
       id: 1,
       host_id: createResidenceDto.host_id,
       title: createResidenceDto.title,
-      type_id: createResidenceDto.type_id,
+      type: {
+        id: 1,
+        title: 'apartment',
+        fa_title: 'آپارتمان',
+      },
       location: createResidenceDto.location,
       price: createResidenceDto.price,
       active: createResidenceDto.active,
-      city_id: createResidenceDto.city_id,
+      city: {
+        id: 1,
+        name: 'shiraz',
+        fa_name: 'شیراز',
+        total_residence_count: 4,
+        province: {
+          id: 1,
+          name: 'shiraz',
+          fa_name: 'شیراز',
+        },
+      },
+      images: [],
     };
     return residence;
   }
@@ -32,11 +47,33 @@ export class ResidenceService {
         id: 1,
         host_id: 123,
         title: 'آپارتمان در شیراز',
-        type_id: 123,
+        type: {
+          id: 1,
+          title: 'apartment',
+          fa_title: 'آپارتمان',
+        },
         location: 'شیراز دست چپ پلاک ۲',
         price: 200000,
         active: true,
-        city_id: 123,
+        city: {
+          id: 1,
+          name: 'shiraz',
+          fa_name: 'شیراز',
+          total_residence_count: 4,
+          province: {
+            id: 1,
+            name: 'shiraz',
+            fa_name: 'شیراز',
+          },
+        },
+        images: [
+          {
+            residence_id: 1,
+            url: '/fake/image/url',
+            width: 480,
+            height: 640,
+          },
+        ],
       },
     ];
     return residence;
@@ -47,11 +84,33 @@ export class ResidenceService {
       id,
       host_id: 123,
       title: 'آپارتمان در شیراز',
-      type_id: 123,
+      type: {
+        id: 1,
+        title: 'apartment',
+        fa_title: 'آپارتمان',
+      },
       location: 'شیراز دست چپ پلاک ۲',
       price: 200000,
       active: true,
-      city_id: 123,
+      city: {
+        id: 1,
+        name: 'shiraz',
+        fa_name: 'شیراز',
+        total_residence_count: 4,
+        province: {
+          id: 1,
+          name: 'shiraz',
+          fa_name: 'شیراز',
+        },
+      },
+      images: [
+        {
+          residence_id: 1,
+          url: '/fake/image/url',
+          width: 480,
+          height: 640,
+        },
+      ],
     };
     return residence;
   }
@@ -64,16 +123,38 @@ export class ResidenceService {
       id,
       host_id: updateResidenceDto.host_id || 123,
       title: updateResidenceDto.title || 'آپارتمان در شیراز',
-      type_id: updateResidenceDto.type_id || 123,
+      type: {
+        id: 1,
+        title: 'apartment',
+        fa_title: 'آپارتمان',
+      },
       location: updateResidenceDto.location || 'شیراز دست چپ پلاک دو',
       price: updateResidenceDto.price || 200000,
       active: updateResidenceDto.active || true,
-      city_id: updateResidenceDto.city_id || 123,
+      city: {
+        id: 1,
+        name: 'shiraz',
+        fa_name: 'شیراز',
+        total_residence_count: 4,
+        province: {
+          id: 1,
+          name: 'shiraz',
+          fa_name: 'شیراز',
+        },
+      },
+      images: [
+        {
+          residence_id: 1,
+          url: '/fake/image/url',
+          width: 480,
+          height: 640,
+        },
+      ],
     };
     return residence;
   }
 
-  async remove(id: number): Promise<boolean> {
-    return true;
+  async remove(id: number): Promise<void> {
+    return;
   }
 }
