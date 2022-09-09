@@ -40,6 +40,7 @@ export class ProvinceService {
   }
 
   async getCount(filterProvinceDto: FilterProvinceDto): Promise<number> {
+    // this.prisma.province.count()
     return 1;
   }
 
@@ -47,6 +48,9 @@ export class ProvinceService {
     const where: {
       fa_name?: { contains: string };
       name?: { contains: string };
+      offset?: number;
+      limit?: number;
+      sort?: string;
     } = {};
     if (filterProvinceDto.fa_name) {
       where.fa_name = {
@@ -58,9 +62,24 @@ export class ProvinceService {
       };
     }
 
+    const orderBy = {};
+    if (filterProvinceDto.sort) {
+      filterProvinceDto.sort.split(',').forEach((item) => {
+        const sortItem = item.split(':');
+        orderBy[sortItem[0]] = sortItem[1];
+      });
+    }
+
     const provinces = await this.prisma.province.findMany({
       select,
       where,
+      skip: filterProvinceDto.offset
+        ? parseInt(filterProvinceDto.offset)
+        : undefined,
+      take: filterProvinceDto.limit
+        ? parseInt(filterProvinceDto.limit)
+        : undefined,
+      orderBy,
     });
     return provinces;
   }

@@ -3,13 +3,21 @@ import { Test, TestingModule } from '@nestjs/testing';
 import configuration from '../config/configuration';
 import { PrismaService } from '../shared/services/prisma.service';
 import prismaMockService from '../shared/services/prismaMock.service';
-import { CreateProvinceDto, FilterProvinceDto } from './dto';
+import { CreateProvinceDto, FilterProvinceDto, Province } from './dto';
 import { ProvinceService } from './province.service';
 
 const select = {
   id: true,
   name: true,
   fa_name: true,
+  city: {
+    select: {
+      id: true,
+      name: true,
+      fa_name: true,
+      total_residence_count: true,
+    },
+  },
 };
 
 describe('ProvinceService', () => {
@@ -53,6 +61,7 @@ describe('ProvinceService', () => {
         id: 1,
         name: 'fars',
         fa_name: 'فارس',
+        city: [],
       });
 
       const dto: CreateProvinceDto = {
@@ -64,6 +73,7 @@ describe('ProvinceService', () => {
         id: 1,
         name: 'fars',
         fa_name: 'فارس',
+        city: [],
       });
       expect(prisma.province.create).toBeCalledWith({ select, data: dto });
       expect(prisma.province.create).toBeCalledTimes(1);
@@ -93,11 +103,33 @@ describe('ProvinceService', () => {
         id: 1,
         name: 'fars',
         fa_name: 'فارس',
+        city: [
+          {
+            id: 1,
+            name: 'shiraz',
+            fa_name: 'شیراز',
+            total_residence_count: 1,
+          },
+          {
+            id: 2,
+            name: 'kazerun',
+            fa_name: 'کازرون',
+            total_residence_count: 0,
+          },
+        ],
       },
       {
         id: 2,
         name: 'esfahan',
         fa_name: 'اصفهان',
+        city: [
+          {
+            id: 1,
+            name: 'kashan',
+            fa_name: 'کاشان',
+            total_residence_count: 1,
+          },
+        ],
       },
     ];
 
@@ -108,7 +140,13 @@ describe('ProvinceService', () => {
       const dto: FilterProvinceDto = {};
       const result = await service.findAll(dto);
       expect(result).toStrictEqual(provinces);
-      expect(prisma.province.findMany).toBeCalledWith({ select, where: {} });
+      expect(prisma.province.findMany).toBeCalledWith({
+        select,
+        where: {},
+        skip: undefined,
+        take: undefined,
+        orderBy: {},
+      });
       expect(prisma.province.findMany).toBeCalledTimes(1);
     });
 
@@ -125,6 +163,9 @@ describe('ProvinceService', () => {
       expect(prisma.province.findMany).toBeCalledWith({
         select,
         where: { name: { contains: 'fa' } },
+        skip: undefined,
+        take: undefined,
+        orderBy: {},
       });
       expect(prisma.province.findMany).toBeCalledTimes(1);
     });
@@ -142,6 +183,75 @@ describe('ProvinceService', () => {
       expect(prisma.province.findMany).toBeCalledWith({
         select,
         where: { fa_name: { contains: 'فا' } },
+        skip: undefined,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.province.findMany).toBeCalledTimes(1);
+    });
+
+    it('should return provinces based on limit', async () => {
+      // mock prisma return value
+      const mockData: Province[] = [provinces[0]];
+      mockData[0].city.pop();
+      prismaMockService.province.findMany.mockResolvedValue(mockData);
+
+      const dto: FilterProvinceDto = {
+        fa_name: 'فا',
+        limit: '1',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual(mockData);
+      expect(prisma.province.findMany).toBeCalledWith({
+        select,
+        where: { fa_name: { contains: 'فا' } },
+        skip: undefined,
+        take: 1,
+        orderBy: {},
+      });
+      expect(prisma.province.findMany).toBeCalledTimes(1);
+    });
+
+    it('should return provinces based on offset', async () => {
+      // mock prisma return value
+      prismaMockService.province.findMany.mockResolvedValue([provinces[1]]);
+
+      const dto: FilterProvinceDto = {
+        offset: '1',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([provinces[1]]);
+      expect(prisma.province.findMany).toBeCalledWith({
+        select,
+        where: {},
+        skip: 1,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.province.findMany).toBeCalledTimes(1);
+    });
+
+    it('should sort provinces based on sort', async () => {
+      // mock prisma return value
+      prismaMockService.province.findMany.mockResolvedValue([
+        provinces[1],
+        provinces[0],
+      ]);
+
+      const dto: FilterProvinceDto = {
+        sort: 'name:asc',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([provinces[1], provinces[0]]);
+      expect(prisma.province.findMany).toBeCalledWith({
+        select,
+        where: {},
+        skip: undefined,
+        take: undefined,
+        orderBy: { name: 'asc' },
       });
       expect(prisma.province.findMany).toBeCalledTimes(1);
     });
