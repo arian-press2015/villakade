@@ -1,21 +1,37 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { PrismaService } from '../shared/services/prisma.service';
 import { City, FilterCityDto, CreateCityDto, UpdateCityDto } from './dto';
+
+const select = {
+  id: true,
+  name: true,
+  fa_name: true,
+  total_residence_count: true,
+  province: {
+    select: { id: true, name: true, fa_name: true },
+  },
+};
 
 @Injectable()
 export class CityService {
+  constructor(private prisma: PrismaService) {}
   async create(createCityDto: CreateCityDto): Promise<City> {
-    const city = {
-      id: 1,
-      name: createCityDto.name,
-      fa_name: createCityDto.fa_name,
-      total_residence_count: 0,
-      province: {
-        id: 1,
-        name: 'shiraz',
-        fa_name: 'شیراز',
-      },
-    };
-    return city;
+    try {
+      const city = await this.prisma.city.create({
+        select,
+        data: createCityDto,
+      });
+      return city;
+    } catch (e) {
+      console.log('Error in CityService.create()', e.code, e.meta);
+      if (e.code && e.code === 'P2002') {
+        if (e.meta.target === 'city_name_UN') {
+          throw new BadRequestException('name is taken before');
+        } else if (e.meta.target === 'city_fa_name_UN') {
+          throw new BadRequestException('fa_name is taken before');
+        }
+      }
+    }
   }
 
   async getCount(filterCityDto: FilterCityDto): Promise<number> {
