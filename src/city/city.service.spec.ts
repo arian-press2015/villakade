@@ -283,4 +283,54 @@ describe('CityService', () => {
       expect(prisma.city.findMany).toBeCalledTimes(1);
     });
   });
+
+  describe('async getCount(dto: FilterCityDto): Promise<number>', () => {
+    it("should return city count based on name=='fa'", async () => {
+      // mock prisma return value
+      PrismaMockService.city.count.mockResolvedValue(1);
+
+      const dto: FilterCityDto = {
+        name: 'fa',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(1);
+      expect(prisma.city.count).toBeCalledWith({
+        where: { name: { contains: 'fa' } },
+      });
+      expect(prisma.city.count).toBeCalledTimes(1);
+    });
+
+    it("should return city count based on fa_name=='فا'", async () => {
+      // mock prisma return value
+      PrismaMockService.city.count.mockResolvedValue(1);
+
+      const dto: FilterCityDto = {
+        fa_name: 'فا',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(1);
+      expect(prisma.city.count).toBeCalledWith({
+        where: { fa_name: { contains: 'فا' } },
+      });
+      expect(prisma.city.count).toBeCalledTimes(1);
+    });
+
+    it("should return city count based on province_id === '1'", async () => {
+      // mock prisma return value
+      PrismaMockService.city.count.mockResolvedValue(1);
+
+      const dto: FilterCityDto = {
+        province_id: '1',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(1);
+      expect(prisma.city.count).toBeCalledWith({
+        where: { province_id: 1 },
+      });
+      expect(prisma.city.count).toBeCalledTimes(1);
+    });
+  });
 });

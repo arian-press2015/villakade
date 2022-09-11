@@ -35,7 +35,29 @@ export class CityService {
   }
 
   async getCount(filterCityDto: FilterCityDto): Promise<number> {
-    return 1;
+    const where: {
+      fa_name?: { contains: string };
+      name?: { contains: string };
+      province_id?: number;
+    } = {};
+    if (filterCityDto.fa_name) {
+      where.fa_name = {
+        contains: filterCityDto.fa_name,
+      };
+    } else if (filterCityDto.name) {
+      where.name = {
+        contains: filterCityDto.name,
+      };
+    }
+
+    if (filterCityDto.province_id) {
+      where.province_id = parseInt(filterCityDto.province_id);
+    }
+
+    const cities = await this.prisma.city.count({
+      where,
+    });
+    return cities;
   }
 
   async findAll(filterCityDto: FilterCityDto): Promise<City[]> {
