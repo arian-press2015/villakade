@@ -333,4 +333,37 @@ describe('CityService', () => {
       expect(prisma.city.count).toBeCalledTimes(1);
     });
   });
+
+  describe('async findOne(id: string): Promise<City>', () => {
+    const city = {
+      id: 1,
+      name: 'shiraz',
+      fa_name: 'شیراز',
+      total_residence_count: 1,
+      province: {
+        id: 1,
+        name: 'fars',
+        fa_name: 'فارس',
+      },
+    };
+    it('should return city by id', async () => {
+      // mock prisma return value
+      PrismaMockService.city.findUnique.mockResolvedValue(city);
+
+      const result = await service.findOne(1);
+      expect(result).toStrictEqual(city);
+      expect(prisma.city.findUnique).toBeCalledWith({
+        select,
+        where: { id: 1 },
+      });
+      expect(prisma.city.findUnique).toBeCalledTimes(1);
+    });
+
+    it("should throw if id doesn't exist", async () => {
+      // mock prisma return value
+      PrismaMockService.city.findUnique.mockResolvedValue(null);
+
+      await expect(service.findOne(1000)).rejects.toThrow('city not found');
+    });
+  });
 });

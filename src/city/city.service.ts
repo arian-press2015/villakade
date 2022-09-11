@@ -99,17 +99,15 @@ export class CityService {
   }
 
   async findOne(id: number): Promise<City> {
-    const city = {
-      id: 1,
-      name: 'shiraz',
-      fa_name: 'شیراز',
-      total_residence_count: 4,
-      province: {
-        id: 1,
-        name: 'shiraz',
-        fa_name: 'شیراز',
-      },
-    };
+    const city = await this.prisma.city.findUnique({
+      select,
+      where: { id },
+    });
+
+    if (city === null) {
+      throw new BadRequestException('city not found');
+    }
+
     return city;
   }
 
