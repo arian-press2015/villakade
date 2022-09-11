@@ -144,6 +144,17 @@ export class CityService {
   }
 
   async remove(id: number): Promise<void> {
-    return;
+    try {
+      await this.prisma.city.delete({ where: { id } });
+      return;
+    } catch (e) {
+      if (
+        e.code &&
+        e.code === 'P2025' &&
+        e.meta.cause === 'Record to delete does not exist.'
+      ) {
+        throw new BadRequestException('city not found');
+      }
+    }
   }
 }

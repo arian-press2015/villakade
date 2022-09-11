@@ -438,4 +438,38 @@ describe('CityService', () => {
       );
     });
   });
+
+  describe('async delete(id: string): Promise<void>', () => {
+    const city = {
+      id: 1,
+      name: 'shiraz',
+      fa_name: 'شیراز',
+      total_residence_count: 1,
+      province: {
+        id: 1,
+        name: 'fars',
+        fa_name: 'فارس',
+      },
+    };
+    it('should delete city by id', async () => {
+      // mock prisma return value
+      PrismaMockService.city.delete.mockResolvedValue(city);
+
+      await service.remove(1);
+      expect(prisma.city.delete).toBeCalledWith({
+        where: { id: 1 },
+      });
+      expect(prisma.city.delete).toBeCalledTimes(1);
+    });
+
+    it("should throw if id doesn't exist", async () => {
+      // mock prisma return value
+      PrismaMockService.city.delete.mockRejectedValue({
+        code: 'P2025',
+        meta: { cause: 'Record to delete does not exist.' },
+      });
+
+      await expect(service.remove(1000)).rejects.toThrow('city not found');
+    });
+  });
 });
