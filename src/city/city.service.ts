@@ -112,18 +112,35 @@ export class CityService {
   }
 
   async update(id: number, updateCityDto: UpdateCityDto): Promise<City> {
-    const city = {
-      id,
-      name: updateCityDto.name || 'shiraz',
-      fa_name: updateCityDto.fa_name || 'شیراز',
-      total_residence_count: 4,
-      province: {
-        id: 1,
-        name: 'shiraz',
-        fa_name: 'شیراز',
-      },
-    };
-    return city;
+    try {
+      const city = await this.prisma.city.update({
+        select,
+        data: {
+          name: updateCityDto.name,
+          fa_name: updateCityDto.fa_name,
+          province_id: updateCityDto.province_id,
+        },
+        where: {
+          id,
+        },
+      });
+      return city;
+    } catch (e) {
+      console.log('Error in CityService.update()', e.code, e.meta);
+      if (e.code && e.code === 'P2002') {
+        if (e.meta.target === 'city_name_UN') {
+          throw new BadRequestException('name is taken before');
+        } else if (e.meta.target === 'city_fa_name_UN') {
+          throw new BadRequestException('fa_name is taken before');
+        }
+      } else if (
+        e.code &&
+        e.code === 'P2025' &&
+        e.meta.cause === 'Record to update not found.'
+      ) {
+        throw new BadRequestException('city not found');
+      }
+    }
   }
 
   async remove(id: number): Promise<void> {

@@ -366,4 +366,76 @@ describe('CityService', () => {
       await expect(service.findOne(1000)).rejects.toThrow('city not found');
     });
   });
+
+  describe('async update(id: string, updateCityDto: UpdateCityDto): Promise<City>', () => {
+    const city = {
+      id: 1,
+      name: 'shiraz',
+      fa_name: 'شیراز',
+      total_residence_count: 1,
+      province: {
+        id: 1,
+        name: 'fars',
+        fa_name: 'فارس',
+      },
+    };
+    it('should update city by id', async () => {
+      // mock prisma return value
+      PrismaMockService.city.update.mockResolvedValue(city);
+
+      const result = await service.update(1, {
+        name: 'shirazz',
+        province_id: 2,
+      });
+      expect(result).toStrictEqual(city);
+      expect(prisma.city.update).toBeCalledWith({
+        select,
+        data: {
+          name: 'shirazz',
+          fa_name: undefined,
+          province_id: 2,
+        },
+        where: {
+          id: 1,
+        },
+      });
+      expect(prisma.city.update).toBeCalledTimes(1);
+    });
+
+    it("should throw if id doesn't exist", async () => {
+      // mock prisma return value
+      PrismaMockService.city.update.mockRejectedValue({
+        code: 'P2025',
+        meta: { cause: 'Record to update not found.' },
+      });
+
+      await expect(service.update(1000, { name: 'name' })).rejects.toThrow(
+        'city not found',
+      );
+    });
+
+    it('should throw error if the city name already taken', async () => {
+      // mock prisma return value
+      PrismaMockService.city.update.mockRejectedValue({
+        code: 'P2002',
+        meta: { target: 'city_name_UN' },
+      });
+
+      await expect(service.update(2, { name: 'kashan' })).rejects.toThrow(
+        'name is taken before',
+      );
+    });
+
+    it('should throw error if the city fa_name already taken', async () => {
+      // mock prisma return value
+      PrismaMockService.city.update.mockRejectedValue({
+        code: 'P2002',
+        meta: { target: 'city_fa_name_UN' },
+      });
+
+      await expect(service.update(2, { fa_name: 'کاشان' })).rejects.toThrow(
+        'fa_name is taken before',
+      );
+    });
+  });
 });
