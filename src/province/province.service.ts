@@ -60,12 +60,6 @@ export class ProvinceService {
 
     const count = await this.prisma.province.count({
       where,
-      skip: filterProvinceDto.offset
-        ? parseInt(filterProvinceDto.offset)
-        : undefined,
-      take: filterProvinceDto.limit
-        ? parseInt(filterProvinceDto.limit)
-        : undefined,
     });
     return count;
   }

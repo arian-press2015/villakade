@@ -273,42 +273,6 @@ describe('ProvinceService', () => {
   });
 
   describe('async getCount(dto: FilterProvinceDto): Promise<number>', () => {
-    it('should return province count based on limit', async () => {
-      // mock prisma return value
-      PrismaMockService.province.count.mockResolvedValue(1);
-
-      const dto: FilterProvinceDto = {
-        limit: '1',
-      };
-
-      const result = await service.getCount(dto);
-      expect(result).toEqual(1);
-      expect(prisma.province.count).toBeCalledWith({
-        where: {},
-        skip: undefined,
-        take: 1,
-      });
-      expect(prisma.province.count).toBeCalledTimes(1);
-    });
-
-    it('should return province count based on offset', async () => {
-      // mock prisma return value
-      PrismaMockService.province.count.mockResolvedValue(1);
-
-      const dto: FilterProvinceDto = {
-        offset: '1',
-      };
-
-      const result = await service.getCount(dto);
-      expect(result).toEqual(1);
-      expect(prisma.province.count).toBeCalledWith({
-        where: {},
-        skip: 1,
-        take: undefined,
-      });
-      expect(prisma.province.count).toBeCalledTimes(1);
-    });
-
     it("should return province count based on name=='fa'", async () => {
       // mock prisma return value
       PrismaMockService.province.count.mockResolvedValue(1);
@@ -321,6 +285,24 @@ describe('ProvinceService', () => {
       expect(result).toEqual(1);
       expect(prisma.province.count).toBeCalledWith({
         where: { name: { contains: 'fa' } },
+        skip: undefined,
+        take: undefined,
+      });
+      expect(prisma.province.count).toBeCalledTimes(1);
+    });
+
+    it("should return province count based on fa_name=='فا'", async () => {
+      // mock prisma return value
+      PrismaMockService.province.count.mockResolvedValue(1);
+
+      const dto: FilterProvinceDto = {
+        fa_name: 'فا',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(1);
+      expect(prisma.province.count).toBeCalledWith({
+        where: { fa_name: { contains: 'فا' } },
         skip: undefined,
         take: undefined,
       });
