@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../shared/services/prisma.service';
 import {
   Residence,
   FilterResidenceDto,
@@ -6,35 +7,62 @@ import {
   UpdateResidenceDto,
 } from './dto';
 
-@Injectable()
-export class ResidenceService {
-  async create(createResidenceDto: CreateResidenceDto): Promise<Residence> {
-    const residence = {
-      id: 1,
-      host_id: createResidenceDto.host_id,
-      title: createResidenceDto.title,
-      type: {
-        id: 1,
-        title: 'apartment',
-        fa_title: 'آپارتمان',
-      },
-      location: createResidenceDto.location,
-      price: createResidenceDto.price,
-      active: createResidenceDto.active,
-      city: {
-        id: 1,
-        name: 'shiraz',
-        fa_name: 'شیراز',
-        total_residence_count: 4,
-        province: {
-          id: 1,
-          name: 'shiraz',
-          fa_name: 'شیراز',
+const select = {
+  id: true,
+  host_id: true,
+  title: true,
+  type: {
+    select: {
+      id: true,
+      title: true,
+      fa_title: true,
+    },
+  },
+  location: true,
+  price: true,
+  active: true,
+  city: {
+    select: {
+      id: true,
+      name: true,
+      fa_name: true,
+      total_residence_count: true,
+      province: {
+        select: {
+          id: true,
+          name: true,
+          fa_name: true,
         },
       },
-      images: [],
-    };
-    return residence;
+    },
+  },
+  images: {
+    select: {
+      residence_id: true,
+      url: true,
+      width: true,
+      height: true,
+    },
+  },
+};
+
+@Injectable()
+export class ResidenceService {
+  constructor(private prisma: PrismaService) {}
+
+  async create(createResidenceDto: CreateResidenceDto): Promise<Residence> {
+    try {
+      const { active, ...dto } = createResidenceDto;
+      const residence = await this.prisma.residence.create({
+        select,
+        data: { ...dto, active: false },
+      });
+
+      return residence;
+    } catch (e) {
+      console.log('Error in ResidenceService.create()', e.code, e.meta);
+      throw e;
+    }
   }
 
   async getCount(filterResidenceDto: FilterResidenceDto): Promise<number> {
