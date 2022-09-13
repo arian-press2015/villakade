@@ -659,7 +659,7 @@ describe('CityService', () => {
     it('should delete residence by id', async () => {
       // mock prisma return value
       PrismaMockService.residence.findUnique.mockResolvedValue(residence);
-      PrismaMockService.residence.delete.mockResolvedValue(residence);
+      PrismaMockService.residence.update.mockResolvedValue(residence);
 
       await service.remove(1, 123);
       expect(prisma.residence.update).toBeCalledWith({
