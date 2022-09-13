@@ -521,4 +521,53 @@ describe('CityService', () => {
       expect(prisma.residence.count).toBeCalledTimes(1);
     });
   });
+
+  describe('async findOne(id: string): Promise<Residence>', () => {
+    const residence: Residence = {
+      id: 1,
+      host_id: 123,
+      title: 'vila',
+      type: {
+        id: 1,
+        title: 'apartment',
+        fa_title: 'آپارتمان',
+      },
+      location: 'inja',
+      price: 11111,
+      active: false,
+      city: {
+        id: 1,
+        name: 'shiraz',
+        fa_name: 'شیراز',
+        total_residence_count: 4,
+        province: {
+          id: 1,
+          name: 'shiraz',
+          fa_name: 'شیراز',
+        },
+      },
+    };
+
+    it('should return Residence by id', async () => {
+      // mock prisma return value
+      PrismaMockService.residence.findUnique.mockResolvedValue(residence);
+
+      const result = await service.findOne(2);
+      expect(result).toStrictEqual(residence);
+      expect(prisma.residence.findUnique).toBeCalledWith({
+        select,
+        where: { id: 2 },
+      });
+      expect(prisma.residence.findUnique).toBeCalledTimes(1);
+    });
+
+    it("should throw if id doesn't exist", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.findUnique.mockResolvedValue(null);
+
+      await expect(service.findOne(1000)).rejects.toThrow(
+        'residence not found',
+      );
+    });
+  });
 });

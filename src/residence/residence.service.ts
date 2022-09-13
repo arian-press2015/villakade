@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../shared/services/prisma.service';
 import {
   Residence,
@@ -146,38 +146,15 @@ export class ResidenceService {
   }
 
   async findOne(id: number): Promise<Residence> {
-    const residence = {
-      id,
-      host_id: 123,
-      title: 'آپارتمان در شیراز',
-      type: {
-        id: 1,
-        title: 'apartment',
-        fa_title: 'آپارتمان',
-      },
-      location: 'شیراز دست چپ پلاک ۲',
-      price: 200000,
-      active: true,
-      city: {
-        id: 1,
-        name: 'shiraz',
-        fa_name: 'شیراز',
-        total_residence_count: 4,
-        province: {
-          id: 1,
-          name: 'shiraz',
-          fa_name: 'شیراز',
-        },
-      },
-      images: [
-        {
-          residence_id: 1,
-          url: '/fake/image/url',
-          width: 480,
-          height: 640,
-        },
-      ],
-    };
+    const residence = await this.prisma.residence.findUnique({
+      select,
+      where: { id },
+    });
+
+    if (residence === null) {
+      throw new BadRequestException('residence not found');
+    }
+
     return residence;
   }
 
