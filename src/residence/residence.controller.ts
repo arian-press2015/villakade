@@ -11,6 +11,7 @@ import {
   Query,
   UseGuards,
   HttpCode,
+  Request,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -145,10 +146,15 @@ export class ResidenceController {
   })
   @Patch(':id')
   update(
+    @Request() req,
     @Param('id') id: string,
     @Body() updateResidenceDto: UpdateResidenceDto,
   ): Promise<Residence> {
-    return this.residenceService.update(+id, updateResidenceDto);
+    return this.residenceService.update(
+      +id,
+      updateResidenceDto,
+      req.hostInfo.host_id,
+    );
   }
 
   @ApiBearerAuth()
@@ -168,7 +174,7 @@ export class ResidenceController {
   })
   @HttpCode(204)
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<void> {
-    return this.residenceService.remove(+id);
+  remove(@Request() req, @Param('id') id: string): Promise<void> {
+    return this.residenceService.remove(+id, req.hostInfo.host_id);
   }
 }
