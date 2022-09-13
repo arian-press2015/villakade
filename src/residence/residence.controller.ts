@@ -146,10 +146,15 @@ export class ResidenceController {
   })
   @Patch(':id')
   update(
+    @Request() req,
     @Param('id') id: string,
     @Body() updateResidenceDto: UpdateResidenceDto,
   ): Promise<Residence> {
-    return this.residenceService.update(+id, updateResidenceDto);
+    return this.residenceService.update(
+      +id,
+      updateResidenceDto,
+      req.hostInfo.host_id,
+    );
   }
 
   @ApiBearerAuth()

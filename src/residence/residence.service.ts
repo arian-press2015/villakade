@@ -161,40 +161,38 @@ export class ResidenceService {
   async update(
     id: number,
     updateResidenceDto: UpdateResidenceDto,
+    host_id: number,
   ): Promise<Residence> {
-    const residence = {
-      id,
-      host_id: updateResidenceDto.host_id || 123,
-      title: updateResidenceDto.title || 'آپارتمان در شیراز',
-      type: {
-        id: 1,
-        title: 'apartment',
-        fa_title: 'آپارتمان',
-      },
-      location: updateResidenceDto.location || 'شیراز دست چپ پلاک دو',
-      price: updateResidenceDto.price || 200000,
-      active: updateResidenceDto.active || true,
-      city: {
-        id: 1,
-        name: 'shiraz',
-        fa_name: 'شیراز',
-        total_residence_count: 4,
-        province: {
-          id: 1,
-          name: 'shiraz',
-          fa_name: 'شیراز',
+    try {
+      const residencefound = await this.prisma.residence.findUnique({
+        where: { id },
+      });
+
+      if (!residencefound) {
+        throw new BadRequestException('residence not found');
+      }
+
+      if (residencefound.host_id !== host_id) {
+        throw new BadRequestException("you don't have permission to do that");
+      }
+
+      const residence = await this.prisma.residence.update({
+        select,
+        data: {
+          title: updateResidenceDto.title,
+          city_id: updateResidenceDto.city_id,
+          location: updateResidenceDto.location,
+          price: updateResidenceDto.price,
+          type_id: updateResidenceDto.type_id,
         },
-      },
-      images: [
-        {
-          residence_id: 1,
-          url: '/fake/image/url',
-          width: 480,
-          height: 640,
+        where: {
+          id,
         },
-      ],
-    };
-    return residence;
+      });
+      return residence;
+    } catch (e) {
+      throw e;
+    }
   }
 
   async remove(id: number, host_id: number): Promise<void> {
@@ -207,7 +205,7 @@ export class ResidenceService {
         throw new BadRequestException('residence not found');
       }
 
-      if (residence.host_id === host_id) {
+      if (residence.host_id !== host_id) {
         throw new BadRequestException("you don't have permission to do that");
       }
 

@@ -571,6 +571,65 @@ describe('CityService', () => {
     });
   });
 
+  describe('async update(id: string, updateProvinceDto: UpdateProvinceDto): Promise<Province>', () => {
+    const residence: Residence = {
+      id: 1,
+      host_id: 123,
+      title: 'vila',
+      type: {
+        id: 1,
+        title: 'apartment',
+        fa_title: 'آپارتمان',
+      },
+      location: 'inja',
+      price: 11111,
+      active: false,
+      city: {
+        id: 1,
+        name: 'shiraz',
+        fa_name: 'شیراز',
+        total_residence_count: 4,
+        province: {
+          id: 1,
+          name: 'shiraz',
+          fa_name: 'شیراز',
+        },
+      },
+    };
+
+    it('should update residence by id', async () => {
+      // mock prisma return value
+      PrismaMockService.residence.findUnique.mockResolvedValue(residence);
+      PrismaMockService.residence.update.mockResolvedValue(residence);
+
+      const result = await service.update(1, { title: 'ویلای من' }, 123);
+      expect(result).toStrictEqual(residence);
+      expect(prisma.residence.update).toBeCalledWith({
+        select,
+        data: {
+          title: 'ویلای من',
+        },
+        where: {
+          id: 1,
+        },
+      });
+      expect(prisma.residence.update).toBeCalledTimes(1);
+    });
+
+    it("should throw if id doesn't exist", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.findUnique.mockResolvedValue(null);
+      PrismaMockService.residence.update.mockRejectedValue({
+        code: 'P2025',
+        meta: { cause: 'Record to update not found.' },
+      });
+
+      await expect(
+        service.update(1000, { title: 'ویلای من' }, 1234),
+      ).rejects.toThrow('residence not found');
+    });
+  });
+
   describe('async delete(id: string): Promise<void>', () => {
     const residence: Residence = {
       id: 1,
@@ -614,7 +673,7 @@ describe('CityService', () => {
 
     it("should throw if id doesn't exist", async () => {
       // mock prisma return value
-      PrismaMockService.residence.findUnique.mockResolvedValue(residence);
+      PrismaMockService.residence.findUnique.mockResolvedValue(null);
       PrismaMockService.residence.update.mockRejectedValue({
         code: 'P2025',
         meta: { cause: 'Record to update not found.' },
