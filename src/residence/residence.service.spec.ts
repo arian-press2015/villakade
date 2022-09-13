@@ -35,14 +35,6 @@ const select = {
       },
     },
   },
-  images: {
-    select: {
-      residence_id: true,
-      url: true,
-      width: true,
-      height: true,
-    },
-  },
 };
 
 describe('CityService', () => {
@@ -103,14 +95,6 @@ describe('CityService', () => {
           fa_name: 'شیراز',
         },
       },
-      images: [
-        {
-          residence_id: 111,
-          url: '/path/to/file',
-          width: 1000,
-          height: 2000,
-        },
-      ],
     };
 
     it('should create new Residence and return it', async () => {
@@ -129,8 +113,285 @@ describe('CityService', () => {
 
       const result = await service.create(dto);
       expect(result).toStrictEqual(residence);
-      expect(prisma.residence.create).toBeCalledWith({ select, data: dto });
+      expect(prisma.residence.create).toBeCalledWith({
+        select,
+        data: dto,
+      });
       expect(prisma.residence.create).toBeCalledTimes(1);
+    });
+  });
+
+  describe('async findAll(dto: FilterResidenceDto): Promise<Residence[]>', () => {
+    const residences: Residence[] = [
+      {
+        id: 1,
+        host_id: 123,
+        title: 'vila',
+        type: {
+          id: 1,
+          title: 'apartment',
+          fa_title: 'آپارتمان',
+        },
+        location: 'inja',
+        price: 11111,
+        active: false,
+        city: {
+          id: 1,
+          name: 'shiraz',
+          fa_name: 'شیراز',
+          total_residence_count: 4,
+          province: {
+            id: 1,
+            name: 'shiraz',
+            fa_name: 'شیراز',
+          },
+        },
+      },
+      {
+        id: 2,
+        host_id: 123,
+        title: 'vila2',
+        type: {
+          id: 1,
+          title: 'apartment',
+          fa_title: 'آپارتمان',
+        },
+        location: 'unja',
+        price: 22222,
+        active: false,
+        city: {
+          id: 1,
+          name: 'shiraz',
+          fa_name: 'شیراز',
+          total_residence_count: 5,
+          province: {
+            id: 1,
+            name: 'shiraz',
+            fa_name: 'شیراز',
+          },
+        },
+      },
+    ];
+
+    it('should return all residences', async () => {
+      // mock prisma return value
+      PrismaMockService.residence.findMany.mockResolvedValue(residences);
+
+      const dto: FilterResidenceDto = {};
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual(residences);
+      expect(prisma.residence.findMany).toBeCalledWith({
+        select,
+        where: {},
+        skip: undefined,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.residence.findMany).toBeCalledTimes(1);
+    });
+
+    it("should return all residences where title === 'vila'", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.findMany.mockResolvedValue([residences[0]]);
+
+      const dto: FilterResidenceDto = {
+        title: 'vila',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([residences[0]]);
+      expect(prisma.residence.findMany).toBeCalledWith({
+        select,
+        where: { title: { contains: 'vila' } },
+        skip: undefined,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.residence.findMany).toBeCalledTimes(1);
+    });
+
+    it("should return all residences where host_id === '123'", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.findMany.mockResolvedValue([residences[0]]);
+
+      const dto: FilterResidenceDto = {
+        host_id: '123',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([residences[0]]);
+      expect(prisma.residence.findMany).toBeCalledWith({
+        select,
+        where: { host_id: 123 },
+        skip: undefined,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.residence.findMany).toBeCalledTimes(1);
+    });
+
+    it("should return all residences where type_id === '123'", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.findMany.mockResolvedValue([residences[0]]);
+
+      const dto: FilterResidenceDto = {
+        type_id: '123',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([residences[0]]);
+      expect(prisma.residence.findMany).toBeCalledWith({
+        select,
+        where: { type_id: 123 },
+        skip: undefined,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.residence.findMany).toBeCalledTimes(1);
+    });
+
+    it("should return all residences where city_id === '123'", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.findMany.mockResolvedValue([residences[0]]);
+
+      const dto: FilterResidenceDto = {
+        city_id: '123',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([residences[0]]);
+      expect(prisma.residence.findMany).toBeCalledWith({
+        select,
+        where: { city_id: 123 },
+        skip: undefined,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.residence.findMany).toBeCalledTimes(1);
+    });
+
+    it("should return all residences where price === '123'", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.findMany.mockResolvedValue([residences[0]]);
+
+      const dto: FilterResidenceDto = {
+        price: '123',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([residences[0]]);
+      expect(prisma.residence.findMany).toBeCalledWith({
+        select,
+        where: { price: 123 },
+        skip: undefined,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.residence.findMany).toBeCalledTimes(1);
+    });
+
+    it("should return all residences where location === 'inja'", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.findMany.mockResolvedValue([residences[0]]);
+
+      const dto: FilterResidenceDto = {
+        location: 'inja',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([residences[0]]);
+      expect(prisma.residence.findMany).toBeCalledWith({
+        select,
+        where: { location: { contains: 'inja' } },
+        skip: undefined,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.residence.findMany).toBeCalledTimes(1);
+    });
+
+    it("should return all residences where active === 'true'", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.findMany.mockResolvedValue([residences[0]]);
+
+      const dto: FilterResidenceDto = {
+        active: 'true',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([residences[0]]);
+      expect(prisma.residence.findMany).toBeCalledWith({
+        select,
+        where: { active: true },
+        skip: undefined,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.residence.findMany).toBeCalledTimes(1);
+    });
+
+    it('should return residences based on limit', async () => {
+      // mock prisma return value
+      const mockData: Residence[] = [residences[0]];
+      PrismaMockService.residence.findMany.mockResolvedValue(mockData);
+
+      const dto: FilterResidenceDto = {
+        limit: '1',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual(mockData);
+      expect(prisma.residence.findMany).toBeCalledWith({
+        select,
+        where: {},
+        skip: undefined,
+        take: 1,
+        orderBy: {},
+      });
+      expect(prisma.residence.findMany).toBeCalledTimes(1);
+    });
+
+    it('should return residences based on offset', async () => {
+      // mock prisma return value
+      PrismaMockService.residence.findMany.mockResolvedValue([residences[1]]);
+
+      const dto: FilterResidenceDto = {
+        offset: '1',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([residences[1]]);
+      expect(prisma.residence.findMany).toBeCalledWith({
+        select,
+        where: {},
+        skip: 1,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.residence.findMany).toBeCalledTimes(1);
+    });
+
+    it('should sort residences based on sort', async () => {
+      // mock prisma return value
+      PrismaMockService.residence.findMany.mockResolvedValue([
+        residences[1],
+        residences[0],
+      ]);
+
+      const dto: FilterResidenceDto = {
+        sort: 'name:asc',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([residences[1], residences[0]]);
+      expect(prisma.residence.findMany).toBeCalledWith({
+        select,
+        where: {},
+        skip: undefined,
+        take: undefined,
+        orderBy: { name: 'asc' },
+      });
+      expect(prisma.residence.findMany).toBeCalledTimes(1);
     });
   });
 });

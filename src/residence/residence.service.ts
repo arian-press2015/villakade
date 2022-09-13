@@ -36,14 +36,6 @@ const select = {
       },
     },
   },
-  images: {
-    select: {
-      residence_id: true,
-      url: true,
-      width: true,
-      height: true,
-    },
-  },
 };
 
 @Injectable()
@@ -53,7 +45,7 @@ export class ResidenceService {
   async create(createResidenceDto: CreateResidenceDto): Promise<Residence> {
     try {
       const { active, ...dto } = createResidenceDto;
-      const residence = await this.prisma.residence.create({
+      const residence: Residence = await this.prisma.residence.create({
         select,
         data: { ...dto, active: false },
       });
@@ -70,41 +62,55 @@ export class ResidenceService {
   }
 
   async findAll(filterResidenceDto: FilterResidenceDto): Promise<Residence[]> {
-    const residence = [
-      {
-        id: 1,
-        host_id: 123,
-        title: 'آپارتمان در شیراز',
-        type: {
-          id: 1,
-          title: 'apartment',
-          fa_title: 'آپارتمان',
-        },
-        location: 'شیراز دست چپ پلاک ۲',
-        price: 200000,
-        active: true,
-        city: {
-          id: 1,
-          name: 'shiraz',
-          fa_name: 'شیراز',
-          total_residence_count: 4,
-          province: {
-            id: 1,
-            name: 'shiraz',
-            fa_name: 'شیراز',
-          },
-        },
-        images: [
-          {
-            residence_id: 1,
-            url: '/fake/image/url',
-            width: 480,
-            height: 640,
-          },
-        ],
-      },
-    ];
-    return residence;
+    const where: {
+      title?: { contains: string };
+      host_id?: number;
+      type_id?: number;
+      city_id?: number;
+      price?: number;
+      active?: boolean;
+      location?: { contains: string };
+    } = {};
+    if (filterResidenceDto.title) {
+      where.title = {
+        contains: filterResidenceDto.title,
+      };
+    } else if (filterResidenceDto.host_id) {
+      where.host_id = parseInt(filterResidenceDto.host_id);
+    } else if (filterResidenceDto.type_id) {
+      where.type_id = parseInt(filterResidenceDto.type_id);
+    } else if (filterResidenceDto.city_id) {
+      where.city_id = parseInt(filterResidenceDto.city_id);
+    } else if (filterResidenceDto.price) {
+      where.price = parseInt(filterResidenceDto.price);
+    } else if (filterResidenceDto.active) {
+      where.active = filterResidenceDto.active === 'true' ? true : false;
+    } else if (filterResidenceDto.location) {
+      where.location = {
+        contains: filterResidenceDto.location,
+      };
+    }
+
+    const orderBy = {};
+    if (filterResidenceDto.sort) {
+      filterResidenceDto.sort.split(',').forEach((item) => {
+        const sortItem = item.split(':');
+        orderBy[sortItem[0]] = sortItem[1];
+      });
+    }
+
+    const residences = await this.prisma.residence.findMany({
+      select,
+      where,
+      skip: filterResidenceDto.offset
+        ? parseInt(filterResidenceDto.offset)
+        : undefined,
+      take: filterResidenceDto.limit
+        ? parseInt(filterResidenceDto.limit)
+        : undefined,
+      orderBy,
+    });
+    return residences;
   }
 
   async findOne(id: number): Promise<Residence> {
