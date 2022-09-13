@@ -197,7 +197,29 @@ export class ResidenceService {
     return residence;
   }
 
-  async remove(id: number): Promise<void> {
-    return;
+  async remove(id: number, host_id: number): Promise<void> {
+    try {
+      const residence = await this.prisma.residence.findUnique({
+        where: { id },
+      });
+
+      if (!residence) {
+        throw new BadRequestException('residence not found');
+      }
+
+      if (residence.host_id === host_id) {
+        throw new BadRequestException("you don't have permission to do that");
+      }
+
+      await this.prisma.residence.update({
+        where: { id },
+        data: {
+          active: false,
+        },
+      });
+      return;
+    } catch (e) {
+      throw e;
+    }
   }
 }

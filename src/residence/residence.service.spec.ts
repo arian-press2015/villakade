@@ -570,4 +570,68 @@ describe('CityService', () => {
       );
     });
   });
+
+  describe('async delete(id: string): Promise<void>', () => {
+    const residence: Residence = {
+      id: 1,
+      host_id: 123,
+      title: 'vila',
+      type: {
+        id: 1,
+        title: 'apartment',
+        fa_title: 'آپارتمان',
+      },
+      location: 'inja',
+      price: 11111,
+      active: false,
+      city: {
+        id: 1,
+        name: 'shiraz',
+        fa_name: 'شیراز',
+        total_residence_count: 4,
+        province: {
+          id: 1,
+          name: 'shiraz',
+          fa_name: 'شیراز',
+        },
+      },
+    };
+
+    it('should delete residence by id', async () => {
+      // mock prisma return value
+      PrismaMockService.residence.findUnique.mockResolvedValue(residence);
+      PrismaMockService.residence.delete.mockResolvedValue(residence);
+
+      await service.remove(1, 123);
+      expect(prisma.residence.update).toBeCalledWith({
+        where: { id: 1 },
+        data: {
+          active: false,
+        },
+      });
+      expect(prisma.residence.update).toBeCalledTimes(1);
+    });
+
+    it("should throw if id doesn't exist", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.findUnique.mockResolvedValue(residence);
+      PrismaMockService.residence.update.mockRejectedValue({
+        code: 'P2025',
+        meta: { cause: 'Record to update not found.' },
+      });
+
+      await expect(service.remove(1000, 123)).rejects.toThrow(
+        'residence not found',
+      );
+    });
+
+    it("should throw if the host is not residence's host", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.findUnique.mockResolvedValue(residence);
+
+      await expect(service.remove(1000, 1)).rejects.toThrow(
+        "you don't have permission to do that",
+      );
+    });
+  });
 });
