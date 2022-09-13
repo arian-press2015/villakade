@@ -285,8 +285,6 @@ describe('ProvinceService', () => {
       expect(result).toEqual(1);
       expect(prisma.province.count).toBeCalledWith({
         where: { name: { contains: 'fa' } },
-        skip: undefined,
-        take: undefined,
       });
       expect(prisma.province.count).toBeCalledTimes(1);
     });
@@ -303,8 +301,6 @@ describe('ProvinceService', () => {
       expect(result).toEqual(1);
       expect(prisma.province.count).toBeCalledWith({
         where: { fa_name: { contains: 'فا' } },
-        skip: undefined,
-        take: undefined,
       });
       expect(prisma.province.count).toBeCalledTimes(1);
     });

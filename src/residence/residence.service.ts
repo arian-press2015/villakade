@@ -58,7 +58,39 @@ export class ResidenceService {
   }
 
   async getCount(filterResidenceDto: FilterResidenceDto): Promise<number> {
-    return 1;
+    const where: {
+      title?: { contains: string };
+      host_id?: number;
+      type_id?: number;
+      city_id?: number;
+      price?: number;
+      active?: boolean;
+      location?: { contains: string };
+    } = {};
+    if (filterResidenceDto.title) {
+      where.title = {
+        contains: filterResidenceDto.title,
+      };
+    } else if (filterResidenceDto.host_id) {
+      where.host_id = parseInt(filterResidenceDto.host_id);
+    } else if (filterResidenceDto.type_id) {
+      where.type_id = parseInt(filterResidenceDto.type_id);
+    } else if (filterResidenceDto.city_id) {
+      where.city_id = parseInt(filterResidenceDto.city_id);
+    } else if (filterResidenceDto.price) {
+      where.price = parseInt(filterResidenceDto.price);
+    } else if (filterResidenceDto.active) {
+      where.active = filterResidenceDto.active === 'true' ? true : false;
+    } else if (filterResidenceDto.location) {
+      where.location = {
+        contains: filterResidenceDto.location,
+      };
+    }
+
+    const residences = await this.prisma.residence.count({
+      where,
+    });
+    return residences;
   }
 
   async findAll(filterResidenceDto: FilterResidenceDto): Promise<Residence[]> {

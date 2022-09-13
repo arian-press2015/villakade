@@ -394,4 +394,131 @@ describe('CityService', () => {
       expect(prisma.residence.findMany).toBeCalledTimes(1);
     });
   });
+
+  describe('async getCount(dto: FilterResidenceDto): Promise<number>', () => {
+    it('should return total count of residences', async () => {
+      // mock prisma return value
+      PrismaMockService.residence.count.mockResolvedValue(2);
+
+      const dto: FilterResidenceDto = {};
+      const result = await service.getCount(dto);
+      expect(result).toEqual(2);
+      expect(prisma.residence.count).toBeCalledWith({
+        where: {},
+      });
+      expect(prisma.residence.count).toBeCalledTimes(1);
+    });
+
+    it("should return total count of residences where title === 'vila'", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.count.mockResolvedValue(2);
+
+      const dto: FilterResidenceDto = {
+        title: 'vila',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(2);
+      expect(prisma.residence.count).toBeCalledWith({
+        where: { title: { contains: 'vila' } },
+      });
+      expect(prisma.residence.count).toBeCalledTimes(1);
+    });
+
+    it("should return total count of residences where host_id === '123'", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.count.mockResolvedValue(2);
+
+      const dto: FilterResidenceDto = {
+        host_id: '123',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(2);
+      expect(prisma.residence.count).toBeCalledWith({
+        where: { host_id: 123 },
+      });
+      expect(prisma.residence.count).toBeCalledTimes(1);
+    });
+
+    it("should return total count of residences where type_id === '123'", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.count.mockResolvedValue(2);
+
+      const dto: FilterResidenceDto = {
+        type_id: '123',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(2);
+      expect(prisma.residence.count).toBeCalledWith({
+        where: { type_id: 123 },
+      });
+      expect(prisma.residence.count).toBeCalledTimes(1);
+    });
+
+    it("should return total count of residences where city_id === '123'", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.count.mockResolvedValue(2);
+
+      const dto: FilterResidenceDto = {
+        city_id: '123',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(2);
+      expect(prisma.residence.count).toBeCalledWith({
+        where: { city_id: 123 },
+      });
+      expect(prisma.residence.count).toBeCalledTimes(1);
+    });
+
+    it("should return total count of residences where price === '123'", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.count.mockResolvedValue(2);
+
+      const dto: FilterResidenceDto = {
+        price: '123',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(2);
+      expect(prisma.residence.count).toBeCalledWith({
+        where: { price: 123 },
+      });
+      expect(prisma.residence.count).toBeCalledTimes(1);
+    });
+
+    it("should return total count of residences where location === 'inja'", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.count.mockResolvedValue(2);
+
+      const dto: FilterResidenceDto = {
+        location: 'inja',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(2);
+      expect(prisma.residence.count).toBeCalledWith({
+        where: { location: { contains: 'inja' } },
+      });
+      expect(prisma.residence.count).toBeCalledTimes(1);
+    });
+
+    it("should return total count of residences where active === 'true'", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.count.mockResolvedValue(2);
+
+      const dto: FilterResidenceDto = {
+        active: 'true',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(2);
+      expect(prisma.residence.count).toBeCalledWith({
+        where: { active: true },
+      });
+      expect(prisma.residence.count).toBeCalledTimes(1);
+    });
+  });
 });
