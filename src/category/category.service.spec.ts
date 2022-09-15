@@ -226,6 +226,40 @@ describe('CategoryService', () => {
     });
   });
 
+  describe('async getCount(dto: FilterCategoryDto): Promise<number>', () => {
+    it("should return category count based on title=='vi'", async () => {
+      // mock prisma return value
+      PrismaMockService.category.count.mockResolvedValue(1);
+
+      const dto: FilterCategoryDto = {
+        title: 'vi',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(1);
+      expect(prisma.category.count).toBeCalledWith({
+        where: { title: { contains: 'vi' } },
+      });
+      expect(prisma.category.count).toBeCalledTimes(1);
+    });
+
+    it("should return category count based on fa_title=='وی'", async () => {
+      // mock prisma return value
+      PrismaMockService.category.count.mockResolvedValue(1);
+
+      const dto: FilterCategoryDto = {
+        fa_title: 'وی',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(1);
+      expect(prisma.category.count).toBeCalledWith({
+        where: { fa_title: { contains: 'وی' } },
+      });
+      expect(prisma.category.count).toBeCalledTimes(1);
+    });
+  });
+
   describe('async findOne(id: string): Promise<Category>', () => {
     const category = {
       id: 1,

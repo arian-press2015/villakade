@@ -36,14 +36,38 @@ export class CategoryService {
   }
 
   async getCount(filterCategoryDto: FilterCategoryDto): Promise<number> {
-    return 1;
+    const where: {
+      fa_title?: { contains: string };
+      title?: { contains: string };
+    } = {};
+    if (filterCategoryDto.fa_title) {
+      where.fa_title = {
+        contains: filterCategoryDto.fa_title,
+      };
+    } else if (filterCategoryDto.title) {
+      where.title = {
+        contains: filterCategoryDto.title,
+      };
+    }
+
+    const orderBy = {};
+    if (filterCategoryDto.sort) {
+      filterCategoryDto.sort.split(',').forEach((item) => {
+        const sortItem = item.split(':');
+        orderBy[sortItem[0]] = sortItem[1];
+      });
+    }
+
+    const count = await this.prisma.category.count({
+      where,
+    });
+    return count;
   }
 
   async findAll(filterCategoryDto: FilterCategoryDto): Promise<Category[]> {
     const where: {
       fa_title?: { contains: string };
       title?: { contains: string };
-      province_id?: number;
     } = {};
     if (filterCategoryDto.fa_title) {
       where.fa_title = {
