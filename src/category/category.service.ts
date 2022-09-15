@@ -78,11 +78,15 @@ export class CategoryService {
   }
 
   async findOne(id: number): Promise<Category> {
-    const category = {
-      id,
-      title: 'beach',
-      fa_title: 'ساحلی و رو به دریا',
-    };
+    const category = await this.prisma.category.findUnique({
+      select,
+      where: { id },
+    });
+
+    if (category === null) {
+      throw new BadRequestException('category not found');
+    }
+
     return category;
   }
 

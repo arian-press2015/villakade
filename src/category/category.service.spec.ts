@@ -225,4 +225,31 @@ describe('CategoryService', () => {
       expect(prisma.category.findMany).toBeCalledTimes(1);
     });
   });
+
+  describe('async findOne(id: string): Promise<Category>', () => {
+    const category = {
+      id: 1,
+      title: 'apartment',
+      fa_title: 'آپارتمان',
+    };
+    it('should return category by id', async () => {
+      // mock prisma return value
+      PrismaMockService.category.findUnique.mockResolvedValue(category);
+
+      const result = await service.findOne(1);
+      expect(result).toStrictEqual(category);
+      expect(prisma.category.findUnique).toBeCalledWith({
+        select,
+        where: { id: 1 },
+      });
+      expect(prisma.category.findUnique).toBeCalledTimes(1);
+    });
+
+    it("should throw if id doesn't exist", async () => {
+      // mock prisma return value
+      PrismaMockService.category.findUnique.mockResolvedValue(null);
+
+      await expect(service.findOne(1000)).rejects.toThrow('category not found');
+    });
+  });
 });
