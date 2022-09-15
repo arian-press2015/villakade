@@ -286,4 +286,33 @@ describe('CategoryService', () => {
       await expect(service.findOne(1000)).rejects.toThrow('category not found');
     });
   });
+
+  describe('async delete(id: string): Promise<void>', () => {
+    const category = {
+      id: 1,
+      title: 'apartment',
+      fa_title: 'آپارتمان',
+    };
+
+    it('should delete category by id', async () => {
+      // mock prisma return value
+      PrismaMockService.category.delete.mockResolvedValue(category);
+
+      await service.remove(1);
+      expect(prisma.category.delete).toBeCalledWith({
+        where: { id: 1 },
+      });
+      expect(prisma.category.delete).toBeCalledTimes(1);
+    });
+
+    it("should throw if id doesn't exist", async () => {
+      // mock prisma return value
+      PrismaMockService.category.delete.mockRejectedValue({
+        code: 'P2025',
+        meta: { cause: 'Record to delete does not exist.' },
+      });
+
+      await expect(service.remove(1000)).rejects.toThrow('category not found');
+    });
+  });
 });
