@@ -87,7 +87,7 @@ export class CategoryService {
       });
     }
 
-    const cities = await this.prisma.category.findMany({
+    const categories = await this.prisma.category.findMany({
       select,
       where,
       skip: filterCategoryDto.offset
@@ -98,7 +98,7 @@ export class CategoryService {
         : undefined,
       orderBy,
     });
-    return cities;
+    return categories;
   }
 
   async findOne(id: number): Promise<Category> {

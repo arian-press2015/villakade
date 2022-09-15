@@ -82,14 +82,14 @@ export class TypeService {
       });
     }
 
-    const cities = await this.prisma.type.findMany({
+    const types = await this.prisma.type.findMany({
       select,
       where,
       skip: filterTypeDto.offset ? parseInt(filterTypeDto.offset) : undefined,
       take: filterTypeDto.limit ? parseInt(filterTypeDto.limit) : undefined,
       orderBy,
     });
-    return cities;
+    return types;
   }
 
   async findOne(id: number): Promise<Type> {
