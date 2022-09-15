@@ -40,14 +40,41 @@ export class CategoryService {
   }
 
   async findAll(filterCategoryDto: FilterCategoryDto): Promise<Category[]> {
-    const category = [
-      {
-        id: 1,
-        title: 'beach',
-        fa_title: 'ساحلی و رو به دریا',
-      },
-    ];
-    return category;
+    const where: {
+      fa_title?: { contains: string };
+      title?: { contains: string };
+      province_id?: number;
+    } = {};
+    if (filterCategoryDto.fa_title) {
+      where.fa_title = {
+        contains: filterCategoryDto.fa_title,
+      };
+    } else if (filterCategoryDto.title) {
+      where.title = {
+        contains: filterCategoryDto.title,
+      };
+    }
+
+    const orderBy = {};
+    if (filterCategoryDto.sort) {
+      filterCategoryDto.sort.split(',').forEach((item) => {
+        const sortItem = item.split(':');
+        orderBy[sortItem[0]] = sortItem[1];
+      });
+    }
+
+    const cities = await this.prisma.category.findMany({
+      select,
+      where,
+      skip: filterCategoryDto.offset
+        ? parseInt(filterCategoryDto.offset)
+        : undefined,
+      take: filterCategoryDto.limit
+        ? parseInt(filterCategoryDto.limit)
+        : undefined,
+      orderBy,
+    });
+    return cities;
   }
 
   async findOne(id: number): Promise<Category> {

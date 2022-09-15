@@ -88,4 +88,141 @@ describe('CategoryService', () => {
       );
     });
   });
+
+  describe('async findAll(dto: FilterCategoryDto): Promise<Category[]>', () => {
+    const categories = [
+      {
+        id: 1,
+        title: 'apartment',
+        fa_title: 'آپارتمان',
+      },
+      {
+        id: 2,
+        title: 'villa',
+        fa_title: 'ویلا',
+      },
+    ];
+
+    it('should return all categories', async () => {
+      // mock prisma return value
+      PrismaMockService.category.findMany.mockResolvedValue(categories);
+
+      const dto: FilterCategoryDto = {};
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual(categories);
+      expect(prisma.category.findMany).toBeCalledWith({
+        select,
+        where: {},
+        skip: undefined,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.category.findMany).toBeCalledTimes(1);
+    });
+
+    it("should return all categories where title === 'vi'", async () => {
+      // mock prisma return value
+      PrismaMockService.category.findMany.mockResolvedValue([categories[1]]);
+
+      const dto: FilterCategoryDto = {
+        title: 'vi',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([categories[1]]);
+      expect(prisma.category.findMany).toBeCalledWith({
+        select,
+        where: { title: { contains: 'vi' } },
+        skip: undefined,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.category.findMany).toBeCalledTimes(1);
+    });
+
+    it("should return all categories where fa_title === 'وی'", async () => {
+      // mock prisma return value
+      PrismaMockService.category.findMany.mockResolvedValue([categories[1]]);
+
+      const dto: FilterCategoryDto = {
+        fa_title: 'وی',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([categories[1]]);
+      expect(prisma.category.findMany).toBeCalledWith({
+        select,
+        where: { fa_title: { contains: 'وی' } },
+        skip: undefined,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.category.findMany).toBeCalledTimes(1);
+    });
+
+    it('should return categories based on limit', async () => {
+      // mock prisma return value
+      const mockData: Category[] = [categories[0]];
+      PrismaMockService.category.findMany.mockResolvedValue(mockData);
+
+      const dto: FilterCategoryDto = {
+        fa_title: 'فا',
+        limit: '1',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual(mockData);
+      expect(prisma.category.findMany).toBeCalledWith({
+        select,
+        where: { fa_title: { contains: 'فا' } },
+        skip: undefined,
+        take: 1,
+        orderBy: {},
+      });
+      expect(prisma.category.findMany).toBeCalledTimes(1);
+    });
+
+    it('should return categories based on offset', async () => {
+      // mock prisma return value
+      PrismaMockService.category.findMany.mockResolvedValue([categories[1]]);
+
+      const dto: FilterCategoryDto = {
+        offset: '1',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([categories[1]]);
+      expect(prisma.category.findMany).toBeCalledWith({
+        select,
+        where: {},
+        skip: 1,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.category.findMany).toBeCalledTimes(1);
+    });
+
+    it('should sort categories based on sort', async () => {
+      // mock prisma return value
+      PrismaMockService.category.findMany.mockResolvedValue([
+        categories[1],
+        categories[0],
+      ]);
+
+      const dto: FilterCategoryDto = {
+        sort: 'title:asc',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([categories[1], categories[0]]);
+      expect(prisma.category.findMany).toBeCalledWith({
+        select,
+        where: {},
+        skip: undefined,
+        take: undefined,
+        orderBy: { title: 'asc' },
+      });
+      expect(prisma.category.findMany).toBeCalledTimes(1);
+    });
+  });
 });
