@@ -37,7 +37,7 @@ const select = {
   },
 };
 
-describe('CityService', () => {
+describe('ResidenceService', () => {
   let service: ResidenceService;
   let prisma: PrismaService;
 

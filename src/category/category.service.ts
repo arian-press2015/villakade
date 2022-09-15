@@ -1,4 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { PrismaService } from '../shared/services/prisma.service';
 import {
   Category,
   FilterCategoryDto,
@@ -6,15 +7,32 @@ import {
   UpdateCategoryDto,
 } from './dto';
 
+const select = {
+  id: true,
+  title: true,
+  fa_title: true,
+};
+
 @Injectable()
 export class CategoryService {
+  constructor(private prisma: PrismaService) {}
+
   async create(createCategoryDto: CreateCategoryDto): Promise<Category> {
-    const category = {
-      id: 1,
-      title: createCategoryDto.title,
-      fa_title: createCategoryDto.fa_title,
-    };
-    return category;
+    try {
+      const category: Category = await this.prisma.category.create({
+        select,
+        data: createCategoryDto,
+      });
+
+      return category;
+    } catch (e) {
+      if (e.code && e.code === 'P2002') {
+        if (e.meta.target === 'category_title_UN') {
+          throw new BadRequestException('title is taken before');
+        }
+      }
+      throw e;
+    }
   }
 
   async getCount(filterCategoryDto: FilterCategoryDto): Promise<number> {
