@@ -118,12 +118,34 @@ export class CategoryService {
     id: number,
     updateCategoryDto: UpdateCategoryDto,
   ): Promise<Category> {
-    const category = {
-      id,
-      title: updateCategoryDto.title || 'beach',
-      fa_title: updateCategoryDto.fa_title || 'ساحلی و رو به دریا',
-    };
-    return category;
+    try {
+      const category = await this.prisma.category.update({
+        select,
+        data: {
+          title: updateCategoryDto.title,
+          fa_title: updateCategoryDto.fa_title,
+        },
+        where: {
+          id,
+        },
+      });
+      return category;
+    } catch (e) {
+      console.log('Error in CategoryService.update()', e.code, e.meta);
+      if (e.code && e.code === 'P2002') {
+        if (e.meta.target === 'category_title_UN') {
+          throw new BadRequestException('title is taken before');
+        } else if (e.meta.target === 'category_fa_title_UN') {
+          throw new BadRequestException('fa_title is taken before');
+        }
+      } else if (
+        e.code &&
+        e.code === 'P2025' &&
+        e.meta.cause === 'Record to update not found.'
+      ) {
+        throw new BadRequestException('category not found');
+      }
+    }
   }
 
   async remove(id: number): Promise<void> {

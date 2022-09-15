@@ -266,6 +266,7 @@ describe('CategoryService', () => {
       title: 'apartment',
       fa_title: 'آپارتمان',
     };
+
     it('should return category by id', async () => {
       // mock prisma return value
       PrismaMockService.category.findUnique.mockResolvedValue(category);
@@ -284,6 +285,71 @@ describe('CategoryService', () => {
       PrismaMockService.category.findUnique.mockResolvedValue(null);
 
       await expect(service.findOne(1000)).rejects.toThrow('category not found');
+    });
+  });
+
+  describe('async update(id: string, updateCategoryDto: UpdateCategoryDto): Promise<Category>', () => {
+    const category = {
+      id: 1,
+      title: 'apartment',
+      fa_title: 'آپارتمان',
+    };
+
+    it('should update category by id', async () => {
+      // mock prisma return value
+      PrismaMockService.category.update.mockResolvedValue(category);
+
+      const result = await service.update(1, {
+        title: 'apartmentt',
+      });
+      expect(result).toStrictEqual(category);
+      expect(prisma.category.update).toBeCalledWith({
+        select,
+        data: {
+          title: 'apartmentt',
+          fa_title: undefined,
+        },
+        where: {
+          id: 1,
+        },
+      });
+      expect(prisma.category.update).toBeCalledTimes(1);
+    });
+
+    it("should throw if id doesn't exist", async () => {
+      // mock prisma return value
+      PrismaMockService.category.update.mockRejectedValue({
+        code: 'P2025',
+        meta: { cause: 'Record to update not found.' },
+      });
+
+      await expect(service.update(1000, { title: 'title' })).rejects.toThrow(
+        'category not found',
+      );
+    });
+
+    it('should throw error if the category title already taken', async () => {
+      // mock prisma return value
+      PrismaMockService.category.update.mockRejectedValue({
+        code: 'P2002',
+        meta: { target: 'category_title_UN' },
+      });
+
+      await expect(service.update(2, { title: 'kashan' })).rejects.toThrow(
+        'title is taken before',
+      );
+    });
+
+    it('should throw error if the category fa_title already taken', async () => {
+      // mock prisma return value
+      PrismaMockService.category.update.mockRejectedValue({
+        code: 'P2002',
+        meta: { target: 'category_fa_title_UN' },
+      });
+
+      await expect(service.update(2, { fa_title: 'کاشان' })).rejects.toThrow(
+        'fa_title is taken before',
+      );
     });
   });
 
