@@ -7,7 +7,8 @@ export class CreateResidenceImageDto {
     format: 'binary',
     description: 'image of the CategoryImage',
   })
-  readonly file: Express.Multer.File;
+  readonly file: Express.Multer.File | any;
+  // I set it to any to ease unit testing process
 
   @IsNotEmpty({ message: 'residence_id is required' })
   @IsNumberString({ message: 'residence_id must be a positive number' })

@@ -31,6 +31,7 @@ import {
 import { HostJwtGuard } from '../auth/guard';
 import multerConfig from '../shared/multer';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { join } from 'path';
 
 @ApiTags('ResidenceImage')
 @Controller('residenceImage')
@@ -68,7 +69,8 @@ export class ResidenceImageController {
     @Body() createResidenceImageDto: CreateResidenceImageDto,
     @UploadedFile() file: Express.Multer.File,
   ): Promise<ResidenceImage> {
-    return this.residenceImageService.create(createResidenceImageDto);
+    const url = file.path.substring(join(__dirname, '../..').length);
+    return this.residenceImageService.create(createResidenceImageDto, url);
   }
 
   @UsePipes(new ValidationPipe())

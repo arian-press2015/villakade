@@ -36,5 +36,5 @@ export class FilterResidenceImageDto {
     example: '12345',
     description: 'residence_id of the ResidenceImage',
   })
-  readonly residence_id: string;
+  readonly residence_id?: string;
 }
