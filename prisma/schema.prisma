@@ -11,6 +11,7 @@ model category {
   id                 Int                  @id @default(autoincrement())
   title              String               @db.VarChar(20)
   fa_title           String               @db.VarChar(100)
+  category_image     category_image?
   residence_category residence_category[]
 }
 
@@ -191,6 +192,14 @@ model role_permission {
 
   @@id([role_id, permission_id])
   @@index([permission_id], map: "role_permission_FK")
+}
+
+model category_image {
+  category_id Int      @id
+  url         String   @db.VarChar(100)
+  width       Int
+  height      Int
+  category    category @relation(fields: [category_id], references: [id], onDelete: Cascade, map: "category_image_FK")
 }
 
 enum faq_faq_type {

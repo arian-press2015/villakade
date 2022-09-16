@@ -31,6 +31,7 @@ import {
 import { OwnerJwtGuard } from '../auth/guard';
 import multerConfig from '../shared/multer';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { join } from 'path';
 
 @ApiTags('CategoryImage')
 @Controller('categoryImage')
@@ -68,7 +69,8 @@ export class CategoryImageController {
     @Body() createCategoryImageDto: CreateCategoryImageDto,
     @UploadedFile() file: Express.Multer.File,
   ): Promise<CategoryImage> {
-    return this.categoryImageService.create(createCategoryImageDto);
+    const url = file.path.substring(join(__dirname, '../..').length);
+    return this.categoryImageService.create(createCategoryImageDto, url);
   }
 
   @UsePipes(new ValidationPipe())

@@ -39,6 +39,14 @@ const PrismaMockService = {
     count: jest.fn(),
     delete: jest.fn(),
   },
+  category_image: {
+    findMany: jest.fn(),
+    findUnique: jest.fn(),
+    create: jest.fn(),
+    update: jest.fn(),
+    count: jest.fn(),
+    delete: jest.fn(),
+  },
 };
 
 export default PrismaMockService;

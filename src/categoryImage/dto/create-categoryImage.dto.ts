@@ -7,7 +7,8 @@ export class CreateCategoryImageDto {
     format: 'binary',
     description: 'image of the CategoryImage',
   })
-  readonly file: Express.Multer.File;
+  readonly file: Express.Multer.File | any;
+  // I set it to any to ease unit testing process
 
   @IsNotEmpty({ message: 'category_id is required' })
   @IsNumberString({ message: 'category_id must be a positive number' })

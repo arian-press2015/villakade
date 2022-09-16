@@ -50,14 +50,6 @@ export class CategoryService {
       };
     }
 
-    const orderBy = {};
-    if (filterCategoryDto.sort) {
-      filterCategoryDto.sort.split(',').forEach((item) => {
-        const sortItem = item.split(':');
-        orderBy[sortItem[0]] = sortItem[1];
-      });
-    }
-
     const count = await this.prisma.category.count({
       where,
     });

@@ -36,5 +36,5 @@ export class FilterCategoryImageDto {
     example: '12345',
     description: 'category_id of the CategoryImage',
   })
-  readonly category_id: string;
+  readonly category_id?: string;
 }
