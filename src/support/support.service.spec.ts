@@ -279,4 +279,32 @@ describe('SupportService', () => {
       expect(prisma.support.count).toBeCalledTimes(1);
     });
   });
+
+  describe('async findOne(id: string): Promise<Support>', () => {
+    const support = {
+      id: 1,
+      full_name: 'AP2015',
+      phone: '+989012883045',
+      active: true,
+    };
+    it('should return support by id', async () => {
+      // mock prisma return value
+      PrismaMockService.support.findUnique.mockResolvedValue(support);
+
+      const result = await service.findOne(1);
+      expect(result).toStrictEqual(support);
+      expect(prisma.support.findUnique).toBeCalledWith({
+        select,
+        where: { id: 1 },
+      });
+      expect(prisma.support.findUnique).toBeCalledTimes(1);
+    });
+
+    it("should throw if id doesn't exist", async () => {
+      // mock prisma return value
+      PrismaMockService.support.findUnique.mockResolvedValue(null);
+
+      await expect(service.findOne(1000)).rejects.toThrow('support not found');
+    });
+  });
 });

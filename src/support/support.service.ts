@@ -95,12 +95,15 @@ export class SupportService {
   }
 
   async findOne(id: number): Promise<Support> {
-    const support = {
-      id,
-      full_name: 'AP2015',
-      phone: '+989012883045',
-      active: true,
-    };
+    const support = await this.prisma.support.findUnique({
+      select,
+      where: { id },
+    });
+
+    if (support === null) {
+      throw new BadRequestException('support not found');
+    }
+
     return support;
   }
 
