@@ -71,4 +71,162 @@ describe('SupportService', () => {
       expect(prisma.support.create).toBeCalledTimes(1);
     });
   });
+
+  describe('async findAll(dto: FilterSupportDto): Promise<Support[]>', () => {
+    const supports = [
+      {
+        id: 1,
+        full_name: 'AP2015',
+        phone: '+989012883045',
+        active: true,
+      },
+      {
+        id: 2,
+        full_name: 'ES2015',
+        phone: '+989132233694',
+        active: false,
+      },
+    ];
+
+    it('should return all supports', async () => {
+      // mock prisma return value
+      PrismaMockService.support.findMany.mockResolvedValue(supports);
+
+      const dto: FilterSupportDto = {};
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual(supports);
+      expect(prisma.support.findMany).toBeCalledWith({
+        select,
+        where: {},
+        skip: undefined,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.support.findMany).toBeCalledTimes(1);
+    });
+
+    it("should return all supports where full_name === 'AP'", async () => {
+      // mock prisma return value
+      PrismaMockService.support.findMany.mockResolvedValue([supports[0]]);
+
+      const dto: FilterSupportDto = {
+        full_name: 'AP',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([supports[0]]);
+      expect(prisma.support.findMany).toBeCalledWith({
+        select,
+        where: { full_name: { contains: 'AP' } },
+        skip: undefined,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.support.findMany).toBeCalledTimes(1);
+    });
+
+    it("should return all supports where phone === '45'", async () => {
+      // mock prisma return value
+      PrismaMockService.support.findMany.mockResolvedValue([supports[0]]);
+
+      const dto: FilterSupportDto = {
+        phone: '45',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([supports[0]]);
+      expect(prisma.support.findMany).toBeCalledWith({
+        select,
+        where: { phone: { contains: '45' } },
+        skip: undefined,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.support.findMany).toBeCalledTimes(1);
+    });
+
+    it("should return all supports where active === 'true'", async () => {
+      // mock prisma return value
+      PrismaMockService.support.findMany.mockResolvedValue([supports[0]]);
+
+      const dto: FilterSupportDto = {
+        active: 'true',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([supports[0]]);
+      expect(prisma.support.findMany).toBeCalledWith({
+        select,
+        where: { active: true },
+        skip: undefined,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.support.findMany).toBeCalledTimes(1);
+    });
+
+    it('should return supports based on limit', async () => {
+      // mock prisma return value
+      const mockData: Support[] = [supports[0]];
+      PrismaMockService.support.findMany.mockResolvedValue(mockData);
+
+      const dto: FilterSupportDto = {
+        limit: '1',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual(mockData);
+      expect(prisma.support.findMany).toBeCalledWith({
+        select,
+        where: {},
+        skip: undefined,
+        take: 1,
+        orderBy: {},
+      });
+      expect(prisma.support.findMany).toBeCalledTimes(1);
+    });
+
+    it('should return supports based on offset', async () => {
+      // mock prisma return value
+      PrismaMockService.support.findMany.mockResolvedValue([supports[1]]);
+
+      const dto: FilterSupportDto = {
+        offset: '1',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([supports[1]]);
+      expect(prisma.support.findMany).toBeCalledWith({
+        select,
+        where: {},
+        skip: 1,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.support.findMany).toBeCalledTimes(1);
+    });
+
+    it('should sort supports based on sort', async () => {
+      // mock prisma return value
+      PrismaMockService.support.findMany.mockResolvedValue([
+        supports[1],
+        supports[0],
+      ]);
+
+      const dto: FilterSupportDto = {
+        sort: 'full_name:desc',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([supports[1], supports[0]]);
+      expect(prisma.support.findMany).toBeCalledWith({
+        select,
+        where: {},
+        skip: undefined,
+        take: undefined,
+        orderBy: { full_name: 'desc' },
+      });
+      expect(prisma.support.findMany).toBeCalledTimes(1);
+    });
+  });
 });

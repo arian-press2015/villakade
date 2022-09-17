@@ -35,15 +35,43 @@ export class SupportService {
   }
 
   async findAll(filterSupportDto: FilterSupportDto): Promise<Support[]> {
-    const support = [
-      {
-        id: 1,
-        full_name: 'AP2015',
-        phone: '+989012883045',
-        active: true,
-      },
-    ];
-    return support;
+    const where: {
+      full_name?: { contains: string };
+      phone?: { contains: string };
+      active?: boolean;
+    } = {};
+    if (filterSupportDto.full_name) {
+      where.full_name = {
+        contains: filterSupportDto.full_name,
+      };
+    } else if (filterSupportDto.phone) {
+      where.phone = {
+        contains: filterSupportDto.phone,
+      };
+    } else if (filterSupportDto.active) {
+      where.active = filterSupportDto.active === 'true' ? true : false;
+    }
+
+    const orderBy = {};
+    if (filterSupportDto.sort) {
+      filterSupportDto.sort.split(',').forEach((item) => {
+        const sortItem = item.split(':');
+        orderBy[sortItem[0]] = sortItem[1];
+      });
+    }
+
+    const supports = await this.prisma.support.findMany({
+      select,
+      where,
+      skip: filterSupportDto.offset
+        ? parseInt(filterSupportDto.offset)
+        : undefined,
+      take: filterSupportDto.limit
+        ? parseInt(filterSupportDto.limit)
+        : undefined,
+      orderBy,
+    });
+    return supports;
   }
 
   async findOne(id: number): Promise<Support> {
