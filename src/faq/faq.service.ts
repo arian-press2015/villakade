@@ -1,16 +1,36 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { faq_faq_type } from '@prisma/client';
+import { PrismaService } from '../shared/services/prisma.service';
 import { Faq, FilterFaqDto, CreateFaqDto, UpdateFaqDto } from './dto';
+
+const select = {
+  id: true,
+  faq_type: true,
+  question: true,
+  answer: true,
+};
 
 @Injectable()
 export class FaqService {
+  constructor(private prisma: PrismaService) {}
   async create(createFaqDto: CreateFaqDto): Promise<Faq> {
-    const faq = {
-      id: 1,
-      faq_type: createFaqDto.faq_type,
-      question: createFaqDto.question,
-      answer: createFaqDto.answer,
-    };
-    return faq;
+    try {
+      if (!['residence', 'guest', 'general'].includes(createFaqDto.faq_type)) {
+        throw new BadRequestException('faq_type is invalid');
+      }
+      const faq = await this.prisma.faq.create({
+        select,
+        data: {
+          faq_type: faq_faq_type[createFaqDto.faq_type],
+          question: createFaqDto.question,
+          answer: createFaqDto.answer,
+        },
+      });
+      return faq;
+    } catch (e) {
+      console.log('Error in FaqService.create()', e.code, e.meta);
+      throw e;
+    }
   }
 
   async getCount(filterFaqDto: FilterFaqDto): Promise<number> {
