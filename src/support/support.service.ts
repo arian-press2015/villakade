@@ -111,13 +111,30 @@ export class SupportService {
     id: number,
     updateSupportDto: UpdateSupportDto,
   ): Promise<Support> {
-    const support = {
-      id,
-      full_name: updateSupportDto.full_name || 'AP2015',
-      phone: updateSupportDto.phone || '+989012883045',
-      active: updateSupportDto.active || true,
-    };
-    return support;
+    try {
+      const support = await this.prisma.support.update({
+        select,
+        data: {
+          full_name: updateSupportDto.full_name,
+          phone: updateSupportDto.phone,
+          active: updateSupportDto.active,
+        },
+        where: {
+          id,
+        },
+      });
+      return support;
+    } catch (e) {
+      console.log('Error in SupportService.update()', e.code, e.meta);
+      if (
+        e.code &&
+        e.code === 'P2025' &&
+        e.meta.cause === 'Record to update not found.'
+      ) {
+        throw new BadRequestException('support not found');
+      }
+      throw e;
+    }
   }
 
   async remove(id: number): Promise<void> {

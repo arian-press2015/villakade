@@ -308,6 +308,50 @@ describe('SupportService', () => {
     });
   });
 
+  describe('async update(id: string, updateSupportDto: UpdateSupportDto): Promise<Support>', () => {
+    const support = {
+      id: 1,
+      full_name: 'AP2015',
+      phone: '+989012883045',
+      active: true,
+    };
+    it('should update support by id', async () => {
+      // mock prisma return value
+      PrismaMockService.support.update.mockResolvedValue(support);
+
+      const result = await service.update(1, {
+        full_name: 'name',
+        phone: '+989132233694',
+        active: false,
+      });
+      expect(result).toStrictEqual(support);
+      expect(prisma.support.update).toBeCalledWith({
+        select,
+        data: {
+          full_name: 'name',
+          phone: '+989132233694',
+          active: false,
+        },
+        where: {
+          id: 1,
+        },
+      });
+      expect(prisma.support.update).toBeCalledTimes(1);
+    });
+
+    it("should throw if id doesn't exist", async () => {
+      // mock prisma return value
+      PrismaMockService.support.update.mockRejectedValue({
+        code: 'P2025',
+        meta: { cause: 'Record to update not found.' },
+      });
+
+      await expect(service.update(1000, { full_name: 'name' })).rejects.toThrow(
+        'support not found',
+      );
+    });
+  });
+
   describe('async delete(id: string): Promise<void>', () => {
     const support = {
       id: 1,
