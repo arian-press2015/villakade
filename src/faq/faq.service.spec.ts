@@ -236,4 +236,54 @@ describe('FaqService', () => {
       expect(prisma.faq.findMany).toBeCalledTimes(1);
     });
   });
+
+  describe('async getCount(dto: FilterFaqDto): Promise<number>', () => {
+    it("should return faq count based on question === 'بدیم؟'", async () => {
+      // mock prisma return value
+      PrismaMockService.faq.count.mockResolvedValue(1);
+
+      const dto: FilterFaqDto = {
+        question: 'بدیم؟',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(1);
+      expect(prisma.faq.count).toBeCalledWith({
+        where: { question: { contains: 'بدیم؟' } },
+      });
+      expect(prisma.faq.count).toBeCalledTimes(1);
+    });
+
+    it("should return faq count based on answer === 'به'", async () => {
+      // mock prisma return value
+      PrismaMockService.faq.count.mockResolvedValue(1);
+
+      const dto: FilterFaqDto = {
+        answer: 'به',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(1);
+      expect(prisma.faq.count).toBeCalledWith({
+        where: { answer: { contains: 'به' } },
+      });
+      expect(prisma.faq.count).toBeCalledTimes(1);
+    });
+
+    it("should return faq count based on faq_type === 'residence'", async () => {
+      // mock prisma return value
+      PrismaMockService.faq.count.mockResolvedValue(1);
+
+      const dto: FilterFaqDto = {
+        faq_type: 'residence',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(1);
+      expect(prisma.faq.count).toBeCalledWith({
+        where: { faq_type: 'residence' },
+      });
+      expect(prisma.faq.count).toBeCalledTimes(1);
+    });
+  });
 });

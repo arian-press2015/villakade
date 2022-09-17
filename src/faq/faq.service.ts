@@ -34,7 +34,27 @@ export class FaqService {
   }
 
   async getCount(filterFaqDto: FilterFaqDto): Promise<number> {
-    return 1;
+    const where: {
+      question?: { contains: string };
+      answer?: { contains: string };
+      faq_type?: faq_faq_type;
+    } = {};
+    if (filterFaqDto.question) {
+      where.question = {
+        contains: filterFaqDto.question,
+      };
+    } else if (filterFaqDto.answer) {
+      where.answer = {
+        contains: filterFaqDto.answer,
+      };
+    } else if (filterFaqDto.faq_type) {
+      where.faq_type = faq_faq_type[filterFaqDto.faq_type];
+    }
+
+    const faqs = await this.prisma.faq.count({
+      where,
+    });
+    return faqs;
   }
 
   async findAll(filterFaqDto: FilterFaqDto): Promise<Faq[]> {
