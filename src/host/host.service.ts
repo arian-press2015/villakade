@@ -65,7 +65,35 @@ export class HostService {
   }
 
   async getCount(filterHostDto: FilterHostDto): Promise<number> {
-    return 1;
+    const where: {
+      first_name?: { contains: string };
+      last_name?: { contains: string };
+      phone?: { contains: string };
+      vip?: boolean;
+      active?: boolean;
+    } = {};
+    if (filterHostDto.first_name) {
+      where.first_name = {
+        contains: filterHostDto.first_name,
+      };
+    } else if (filterHostDto.last_name) {
+      where.last_name = {
+        contains: filterHostDto.last_name,
+      };
+    } else if (filterHostDto.phone) {
+      where.phone = {
+        contains: filterHostDto.phone,
+      };
+    } else if (filterHostDto.vip) {
+      where.vip = filterHostDto.vip === 'true' ? true : false;
+    } else if (filterHostDto.active) {
+      where.active = filterHostDto.active === 'true' ? true : false;
+    }
+
+    const hosts = await this.prisma.host.count({
+      where,
+    });
+    return hosts;
   }
 
   async findAll(filterHostDto: FilterHostDto): Promise<Host[]> {

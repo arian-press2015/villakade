@@ -322,6 +322,88 @@ describe('HostService', () => {
     });
   });
 
+  describe('async getCount(dto: FilterHostDto): Promise<number>', () => {
+    it("should return host count based on first_name=='ar'", async () => {
+      // mock prisma return value
+      PrismaMockService.host.count.mockResolvedValue(1);
+
+      const dto: FilterHostDto = {
+        first_name: 'ar',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(1);
+      expect(prisma.host.count).toBeCalledWith({
+        where: { first_name: { contains: 'ar' } },
+      });
+      expect(prisma.host.count).toBeCalledTimes(1);
+    });
+
+    it("should return host count based on last_name=='pre'", async () => {
+      // mock prisma return value
+      PrismaMockService.host.count.mockResolvedValue(1);
+
+      const dto: FilterHostDto = {
+        last_name: 'pre',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(1);
+      expect(prisma.host.count).toBeCalledWith({
+        where: { last_name: { contains: 'pre' } },
+      });
+      expect(prisma.host.count).toBeCalledTimes(1);
+    });
+
+    it("should return host count based on phone=='45'", async () => {
+      // mock prisma return value
+      PrismaMockService.host.count.mockResolvedValue(1);
+
+      const dto: FilterHostDto = {
+        phone: '45',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(1);
+      expect(prisma.host.count).toBeCalledWith({
+        where: { phone: { contains: '45' } },
+      });
+      expect(prisma.host.count).toBeCalledTimes(1);
+    });
+
+    it("should return host count based on active === 'true'", async () => {
+      // mock prisma return value
+      PrismaMockService.host.count.mockResolvedValue(1);
+
+      const dto: FilterHostDto = {
+        active: 'true',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(1);
+      expect(prisma.host.count).toBeCalledWith({
+        where: { active: true },
+      });
+      expect(prisma.host.count).toBeCalledTimes(1);
+    });
+
+    it("should return host count based on vip === 'true'", async () => {
+      // mock prisma return value
+      PrismaMockService.host.count.mockResolvedValue(1);
+
+      const dto: FilterHostDto = {
+        vip: 'true',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(1);
+      expect(prisma.host.count).toBeCalledWith({
+        where: { vip: true },
+      });
+      expect(prisma.host.count).toBeCalledTimes(1);
+    });
+  });
+
   describe('async findOne(id: string): Promise<Host>', () => {
     const host = {
       id: 1,
