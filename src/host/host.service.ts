@@ -95,16 +95,13 @@ export class HostService {
     return host;
   }
 
-  // used only for auth mechanisms
+  // used only for auth mechanisms, it doesn't throw if host not found
   async findByPhone(phone: string): Promise<Host> {
-    const host = {
-      id: 123,
-      first_name: 'arian',
-      last_name: 'press2015',
-      phone,
-      vip: true,
-      active: true,
-    };
+    const host = await this.prisma.host.findUnique({
+      select,
+      where: { phone },
+    });
+
     return host;
   }
 

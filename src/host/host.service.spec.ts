@@ -153,6 +153,36 @@ describe('HostService', () => {
     });
   });
 
+  describe('async findByPhone(id: string): Promise<Host>', () => {
+    const host = {
+      id: 1,
+      first_name: 'arian',
+      last_name: 'press2015',
+      phone: '+989012883045',
+      vip: false,
+      active: false,
+    };
+    it('should return host by phone', async () => {
+      // mock prisma return value
+      PrismaMockService.host.findUnique.mockResolvedValue(host);
+
+      const result = await service.findByPhone('+989012883045');
+      expect(result).toStrictEqual(host);
+      expect(prisma.host.findUnique).toBeCalledWith({
+        select,
+        where: { phone: '+989012883045' },
+      });
+      expect(prisma.host.findUnique).toBeCalledTimes(1);
+    });
+
+    it("should return null if phone doesn't exist", async () => {
+      // mock prisma return value
+      PrismaMockService.host.findUnique.mockResolvedValue(null);
+
+      await expect(service.findByPhone('+989992883045')).resolves.toEqual(null);
+    });
+  });
+
   describe('async delete(id: string): Promise<void>', () => {
     const host = {
       id: 1,
