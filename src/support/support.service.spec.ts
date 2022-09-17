@@ -355,14 +355,9 @@ describe('SupportService', () => {
   describe('async delete(id: string): Promise<void>', () => {
     const support = {
       id: 1,
-      name: 'shiraz',
-      fa_name: 'شیراز',
-      total_residence_count: 1,
-      province: {
-        id: 1,
-        name: 'fars',
-        fa_name: 'فارس',
-      },
+      full_name: 'AP2015',
+      phone: '+989012883045',
+      active: true,
     };
     it('should delete support by id', async () => {
       // mock prisma return value

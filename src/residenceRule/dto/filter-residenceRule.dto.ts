@@ -3,6 +3,15 @@ import { IsNumberString, IsOptional, IsString } from 'class-validator';
 
 export class FilterResidenceRuleDto {
   @IsOptional()
+  @IsNumberString({ message: 'residence_id must be a positive number' })
+  @ApiProperty({
+    required: false,
+    example: 12345,
+    description: 'residence_id of the ResidenceRule',
+  })
+  readonly residence_id?: string;
+
+  @IsOptional()
   @IsNumberString({ message: 'offset must be a positive number' })
   @ApiProperty({
     required: false,

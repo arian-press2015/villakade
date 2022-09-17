@@ -71,6 +71,30 @@ const PrismaMockService = {
     count: jest.fn(),
     delete: jest.fn(),
   },
+  contact_us: {
+    findMany: jest.fn(),
+    findUnique: jest.fn(),
+    create: jest.fn(),
+    update: jest.fn(),
+    count: jest.fn(),
+    delete: jest.fn(),
+  },
+  residence_rule: {
+    findMany: jest.fn(),
+    findUnique: jest.fn(),
+    create: jest.fn(),
+    update: jest.fn(),
+    count: jest.fn(),
+    delete: jest.fn(),
+  },
+  host: {
+    findMany: jest.fn(),
+    findUnique: jest.fn(),
+    create: jest.fn(),
+    update: jest.fn(),
+    count: jest.fn(),
+    delete: jest.fn(),
+  },
 };
 
 export default PrismaMockService;
