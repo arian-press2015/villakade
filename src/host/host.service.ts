@@ -164,15 +164,30 @@ export class HostService {
   }
 
   async update(id: number, updateHostDto: UpdateHostDto): Promise<Host> {
-    const host = {
-      id,
-      first_name: updateHostDto.first_name || 'arian',
-      last_name: updateHostDto.last_name || 'press2015',
-      phone: updateHostDto.phone || '+989012883045',
-      vip: true,
-      active: true,
-    };
-    return host;
+    try {
+      const host = await this.prisma.host.update({
+        select,
+        data: {
+          first_name: updateHostDto.first_name,
+          last_name: updateHostDto.last_name,
+          phone: updateHostDto.phone,
+        },
+        where: {
+          id,
+        },
+      });
+      return host;
+    } catch (e) {
+      console.log('Error in HostService.update()', e.code, e.meta);
+      if (
+        e.code &&
+        e.code === 'P2025' &&
+        e.meta.cause === 'Record to update not found.'
+      ) {
+        throw new BadRequestException('host not found');
+      }
+      throw e;
+    }
   }
 
   async remove(id: number): Promise<void> {

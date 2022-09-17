@@ -464,6 +464,50 @@ describe('HostService', () => {
     });
   });
 
+  describe('async update(id: string, updateHostDto: UpdateHostDto): Promise<Host>', () => {
+    const host = {
+      id: 1,
+      full_name: 'AP2015',
+      phone: '+989012883045',
+      active: true,
+    };
+    it('should update host by id', async () => {
+      // mock prisma return value
+      PrismaMockService.host.update.mockResolvedValue(host);
+
+      const result = await service.update(1, {
+        first_name: 'ar',
+        last_name: 'pre',
+        phone: '+989132233694',
+      });
+      expect(result).toStrictEqual(host);
+      expect(prisma.host.update).toBeCalledWith({
+        select,
+        data: {
+          first_name: 'ar',
+          last_name: 'pre',
+          phone: '+989132233694',
+        },
+        where: {
+          id: 1,
+        },
+      });
+      expect(prisma.host.update).toBeCalledTimes(1);
+    });
+
+    it("should throw if id doesn't exist", async () => {
+      // mock prisma return value
+      PrismaMockService.host.update.mockRejectedValue({
+        code: 'P2025',
+        meta: { cause: 'Record to update not found.' },
+      });
+
+      await expect(service.update(1000, { first_name: 'new' })).rejects.toThrow(
+        'host not found',
+      );
+    });
+  });
+
   describe('async delete(id: string): Promise<void>', () => {
     const host = {
       id: 1,
