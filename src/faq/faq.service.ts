@@ -38,15 +38,39 @@ export class FaqService {
   }
 
   async findAll(filterFaqDto: FilterFaqDto): Promise<Faq[]> {
-    const faq = [
-      {
-        id: 1,
-        faq_type: 'residence',
-        question: 'چطور ویلا اجاره کنیم؟',
-        answer: 'به سادگی',
-      },
-    ];
-    return faq;
+    const where: {
+      question?: { contains: string };
+      answer?: { contains: string };
+      faq_type?: faq_faq_type;
+    } = {};
+    if (filterFaqDto.question) {
+      where.question = {
+        contains: filterFaqDto.question,
+      };
+    } else if (filterFaqDto.answer) {
+      where.answer = {
+        contains: filterFaqDto.answer,
+      };
+    } else if (filterFaqDto.faq_type) {
+      where.faq_type = faq_faq_type[filterFaqDto.faq_type];
+    }
+
+    const orderBy = {};
+    if (filterFaqDto.sort) {
+      filterFaqDto.sort.split(',').forEach((item) => {
+        const sortItem = item.split(':');
+        orderBy[sortItem[0]] = sortItem[1];
+      });
+    }
+
+    const faqs = await this.prisma.faq.findMany({
+      select,
+      where,
+      skip: filterFaqDto.offset ? parseInt(filterFaqDto.offset) : undefined,
+      take: filterFaqDto.limit ? parseInt(filterFaqDto.limit) : undefined,
+      orderBy,
+    });
+    return faqs;
   }
 
   async findOne(id: number): Promise<Faq> {
