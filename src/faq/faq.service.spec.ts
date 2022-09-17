@@ -286,4 +286,33 @@ describe('FaqService', () => {
       expect(prisma.faq.count).toBeCalledTimes(1);
     });
   });
+
+  describe('async findOne(id: string): Promise<Faq>', () => {
+    const faq = {
+      id: 1,
+      faq_type: 'residence',
+      question: 'چطور ویلا اجاره بدیم؟',
+      answer: 'به سادگی',
+    };
+
+    it('should return faq by id', async () => {
+      // mock prisma return value
+      PrismaMockService.faq.findUnique.mockResolvedValue(faq);
+
+      const result = await service.findOne(1);
+      expect(result).toStrictEqual(faq);
+      expect(prisma.faq.findUnique).toBeCalledWith({
+        select,
+        where: { id: 1 },
+      });
+      expect(prisma.faq.findUnique).toBeCalledTimes(1);
+    });
+
+    it("should throw if id doesn't exist", async () => {
+      // mock prisma return value
+      PrismaMockService.faq.findUnique.mockResolvedValue(null);
+
+      await expect(service.findOne(1000)).rejects.toThrow('faq not found');
+    });
+  });
 });

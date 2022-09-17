@@ -94,12 +94,15 @@ export class FaqService {
   }
 
   async findOne(id: number): Promise<Faq> {
-    const faq = {
-      id,
-      faq_type: 'residence',
-      question: 'چطور ویلا اجاره کنیم؟',
-      answer: 'به سادگی',
-    };
+    const faq = await this.prisma.faq.findUnique({
+      select,
+      where: { id },
+    });
+
+    if (faq === null) {
+      throw new BadRequestException('faq not found');
+    }
+
     return faq;
   }
 
