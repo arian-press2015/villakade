@@ -307,4 +307,38 @@ describe('SupportService', () => {
       await expect(service.findOne(1000)).rejects.toThrow('support not found');
     });
   });
+
+  describe('async delete(id: string): Promise<void>', () => {
+    const support = {
+      id: 1,
+      name: 'shiraz',
+      fa_name: 'شیراز',
+      total_residence_count: 1,
+      province: {
+        id: 1,
+        name: 'fars',
+        fa_name: 'فارس',
+      },
+    };
+    it('should delete support by id', async () => {
+      // mock prisma return value
+      PrismaMockService.support.delete.mockResolvedValue(support);
+
+      await service.remove(1);
+      expect(prisma.support.delete).toBeCalledWith({
+        where: { id: 1 },
+      });
+      expect(prisma.support.delete).toBeCalledTimes(1);
+    });
+
+    it("should throw if id doesn't exist", async () => {
+      // mock prisma return value
+      PrismaMockService.support.delete.mockRejectedValue({
+        code: 'P2025',
+        meta: { cause: 'Record to delete does not exist.' },
+      });
+
+      await expect(service.remove(1000)).rejects.toThrow('support not found');
+    });
+  });
 });
