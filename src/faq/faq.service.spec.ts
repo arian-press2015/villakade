@@ -315,4 +315,34 @@ describe('FaqService', () => {
       await expect(service.findOne(1000)).rejects.toThrow('faq not found');
     });
   });
+
+  describe('async delete(id: string): Promise<void>', () => {
+    const faq = {
+      id: 1,
+      faq_type: 'residence',
+      question: 'چطور ویلا اجاره بدیم؟',
+      answer: 'به سادگی',
+    };
+
+    it('should delete faq by id', async () => {
+      // mock prisma return value
+      PrismaMockService.faq.delete.mockResolvedValue(faq);
+
+      await service.remove(1);
+      expect(prisma.faq.delete).toBeCalledWith({
+        where: { id: 1 },
+      });
+      expect(prisma.faq.delete).toBeCalledTimes(1);
+    });
+
+    it("should throw if id doesn't exist", async () => {
+      // mock prisma return value
+      PrismaMockService.faq.delete.mockRejectedValue({
+        code: 'P2025',
+        meta: { cause: 'Record to delete does not exist.' },
+      });
+
+      await expect(service.remove(1000)).rejects.toThrow('faq not found');
+    });
+  });
 });
