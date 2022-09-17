@@ -31,7 +31,27 @@ export class SupportService {
   }
 
   async getCount(filterSupportDto: FilterSupportDto): Promise<number> {
-    return 1;
+    const where: {
+      full_name?: { contains: string };
+      phone?: { contains: string };
+      active?: boolean;
+    } = {};
+    if (filterSupportDto.full_name) {
+      where.full_name = {
+        contains: filterSupportDto.full_name,
+      };
+    } else if (filterSupportDto.phone) {
+      where.phone = {
+        contains: filterSupportDto.phone,
+      };
+    } else if (filterSupportDto.active) {
+      where.active = filterSupportDto.active === 'true' ? true : false;
+    }
+
+    const supports = await this.prisma.support.count({
+      where,
+    });
+    return supports;
   }
 
   async findAll(filterSupportDto: FilterSupportDto): Promise<Support[]> {

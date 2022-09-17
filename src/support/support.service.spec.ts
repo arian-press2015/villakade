@@ -229,4 +229,54 @@ describe('SupportService', () => {
       expect(prisma.support.findMany).toBeCalledTimes(1);
     });
   });
+
+  describe('async getCount(dto: FilterSupportDto): Promise<number>', () => {
+    it("should return support count based on full_name=='AP'", async () => {
+      // mock prisma return value
+      PrismaMockService.support.count.mockResolvedValue(1);
+
+      const dto: FilterSupportDto = {
+        full_name: 'AP',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(1);
+      expect(prisma.support.count).toBeCalledWith({
+        where: { full_name: { contains: 'AP' } },
+      });
+      expect(prisma.support.count).toBeCalledTimes(1);
+    });
+
+    it("should return support count based on phone=='45'", async () => {
+      // mock prisma return value
+      PrismaMockService.support.count.mockResolvedValue(1);
+
+      const dto: FilterSupportDto = {
+        phone: '45',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(1);
+      expect(prisma.support.count).toBeCalledWith({
+        where: { phone: { contains: '45' } },
+      });
+      expect(prisma.support.count).toBeCalledTimes(1);
+    });
+
+    it("should return support count based on active === 'true'", async () => {
+      // mock prisma return value
+      PrismaMockService.support.count.mockResolvedValue(1);
+
+      const dto: FilterSupportDto = {
+        active: 'true',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(1);
+      expect(prisma.support.count).toBeCalledWith({
+        where: { active: true },
+      });
+      expect(prisma.support.count).toBeCalledTimes(1);
+    });
+  });
 });
