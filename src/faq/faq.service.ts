@@ -107,13 +107,36 @@ export class FaqService {
   }
 
   async update(id: number, updateFaqDto: UpdateFaqDto): Promise<Faq> {
-    const faq = {
-      id,
-      faq_type: updateFaqDto.faq_type || 'residence',
-      question: updateFaqDto.question || 'چطور ویلا اجاره کنیم؟',
-      answer: updateFaqDto.answer || 'به سادگی',
-    };
-    return faq;
+    try {
+      if (
+        updateFaqDto.faq_type &&
+        !['residence', 'guest', 'general'].includes(updateFaqDto.faq_type)
+      ) {
+        throw new BadRequestException('faq_type is invalid');
+      }
+      const faq = await this.prisma.faq.update({
+        select,
+        data: {
+          question: updateFaqDto.question,
+          answer: updateFaqDto.answer,
+          faq_type: faq_faq_type[updateFaqDto.faq_type],
+        },
+        where: {
+          id,
+        },
+      });
+      return faq;
+    } catch (e) {
+      console.log('Error in FaqService.update()', e.code, e.meta);
+      if (
+        e.code &&
+        e.code === 'P2025' &&
+        e.meta.cause === 'Record to update not found.'
+      ) {
+        throw new BadRequestException('faq not found');
+      }
+      throw e;
+    }
   }
 
   async remove(id: number): Promise<void> {

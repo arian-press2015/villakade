@@ -1,5 +1,6 @@
 import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
+import { faq_faq_type } from '@prisma/client';
 import configuration from '../config/configuration';
 import { PrismaService } from '../shared/services/prisma.service';
 import PrismaMockService from '../shared/services/prismaMock.service';
@@ -313,6 +314,61 @@ describe('FaqService', () => {
       PrismaMockService.faq.findUnique.mockResolvedValue(null);
 
       await expect(service.findOne(1000)).rejects.toThrow('faq not found');
+    });
+  });
+
+  describe('async update(id: string, updateFaqDto: UpdateFaqDto): Promise<Faq>', () => {
+    const faq = {
+      id: 1,
+      name: 'shiraz',
+      fa_name: 'شیراز',
+      total_residence_count: 1,
+      province: {
+        id: 1,
+        name: 'fars',
+        fa_name: 'فارس',
+      },
+    };
+    it('should update faq by id', async () => {
+      // mock prisma return value
+      PrismaMockService.faq.update.mockResolvedValue(faq);
+
+      const result = await service.update(1, {
+        question: 'soal',
+        answer: 'javab',
+        faq_type: 'general',
+      });
+      expect(result).toStrictEqual(faq);
+      expect(prisma.faq.update).toBeCalledWith({
+        select,
+        data: {
+          question: 'soal',
+          answer: 'javab',
+          faq_type: faq_faq_type['general'],
+        },
+        where: {
+          id: 1,
+        },
+      });
+      expect(prisma.faq.update).toBeCalledTimes(1);
+    });
+
+    it("should throw if id doesn't exist", async () => {
+      // mock prisma return value
+      PrismaMockService.faq.update.mockRejectedValue({
+        code: 'P2025',
+        meta: { cause: 'Record to update not found.' },
+      });
+
+      await expect(service.update(1000, { question: 'soal' })).rejects.toThrow(
+        'faq not found',
+      );
+    });
+
+    it('should throw error if the faq faq_type is invalid', async () => {
+      await expect(service.update(2, { faq_type: 'invalid' })).rejects.toThrow(
+        'faq_type is invalid',
+      );
     });
   });
 
