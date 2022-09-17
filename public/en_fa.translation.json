@@ -63,6 +63,7 @@
   "faq already exists": "پرسش پرکاربرد قبلا ثبت شده است",
   "faq_type must be a string": "پرسش باید از نوع متنی باشد",
   "faq_type is required": "نوع پرسش اجباری است",
+  "faq_type is invalid": "نوع پرسش اجباری است",
   "question must be a string": "پرسش باید از نوع متنی باشد",
   "question is required": "پرسش اجباری است",
   "answer must be a string": "پاسخ باید از نوع متنی باشد",
