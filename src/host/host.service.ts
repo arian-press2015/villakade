@@ -1,11 +1,46 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { totp } from 'otplib';
+import { PrismaService } from '../shared/services/prisma.service';
+import { RedisService } from '../shared/services/redis.service';
 import { Host, FilterHostDto, CreateHostDto, UpdateHostDto } from './dto';
 import { HostOtpRequest } from './dto/login-host.dto';
 
+const select = {
+  id: true,
+  first_name: true,
+  last_name: true,
+  phone: true,
+  vip: true,
+  active: true,
+};
+
 @Injectable()
 export class HostService {
+  constructor(
+    private prisma: PrismaService,
+    private redis: RedisService,
+    private ConfigService: ConfigService,
+  ) {}
   async getOtp(hostOtpRequest: HostOtpRequest): Promise<void> {
-    return;
+    try {
+      // create an otp
+      const secret = await this.ConfigService.get('otp_secret');
+      const otp = totp.generate(secret);
+
+      // store the otp
+      const pattern = `host-login-otp-${hostOtpRequest.phone}`;
+      await this.redis.set(pattern, otp);
+      await this.redis.expire(pattern, 120);
+
+      // send the otp
+      console.log(`otp is ${otp}`);
+
+      return;
+    } catch (e) {
+      console.log('Error in HostService.create()', e.code, e.meta);
+      throw e;
+    }
   }
 
   async create(createHostDto: CreateHostDto): Promise<Host> {
@@ -50,6 +85,7 @@ export class HostService {
     return host;
   }
 
+  // used only for auth mechanisms
   async findByPhone(phone: string): Promise<Host> {
     const host = {
       id: 123,

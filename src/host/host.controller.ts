@@ -12,11 +12,13 @@ import {
   UseGuards,
   Request,
   HttpCode,
+  BadRequestException,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiBody,
   ApiOperation,
+  ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -45,10 +47,6 @@ export class HostController {
   @HttpCode(204)
   @Get('login')
   @ApiOperation({ summary: 'login Host' })
-  @ApiBody({
-    description: 'Required body fields',
-    type: HostOtpRequest,
-  })
   @ApiResponse({
     status: 204,
     description: 'Requests otp for the Owner',
@@ -57,7 +55,12 @@ export class HostController {
     status: 400,
     description: 'host not found',
   })
-  async getOtp(hostOtpRequest: HostOtpRequest): Promise<void> {
+  async getOtp(@Query() hostOtpRequest: HostOtpRequest): Promise<void> {
+    const host = await this.hostService.findByPhone(hostOtpRequest.phone);
+
+    if (!host) {
+      throw new BadRequestException('host not found');
+    }
     return this.hostService.getOtp(hostOtpRequest);
   }
 
