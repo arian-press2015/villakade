@@ -122,4 +122,34 @@ describe('HostService', () => {
       await expect(service.create(dto)).rejects.toThrow('phone already exists');
     });
   });
+
+  describe('async findOne(id: string): Promise<Host>', () => {
+    const host = {
+      id: 1,
+      first_name: 'arian',
+      last_name: 'press2015',
+      phone: '+989012883045',
+      vip: false,
+      active: false,
+    };
+    it('should return host by id', async () => {
+      // mock prisma return value
+      PrismaMockService.host.findUnique.mockResolvedValue(host);
+
+      const result = await service.findOne(1);
+      expect(result).toStrictEqual(host);
+      expect(prisma.host.findUnique).toBeCalledWith({
+        select,
+        where: { id: 1 },
+      });
+      expect(prisma.host.findUnique).toBeCalledTimes(1);
+    });
+
+    it("should throw if id doesn't exist", async () => {
+      // mock prisma return value
+      PrismaMockService.host.findUnique.mockResolvedValue(null);
+
+      await expect(service.findOne(1000)).rejects.toThrow('host not found');
+    });
+  });
 });

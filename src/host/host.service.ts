@@ -83,14 +83,15 @@ export class HostService {
   }
 
   async findOne(id: number): Promise<Host> {
-    const host = {
-      id,
-      first_name: 'arian',
-      last_name: 'press2015',
-      phone: '+989012883045',
-      vip: true,
-      active: true,
-    };
+    const host = await this.prisma.host.findUnique({
+      select,
+      where: { id },
+    });
+
+    if (host === null) {
+      throw new BadRequestException('host not found');
+    }
+
     return host;
   }
 
