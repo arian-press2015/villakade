@@ -121,6 +121,24 @@ export class HostService {
   }
 
   async remove(id: number): Promise<void> {
-    return;
+    try {
+      const host = await this.prisma.host.findUnique({
+        where: { id },
+      });
+
+      if (!host) {
+        throw new BadRequestException('host not found');
+      }
+
+      await this.prisma.host.update({
+        where: { id },
+        data: {
+          active: false,
+        },
+      });
+      return;
+    } catch (e) {
+      throw e;
+    }
   }
 }

@@ -152,4 +152,41 @@ describe('HostService', () => {
       await expect(service.findOne(1000)).rejects.toThrow('host not found');
     });
   });
+
+  describe('async delete(id: string): Promise<void>', () => {
+    const host = {
+      id: 1,
+      first_name: 'arian',
+      last_name: 'press2015',
+      phone: '+989012883045',
+      vip: false,
+      active: false,
+    };
+
+    it('should delete host by id', async () => {
+      // mock prisma return value
+      PrismaMockService.host.findUnique.mockResolvedValue(host);
+      PrismaMockService.host.update.mockResolvedValue(host);
+
+      await service.remove(1);
+      expect(prisma.host.update).toBeCalledWith({
+        where: { id: 1 },
+        data: {
+          active: false,
+        },
+      });
+      expect(prisma.host.update).toBeCalledTimes(1);
+    });
+
+    it("should throw if id doesn't exist", async () => {
+      // mock prisma return value
+      PrismaMockService.host.findUnique.mockResolvedValue(null);
+      PrismaMockService.host.update.mockRejectedValue({
+        code: 'P2025',
+        meta: { cause: 'Record to update not found.' },
+      });
+
+      await expect(service.remove(1000)).rejects.toThrow('host not found');
+    });
+  });
 });
