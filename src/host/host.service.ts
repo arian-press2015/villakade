@@ -44,15 +44,24 @@ export class HostService {
   }
 
   async create(createHostDto: CreateHostDto): Promise<Host> {
-    const host = {
-      id: 1,
-      first_name: createHostDto.first_name,
-      last_name: createHostDto.last_name,
-      phone: createHostDto.phone,
-      vip: createHostDto.vip,
-      active: createHostDto.active,
-    };
-    return host;
+    try {
+      const { active, vip, ...data } = createHostDto;
+      const host = await this.prisma.host.create({
+        select,
+        data: {
+          ...data,
+          vip: false,
+          active: false,
+        },
+      });
+      return host;
+    } catch (e) {
+      console.log('Error in HostService.create()', e.code, e.meta);
+      if (e.code && e.code === 'P2002' && e.meta.target === 'host_phone_UN') {
+        throw new BadRequestException('phone already exists');
+      }
+      throw e;
+    }
   }
 
   async getCount(filterHostDto: FilterHostDto): Promise<number> {

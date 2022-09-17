@@ -71,4 +71,55 @@ describe('HostService', () => {
       expect(otpMock).toBeCalledTimes(1);
     });
   });
+
+  describe('async create(dto: CreateHostDto): Promise<Host>', () => {
+    const host: Host = {
+      id: 1,
+      first_name: 'arian',
+      last_name: 'press2015',
+      phone: '+989012883045',
+      vip: false,
+      active: false,
+    };
+
+    it('should create new Host and return it', async () => {
+      // mock prisma return value
+      PrismaMockService.host.create.mockResolvedValue(host);
+
+      const dto: CreateHostDto = {
+        first_name: 'arian',
+        last_name: 'press2015',
+        phone: '+989012883045',
+        vip: true,
+        active: true,
+      };
+
+      const { active, vip, ...data } = dto;
+      const result = await service.create(dto);
+      expect(result).toStrictEqual(host);
+      expect(prisma.host.create).toBeCalledWith({
+        select,
+        data: { active: false, vip: false, ...data },
+      });
+      expect(prisma.host.create).toBeCalledTimes(1);
+    });
+
+    it('should throw if phone is used before', async () => {
+      // mock prisma return value
+      PrismaMockService.host.create.mockRejectedValue({
+        code: 'P2002',
+        meta: { target: 'host_phone_UN' },
+      });
+
+      const dto: CreateHostDto = {
+        first_name: 'arian',
+        last_name: 'press2015',
+        phone: '+989012883045',
+        vip: true,
+        active: true,
+      };
+
+      await expect(service.create(dto)).rejects.toThrow('phone already exists');
+    });
+  });
 });

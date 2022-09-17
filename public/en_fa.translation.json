@@ -78,6 +78,7 @@
   "password is required": "گذرواژه اجباری است",
   "password must be a string": "گذرواژه باید از نوع متنی باشد",
   "owner already exists": "مالک قبلا ثبت شده است",
+  "phone already exists": "شماره تلفن قبلا ثبت شده است",
   "permission already exists": "دسترسی قبلا ثبت شده است",
   "permission not found": "دسترسی یافت نشد",
   "province already exists": "استان قبلا ثبت شده است",
