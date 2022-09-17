@@ -69,17 +69,47 @@ export class HostService {
   }
 
   async findAll(filterHostDto: FilterHostDto): Promise<Host[]> {
-    const host = [
-      {
-        id: 1,
-        first_name: 'arian',
-        last_name: 'press2015',
-        phone: '+989012883045',
-        vip: true,
-        active: true,
-      },
-    ];
-    return host;
+    const where: {
+      first_name?: { contains: string };
+      last_name?: { contains: string };
+      phone?: { contains: string };
+      vip?: boolean;
+      active?: boolean;
+    } = {};
+    if (filterHostDto.first_name) {
+      where.first_name = {
+        contains: filterHostDto.first_name,
+      };
+    } else if (filterHostDto.last_name) {
+      where.last_name = {
+        contains: filterHostDto.last_name,
+      };
+    } else if (filterHostDto.phone) {
+      where.phone = {
+        contains: filterHostDto.phone,
+      };
+    } else if (filterHostDto.vip) {
+      where.vip = filterHostDto.vip === 'true' ? true : false;
+    } else if (filterHostDto.active) {
+      where.active = filterHostDto.active === 'true' ? true : false;
+    }
+
+    const orderBy = {};
+    if (filterHostDto.sort) {
+      filterHostDto.sort.split(',').forEach((item) => {
+        const sortItem = item.split(':');
+        orderBy[sortItem[0]] = sortItem[1];
+      });
+    }
+
+    const hosts = await this.prisma.host.findMany({
+      select,
+      where,
+      skip: filterHostDto.offset ? parseInt(filterHostDto.offset) : undefined,
+      take: filterHostDto.limit ? parseInt(filterHostDto.limit) : undefined,
+      orderBy,
+    });
+    return hosts;
   }
 
   async findOne(id: number): Promise<Host> {

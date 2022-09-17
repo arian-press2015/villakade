@@ -123,6 +123,205 @@ describe('HostService', () => {
     });
   });
 
+  describe('async findAll(dto: FilterHostDto): Promise<Host[]>', () => {
+    const hosts = [
+      {
+        id: 1,
+        first_name: 'arian',
+        last_name: 'press2015',
+        phone: '+989012883045',
+        vip: true,
+        active: true,
+      },
+      {
+        id: 2,
+        first_name: 'sepehran',
+        last_name: 'babaei',
+        phone: '+0989132233694',
+        vip: false,
+        active: false,
+      },
+    ];
+
+    it('should return all hosts', async () => {
+      // mock prisma return value
+      PrismaMockService.host.findMany.mockResolvedValue(hosts);
+
+      const dto: FilterHostDto = {};
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual(hosts);
+      expect(prisma.host.findMany).toBeCalledWith({
+        select,
+        where: {},
+        skip: undefined,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.host.findMany).toBeCalledTimes(1);
+    });
+
+    it("should return all hosts where first_name === 'ar'", async () => {
+      // mock prisma return value
+      PrismaMockService.host.findMany.mockResolvedValue([hosts[0]]);
+
+      const dto: FilterHostDto = {
+        first_name: 'ar',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([hosts[0]]);
+      expect(prisma.host.findMany).toBeCalledWith({
+        select,
+        where: { first_name: { contains: 'ar' } },
+        skip: undefined,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.host.findMany).toBeCalledTimes(1);
+    });
+
+    it("should return all hosts where last_name === 'pre'", async () => {
+      // mock prisma return value
+      PrismaMockService.host.findMany.mockResolvedValue([hosts[0]]);
+
+      const dto: FilterHostDto = {
+        last_name: 'pre',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([hosts[0]]);
+      expect(prisma.host.findMany).toBeCalledWith({
+        select,
+        where: { last_name: { contains: 'pre' } },
+        skip: undefined,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.host.findMany).toBeCalledTimes(1);
+    });
+
+    it("should return all hosts where phone === '45'", async () => {
+      // mock prisma return value
+      PrismaMockService.host.findMany.mockResolvedValue([hosts[0]]);
+
+      const dto: FilterHostDto = {
+        phone: '45',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([hosts[0]]);
+      expect(prisma.host.findMany).toBeCalledWith({
+        select,
+        where: { phone: { contains: '45' } },
+        skip: undefined,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.host.findMany).toBeCalledTimes(1);
+    });
+
+    it("should return all hosts where active === 'true'", async () => {
+      // mock prisma return value
+      PrismaMockService.host.findMany.mockResolvedValue([hosts[0]]);
+
+      const dto: FilterHostDto = {
+        active: 'true',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([hosts[0]]);
+      expect(prisma.host.findMany).toBeCalledWith({
+        select,
+        where: { active: true },
+        skip: undefined,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.host.findMany).toBeCalledTimes(1);
+    });
+
+    it("should return all hosts where vip === 'false'", async () => {
+      // mock prisma return value
+      PrismaMockService.host.findMany.mockResolvedValue([hosts[1]]);
+
+      const dto: FilterHostDto = {
+        vip: 'false',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([hosts[1]]);
+      expect(prisma.host.findMany).toBeCalledWith({
+        select,
+        where: { vip: false },
+        skip: undefined,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.host.findMany).toBeCalledTimes(1);
+    });
+
+    it('should return hosts based on limit', async () => {
+      // mock prisma return value
+      const mockData: Host[] = [hosts[0]];
+      PrismaMockService.host.findMany.mockResolvedValue(mockData);
+
+      const dto: FilterHostDto = {
+        limit: '1',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual(mockData);
+      expect(prisma.host.findMany).toBeCalledWith({
+        select,
+        where: {},
+        skip: undefined,
+        take: 1,
+        orderBy: {},
+      });
+      expect(prisma.host.findMany).toBeCalledTimes(1);
+    });
+
+    it('should return hosts based on offset', async () => {
+      // mock prisma return value
+      PrismaMockService.host.findMany.mockResolvedValue([hosts[1]]);
+
+      const dto: FilterHostDto = {
+        offset: '1',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([hosts[1]]);
+      expect(prisma.host.findMany).toBeCalledWith({
+        select,
+        where: {},
+        skip: 1,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.host.findMany).toBeCalledTimes(1);
+    });
+
+    it('should sort hosts based on sort', async () => {
+      // mock prisma return value
+      PrismaMockService.host.findMany.mockResolvedValue([hosts[1], hosts[0]]);
+
+      const dto: FilterHostDto = {
+        sort: 'full_name:desc',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([hosts[1], hosts[0]]);
+      expect(prisma.host.findMany).toBeCalledWith({
+        select,
+        where: {},
+        skip: undefined,
+        take: undefined,
+        orderBy: { full_name: 'desc' },
+      });
+      expect(prisma.host.findMany).toBeCalledTimes(1);
+    });
+  });
+
   describe('async findOne(id: string): Promise<Host>', () => {
     const host = {
       id: 1,
