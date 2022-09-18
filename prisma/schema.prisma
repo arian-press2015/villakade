@@ -61,53 +61,35 @@ model province {
 }
 
 model residence {
-  id                  Int                  @id @default(autoincrement())
-  host_id             Int
-  title               String               @db.VarChar(100)
-  type_id             Int
-  location            String               @db.VarChar(100)
-  price               Int
-  active              Boolean              @default(false)
-  city_id             Int
-  host                host                 @relation(fields: [host_id], references: [id], map: "residence_FK")
-  type                type                 @relation(fields: [type_id], references: [id], map: "residence_FK_1")
-  city                city                 @relation(fields: [city_id], references: [id], map: "residence_FK_2")
-  residence_attribute residence_attribute?
-  residence_category  residence_category[]
-  residence_image     residence_image?
-  residence_rule      residence_rule?
+  id                                   Int                                   @id @default(autoincrement())
+  host_id                              Int
+  title                                String                                @db.VarChar(100)
+  type_id                              Int
+  location                             String                                @db.VarChar(100)
+  active                               Boolean                               @default(false)
+  city_id                              Int
+  normal_capacity                      Int
+  max_capacity                         Int
+  about                                String                                @db.VarChar(200)
+  host                                 host                                  @relation(fields: [host_id], references: [id], map: "residence_FK")
+  type                                 type                                  @relation(fields: [type_id], references: [id], map: "residence_FK_1")
+  city                                 city                                  @relation(fields: [city_id], references: [id], map: "residence_FK_2")
+  residence_air_conditioning_attribute residence_air_conditioning_attribute?
+  residence_category                   residence_category[]
+  residence_cooking_attribute          residence_cooking_attribute?
+  residence_entertainment_attribute    residence_entertainment_attribute?
+  residence_facility_attribute         residence_facility_attribute?
+  residence_image                      residence_image?
+  residence_parking_attribute          residence_parking_attribute?
+  residence_price                      residence_price?
+  residence_room_attribute             residence_room_attribute?
+  residence_rule                       residence_rule?
+  residence_serve_attribute            residence_serve_attribute?
+  residence_wc_bathroom                residence_wc_bathroom?
 
   @@index([host_id], map: "residence_FK")
   @@index([type_id], map: "residence_FK_1")
   @@index([city_id], map: "residence_FK_2")
-}
-
-model residence_attribute {
-  residence_id        Int       @id
-  residence_size      Int
-  residence_yard_size Int
-  bedroom_count       Int
-  capacity            Int
-  in_time             DateTime  @db.Time(0)
-  out_time            DateTime  @db.Time(0)
-  pet                 Boolean   @default(false)
-  instant_delivery    Boolean   @default(false)
-  dishes              Boolean   @default(false)
-  dining_table        Boolean   @default(false)
-  microwave           Boolean   @default(false)
-  fridge              Boolean   @default(false)
-  water               Boolean   @default(false)
-  electricity         Boolean   @default(false)
-  gas                 Boolean   @default(false)
-  tv                  Boolean   @default(false)
-  elevator            Boolean   @default(false)
-  local_wc            Boolean   @default(false)
-  wc                  Boolean   @default(false)
-  pool_table          Boolean   @default(false)
-  ping_pong_table     Boolean   @default(false)
-  pool                Boolean   @default(false)
-  vip                 Boolean   @default(false)
-  residence           residence @relation(fields: [residence_id], references: [id], map: "residence_attribute_FK")
 }
 
 model residence_category {
@@ -129,9 +111,14 @@ model residence_image {
 }
 
 model residence_rule {
-  residence_id Int       @id
-  rule_body    String    @db.VarChar(100)
-  residence    residence @relation(fields: [residence_id], references: [id], map: "residence_rule_FK")
+  residence_id       Int                       @id
+  rule_body          String                    @db.VarChar(100)
+  in_time            DateTime                  @db.Time(0)
+  out_time           DateTime                  @db.Time(0)
+  required_documents String?                   @db.VarChar(100)
+  pet_status         residence_rule_pet_status
+  ceremonies         residence_rule_ceremonies
+  residence          residence                 @relation(fields: [residence_id], references: [id], map: "residence_rule_FK")
 }
 
 model support {
@@ -202,8 +189,154 @@ model category_image {
   category    category @relation(fields: [category_id], references: [id], onDelete: Cascade, map: "category_image_FK")
 }
 
+model residence_air_conditioning_attribute {
+  residence_id    Int       @id
+  radiator        Boolean?
+  wood_heater     Boolean?
+  fireplace       Boolean?
+  korsi           Boolean?
+  oil_heater      Boolean?
+  fancoil         Boolean?
+  electric_heater Boolean?
+  air_conditioner Boolean?
+  water_cooler    Boolean?
+  split           Boolean?
+  ceiling_fan     Boolean?
+  standing_fan    Boolean?
+  residence       residence @relation(fields: [residence_id], references: [id], onDelete: Cascade, map: "NewTable_FK")
+}
+
+model residence_cooking_attribute {
+  residence_id Int       @id
+  fridge       Boolean?
+  microwave    Boolean?
+  pan          Boolean?
+  pot          Boolean?
+  grill        Boolean?
+  skewer       Boolean?
+  oven         Boolean?
+  lighter      Boolean?
+  residence    residence @relation(fields: [residence_id], references: [id], onDelete: Cascade, map: "residence_cooking_attribute_FK")
+}
+
+model residence_entertainment_attribute {
+  residence_id Int       @id
+  television   Boolean?
+  receiver     Boolean?
+  audio_system Boolean?
+  swing        Boolean?
+  ping_pong    Boolean?
+  foosball     Boolean?
+  game_console Boolean?
+  pool_table   Boolean?
+  game_board   Boolean?
+  treadmill    Boolean?
+  bicycle      Boolean?
+  beach_motor  Boolean?
+  residence    residence @relation(fields: [residence_id], references: [id], onDelete: Cascade, map: "residence_entertainment_attribute_FK")
+}
+
+model residence_facility_attribute {
+  residence_id        Int       @id
+  furniture           Boolean?
+  vacuum_cleaner      Boolean?
+  washing_machine     Boolean?
+  washing_powder      Boolean?
+  dishwashing_machine Boolean?
+  wifi                Boolean?
+  hairdryer           Boolean?
+  elevator            Boolean?
+  iron                Boolean?
+  telephone           Boolean?
+  first_aid_kit       Boolean?
+  security_camera     Boolean?
+  residence           residence @relation(fields: [residence_id], references: [id], onDelete: Cascade, map: "residence_facility_attribute_FK")
+}
+
+model residence_parking_attribute {
+  residence_id Int       @id
+  roof         Boolean?
+  unroofed     Boolean?
+  public       Boolean?
+  free_space   Boolean?
+  capacity     Boolean   @default(false)
+  residence    residence @relation(fields: [residence_id], references: [id], onDelete: Cascade, map: "residence_parking_attribute_FK")
+}
+
+model residence_price {
+  residence_id        Int       @id
+  weekday_price       Int       @default(0)
+  weekend_price       Int       @default(0)
+  peak_price          Int       @default(0)
+  extra_guest_weekday Int       @default(0)
+  extra_guest_weekend Int       @default(0)
+  extra_guest_peak    Int       @default(0)
+  residence           residence @relation(fields: [residence_id], references: [id], onDelete: Cascade, map: "residence_price_FK")
+}
+
+model residence_room_attribute {
+  residence_id   Int       @id
+  count          Int       @default(0)
+  wall_closet    Boolean?
+  drawer         Boolean?
+  hanger         Boolean?
+  double_bed     Boolean?
+  single_bed     Boolean?
+  carpet         Boolean?
+  heating_system Boolean?
+  cooling_system Boolean?
+  residence      residence @relation(fields: [residence_id], references: [id], onDelete: Cascade, map: "residence_room_attribute_FK")
+}
+
+model residence_serve_attribute {
+  residence_id Int       @id
+  plate        Boolean?
+  fork_spoon   Boolean?
+  knife        Boolean?
+  bowl         Boolean?
+  glass        Boolean?
+  teapot       Boolean?
+  kettle       Boolean?
+  samovar      Boolean?
+  tea_maker    Boolean?
+  salt_shaker  Boolean?
+  tablecloth   Boolean?
+  dining_table Boolean?
+  child_chair  Boolean?
+  tissue_paper Boolean?
+  residence    residence @relation(fields: [residence_id], references: [id], onDelete: Cascade, map: "residence_serve_attribute_FK")
+}
+
+model residence_wc_bathroom {
+  residence_id       Int       @id
+  location           String    @db.VarChar(100)
+  local_wc           Boolean?
+  fix_wc             Boolean?
+  portable_wc        Boolean?
+  shower             Boolean?
+  jacuzzi            Boolean?
+  bathtub            Boolean?
+  soap               Boolean?
+  shampoo            Boolean?
+  shared_wc_bathroom Boolean   @default(false)
+  residence          residence @relation(fields: [residence_id], references: [id], onDelete: Cascade, map: "residence_wc_bathroom_FK")
+}
+
 enum faq_faq_type {
   residence
   quest
   general
+}
+
+enum residence_rule_pet_status {
+  yes
+  yes_outside
+  yes_in_box
+  no
+}
+
+enum residence_rule_ceremonies {
+  yes
+  yes_by_coordination
+  no
 }
