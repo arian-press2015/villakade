@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { City } from '../../city/dto';
+import { ResidencePrice } from '../../residenceAttribute/dto';
 import { ResidenceImage } from '../../residenceImage/dto';
 import { Type } from '../../type/dto';
 
@@ -72,5 +73,16 @@ export class Residence {
   })
   readonly about: string;
 
-  // TODO: add price
+  @ApiProperty({
+    example: {
+      weekday_price: 10,
+      weekend_price: 10,
+      peak_price: 10,
+      extra_guest_weekday: 10,
+      extra_guest_weekend: 10,
+      extra_guest_peak: 10,
+    },
+    description: 'price of the Residence',
+  })
+  readonly residence_price: ResidencePrice;
 }

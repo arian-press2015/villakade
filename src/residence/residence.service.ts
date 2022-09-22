@@ -38,6 +38,17 @@ const select = {
   normal_capacity: true,
   max_capacity: true,
   about: true,
+  residence_price: {
+    select: {
+      residence_id: true,
+      weekday_price: true,
+      weekend_price: true,
+      peak_price: true,
+      extra_guest_weekday: true,
+      extra_guest_weekend: true,
+      extra_guest_peak: true,
+    },
+  },
 };
 
 @Injectable()
@@ -67,6 +78,12 @@ export class ResidenceService {
       city_id?: number;
       active?: boolean;
       location?: { contains: string };
+      weekday_price?: { gt?: number; lt?: number };
+      weekend_price?: { gt?: number; lt?: number };
+      peak_price?: { gt?: number; lt?: number };
+      extra_guest_weekday?: { gt?: number; lt?: number };
+      extra_guest_weekend?: { gt?: number; lt?: number };
+      extra_guest_peak?: { gt?: number; lt?: number };
     } = {};
     if (filterResidenceDto.title) {
       where.title = {
@@ -83,6 +100,78 @@ export class ResidenceService {
     } else if (filterResidenceDto.location) {
       where.location = {
         contains: filterResidenceDto.location,
+      };
+    } else if (
+      filterResidenceDto.min_weekday_price ||
+      filterResidenceDto.max_weekday_price
+    ) {
+      where.weekday_price = {
+        gt: filterResidenceDto.min_weekday_price
+          ? parseInt(filterResidenceDto.min_weekday_price)
+          : undefined,
+        lt: filterResidenceDto.max_weekday_price
+          ? parseInt(filterResidenceDto.max_weekday_price)
+          : undefined,
+      };
+    } else if (
+      filterResidenceDto.min_weekend_price ||
+      filterResidenceDto.max_weekend_price
+    ) {
+      where.weekend_price = {
+        gt: filterResidenceDto.min_weekend_price
+          ? parseInt(filterResidenceDto.min_weekend_price)
+          : undefined,
+        lt: filterResidenceDto.max_weekend_price
+          ? parseInt(filterResidenceDto.max_weekend_price)
+          : undefined,
+      };
+    } else if (
+      filterResidenceDto.min_peak_price ||
+      filterResidenceDto.max_peak_price
+    ) {
+      where.peak_price = {
+        gt: filterResidenceDto.min_peak_price
+          ? parseInt(filterResidenceDto.min_peak_price)
+          : undefined,
+        lt: filterResidenceDto.max_peak_price
+          ? parseInt(filterResidenceDto.max_peak_price)
+          : undefined,
+      };
+    } else if (
+      filterResidenceDto.min_extra_guest_weekday ||
+      filterResidenceDto.max_extra_guest_weekday
+    ) {
+      where.extra_guest_weekday = {
+        gt: filterResidenceDto.min_extra_guest_weekday
+          ? parseInt(filterResidenceDto.min_extra_guest_weekday)
+          : undefined,
+        lt: filterResidenceDto.max_extra_guest_weekday
+          ? parseInt(filterResidenceDto.max_extra_guest_weekday)
+          : undefined,
+      };
+    } else if (
+      filterResidenceDto.min_extra_guest_weekend ||
+      filterResidenceDto.max_extra_guest_weekend
+    ) {
+      where.extra_guest_weekend = {
+        gt: filterResidenceDto.min_extra_guest_weekend
+          ? parseInt(filterResidenceDto.min_extra_guest_weekend)
+          : undefined,
+        lt: filterResidenceDto.max_extra_guest_weekend
+          ? parseInt(filterResidenceDto.max_extra_guest_weekend)
+          : undefined,
+      };
+    } else if (
+      filterResidenceDto.min_extra_guest_peak ||
+      filterResidenceDto.max_extra_guest_peak
+    ) {
+      where.extra_guest_peak = {
+        gt: filterResidenceDto.min_extra_guest_peak
+          ? parseInt(filterResidenceDto.min_extra_guest_peak)
+          : undefined,
+        lt: filterResidenceDto.max_extra_guest_peak
+          ? parseInt(filterResidenceDto.max_extra_guest_peak)
+          : undefined,
       };
     }
 
@@ -100,6 +189,12 @@ export class ResidenceService {
       city_id?: number;
       active?: boolean;
       location?: { contains: string };
+      weekday_price?: { gt?: number; lt?: number };
+      weekend_price?: { gt?: number; lt?: number };
+      peak_price?: { gt?: number; lt?: number };
+      extra_guest_weekday?: { gt?: number; lt?: number };
+      extra_guest_weekend?: { gt?: number; lt?: number };
+      extra_guest_peak?: { gt?: number; lt?: number };
     } = {};
     if (filterResidenceDto.title) {
       where.title = {
@@ -116,6 +211,78 @@ export class ResidenceService {
     } else if (filterResidenceDto.location) {
       where.location = {
         contains: filterResidenceDto.location,
+      };
+    } else if (
+      filterResidenceDto.min_weekday_price ||
+      filterResidenceDto.max_weekday_price
+    ) {
+      where.weekday_price = {
+        gt: filterResidenceDto.min_weekday_price
+          ? parseInt(filterResidenceDto.min_weekday_price)
+          : undefined,
+        lt: filterResidenceDto.max_weekday_price
+          ? parseInt(filterResidenceDto.max_weekday_price)
+          : undefined,
+      };
+    } else if (
+      filterResidenceDto.min_weekend_price ||
+      filterResidenceDto.max_weekend_price
+    ) {
+      where.weekend_price = {
+        gt: filterResidenceDto.min_weekend_price
+          ? parseInt(filterResidenceDto.min_weekend_price)
+          : undefined,
+        lt: filterResidenceDto.max_weekend_price
+          ? parseInt(filterResidenceDto.max_weekend_price)
+          : undefined,
+      };
+    } else if (
+      filterResidenceDto.min_peak_price ||
+      filterResidenceDto.max_peak_price
+    ) {
+      where.peak_price = {
+        gt: filterResidenceDto.min_peak_price
+          ? parseInt(filterResidenceDto.min_peak_price)
+          : undefined,
+        lt: filterResidenceDto.max_peak_price
+          ? parseInt(filterResidenceDto.max_peak_price)
+          : undefined,
+      };
+    } else if (
+      filterResidenceDto.min_extra_guest_weekday ||
+      filterResidenceDto.max_extra_guest_weekday
+    ) {
+      where.extra_guest_weekday = {
+        gt: filterResidenceDto.min_extra_guest_weekday
+          ? parseInt(filterResidenceDto.min_extra_guest_weekday)
+          : undefined,
+        lt: filterResidenceDto.max_extra_guest_weekday
+          ? parseInt(filterResidenceDto.max_extra_guest_weekday)
+          : undefined,
+      };
+    } else if (
+      filterResidenceDto.min_extra_guest_weekend ||
+      filterResidenceDto.max_extra_guest_weekend
+    ) {
+      where.extra_guest_weekend = {
+        gt: filterResidenceDto.min_extra_guest_weekend
+          ? parseInt(filterResidenceDto.min_extra_guest_weekend)
+          : undefined,
+        lt: filterResidenceDto.max_extra_guest_weekend
+          ? parseInt(filterResidenceDto.max_extra_guest_weekend)
+          : undefined,
+      };
+    } else if (
+      filterResidenceDto.min_extra_guest_peak ||
+      filterResidenceDto.max_extra_guest_peak
+    ) {
+      where.extra_guest_peak = {
+        gt: filterResidenceDto.min_extra_guest_peak
+          ? parseInt(filterResidenceDto.min_extra_guest_peak)
+          : undefined,
+        lt: filterResidenceDto.max_extra_guest_peak
+          ? parseInt(filterResidenceDto.max_extra_guest_peak)
+          : undefined,
       };
     }
 

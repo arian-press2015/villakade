@@ -37,6 +37,17 @@ const select = {
   normal_capacity: true,
   max_capacity: true,
   about: true,
+  residence_price: {
+    select: {
+      residence_id: true,
+      weekday_price: true,
+      weekend_price: true,
+      peak_price: true,
+      extra_guest_weekday: true,
+      extra_guest_weekend: true,
+      extra_guest_peak: true,
+    },
+  },
 };
 
 describe('ResidenceService', () => {
@@ -99,6 +110,15 @@ describe('ResidenceService', () => {
       normal_capacity: 2,
       max_capacity: 4,
       about: 'this is my residence',
+      residence_price: {
+        residence_id: 123,
+        weekday_price: 5,
+        weekend_price: 5,
+        peak_price: 5,
+        extra_guest_weekday: 5,
+        extra_guest_weekend: 5,
+        extra_guest_peak: 5,
+      },
     };
 
     it('should create new Residence and return it', async () => {
@@ -154,6 +174,15 @@ describe('ResidenceService', () => {
         normal_capacity: 2,
         max_capacity: 4,
         about: 'this is my residence',
+        residence_price: {
+          residence_id: 123,
+          weekday_price: 5,
+          weekend_price: 5,
+          peak_price: 5,
+          extra_guest_weekday: 5,
+          extra_guest_weekend: 5,
+          extra_guest_peak: 5,
+        },
       },
       {
         id: 2,
@@ -180,6 +209,15 @@ describe('ResidenceService', () => {
         normal_capacity: 2,
         max_capacity: 4,
         about: 'this is my residence',
+        residence_price: {
+          residence_id: 123,
+          weekday_price: 10,
+          weekend_price: 10,
+          peak_price: 10,
+          extra_guest_weekday: 10,
+          extra_guest_weekend: 10,
+          extra_guest_peak: 10,
+        },
       },
     ];
 
@@ -313,6 +351,246 @@ describe('ResidenceService', () => {
       expect(prisma.residence.findMany).toBeCalledWith({
         select,
         where: { active: true },
+        skip: undefined,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.residence.findMany).toBeCalledTimes(1);
+    });
+
+    it("should return all residences where weekday_price <= '6'", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.findMany.mockResolvedValue([residences[0]]);
+
+      const dto: FilterResidenceDto = {
+        max_weekday_price: '6',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([residences[0]]);
+      expect(prisma.residence.findMany).toBeCalledWith({
+        select,
+        where: { weekday_price: { lt: 6 } },
+        skip: undefined,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.residence.findMany).toBeCalledTimes(1);
+    });
+
+    it("should return all residences where weekday_price >= '6'", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.findMany.mockResolvedValue([residences[1]]);
+
+      const dto: FilterResidenceDto = {
+        min_weekday_price: '6',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([residences[1]]);
+      expect(prisma.residence.findMany).toBeCalledWith({
+        select,
+        where: { weekday_price: { gt: 6 } },
+        skip: undefined,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.residence.findMany).toBeCalledTimes(1);
+    });
+
+    it("should return all residences where weekend_price <= '6'", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.findMany.mockResolvedValue([residences[0]]);
+
+      const dto: FilterResidenceDto = {
+        max_weekend_price: '6',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([residences[0]]);
+      expect(prisma.residence.findMany).toBeCalledWith({
+        select,
+        where: { weekend_price: { lt: 6 } },
+        skip: undefined,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.residence.findMany).toBeCalledTimes(1);
+    });
+
+    it("should return all residences where weekend_price >= '6'", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.findMany.mockResolvedValue([residences[1]]);
+
+      const dto: FilterResidenceDto = {
+        min_weekend_price: '6',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([residences[1]]);
+      expect(prisma.residence.findMany).toBeCalledWith({
+        select,
+        where: { weekend_price: { gt: 6 } },
+        skip: undefined,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.residence.findMany).toBeCalledTimes(1);
+    });
+
+    it("should return all residences where peak_price <= '6'", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.findMany.mockResolvedValue([residences[0]]);
+
+      const dto: FilterResidenceDto = {
+        max_peak_price: '6',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([residences[0]]);
+      expect(prisma.residence.findMany).toBeCalledWith({
+        select,
+        where: { peak_price: { lt: 6 } },
+        skip: undefined,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.residence.findMany).toBeCalledTimes(1);
+    });
+
+    it("should return all residences where peak_price >= '6'", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.findMany.mockResolvedValue([residences[1]]);
+
+      const dto: FilterResidenceDto = {
+        min_peak_price: '6',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([residences[1]]);
+      expect(prisma.residence.findMany).toBeCalledWith({
+        select,
+        where: { peak_price: { gt: 6 } },
+        skip: undefined,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.residence.findMany).toBeCalledTimes(1);
+    });
+
+    it("should return all residences where extra_guest_weekday <= '6'", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.findMany.mockResolvedValue([residences[0]]);
+
+      const dto: FilterResidenceDto = {
+        max_extra_guest_weekday: '6',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([residences[0]]);
+      expect(prisma.residence.findMany).toBeCalledWith({
+        select,
+        where: { extra_guest_weekday: { lt: 6 } },
+        skip: undefined,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.residence.findMany).toBeCalledTimes(1);
+    });
+
+    it("should return all residences where extra_guest_weekday >= '6'", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.findMany.mockResolvedValue([residences[1]]);
+
+      const dto: FilterResidenceDto = {
+        min_extra_guest_weekday: '6',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([residences[1]]);
+      expect(prisma.residence.findMany).toBeCalledWith({
+        select,
+        where: { extra_guest_weekday: { gt: 6 } },
+        skip: undefined,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.residence.findMany).toBeCalledTimes(1);
+    });
+
+    it("should return all residences where extra_guest_weekend <= '6'", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.findMany.mockResolvedValue([residences[0]]);
+
+      const dto: FilterResidenceDto = {
+        max_extra_guest_weekend: '6',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([residences[0]]);
+      expect(prisma.residence.findMany).toBeCalledWith({
+        select,
+        where: { extra_guest_weekend: { lt: 6 } },
+        skip: undefined,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.residence.findMany).toBeCalledTimes(1);
+    });
+
+    it("should return all residences where extra_guest_weekend >= '6'", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.findMany.mockResolvedValue([residences[1]]);
+
+      const dto: FilterResidenceDto = {
+        min_extra_guest_weekend: '6',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([residences[1]]);
+      expect(prisma.residence.findMany).toBeCalledWith({
+        select,
+        where: { extra_guest_weekend: { gt: 6 } },
+        skip: undefined,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.residence.findMany).toBeCalledTimes(1);
+    });
+
+    it("should return all residences where extra_guest_peak <= '6'", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.findMany.mockResolvedValue([residences[0]]);
+
+      const dto: FilterResidenceDto = {
+        max_extra_guest_peak: '6',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([residences[0]]);
+      expect(prisma.residence.findMany).toBeCalledWith({
+        select,
+        where: { extra_guest_peak: { lt: 6 } },
+        skip: undefined,
+        take: undefined,
+        orderBy: {},
+      });
+      expect(prisma.residence.findMany).toBeCalledTimes(1);
+    });
+
+    it("should return all residences where extra_guest_peak >= '6'", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.findMany.mockResolvedValue([residences[1]]);
+
+      const dto: FilterResidenceDto = {
+        min_extra_guest_peak: '6',
+      };
+
+      const result = await service.findAll(dto);
+      expect(result).toStrictEqual([residences[1]]);
+      expect(prisma.residence.findMany).toBeCalledWith({
+        select,
+        where: { extra_guest_peak: { gt: 6 } },
         skip: undefined,
         take: undefined,
         orderBy: {},
@@ -494,6 +772,198 @@ describe('ResidenceService', () => {
       });
       expect(prisma.residence.count).toBeCalledTimes(1);
     });
+
+    it("should return all residences where weekday_price <= '6'", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.count.mockResolvedValue(1);
+
+      const dto: FilterResidenceDto = {
+        max_weekday_price: '6',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(1);
+      expect(prisma.residence.count).toBeCalledWith({
+        where: { weekday_price: { lt: 6 } },
+      });
+      expect(prisma.residence.count).toBeCalledTimes(1);
+    });
+
+    it("should return all residences where weekday_price >= '6'", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.count.mockResolvedValue(1);
+
+      const dto: FilterResidenceDto = {
+        min_weekday_price: '6',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(1);
+      expect(prisma.residence.count).toBeCalledWith({
+        where: { weekday_price: { gt: 6 } },
+      });
+      expect(prisma.residence.count).toBeCalledTimes(1);
+    });
+
+    it("should return all residences where weekend_price <= '6'", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.count.mockResolvedValue(1);
+
+      const dto: FilterResidenceDto = {
+        max_weekend_price: '6',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(1);
+      expect(prisma.residence.count).toBeCalledWith({
+        where: { weekend_price: { lt: 6 } },
+      });
+      expect(prisma.residence.count).toBeCalledTimes(1);
+    });
+
+    it("should return all residences where weekend_price >= '6'", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.count.mockResolvedValue(1);
+
+      const dto: FilterResidenceDto = {
+        min_weekend_price: '6',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(1);
+      expect(prisma.residence.count).toBeCalledWith({
+        where: { weekend_price: { gt: 6 } },
+      });
+      expect(prisma.residence.count).toBeCalledTimes(1);
+    });
+
+    it("should return all residences where peak_price <= '6'", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.count.mockResolvedValue(1);
+
+      const dto: FilterResidenceDto = {
+        max_peak_price: '6',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(1);
+      expect(prisma.residence.count).toBeCalledWith({
+        where: { peak_price: { lt: 6 } },
+      });
+      expect(prisma.residence.count).toBeCalledTimes(1);
+    });
+
+    it("should return all residences where peak_price >= '6'", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.count.mockResolvedValue(1);
+
+      const dto: FilterResidenceDto = {
+        min_peak_price: '6',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(1);
+      expect(prisma.residence.count).toBeCalledWith({
+        where: { peak_price: { gt: 6 } },
+      });
+      expect(prisma.residence.count).toBeCalledTimes(1);
+    });
+
+    it("should return all residences where extra_guest_weekday <= '6'", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.count.mockResolvedValue(1);
+
+      const dto: FilterResidenceDto = {
+        max_extra_guest_weekday: '6',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(1);
+      expect(prisma.residence.count).toBeCalledWith({
+        where: { extra_guest_weekday: { lt: 6 } },
+      });
+      expect(prisma.residence.count).toBeCalledTimes(1);
+    });
+
+    it("should return all residences where extra_guest_weekday >= '6'", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.count.mockResolvedValue(1);
+
+      const dto: FilterResidenceDto = {
+        min_extra_guest_weekday: '6',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(1);
+      expect(prisma.residence.count).toBeCalledWith({
+        where: { extra_guest_weekday: { gt: 6 } },
+      });
+      expect(prisma.residence.count).toBeCalledTimes(1);
+    });
+
+    it("should return all residences where extra_guest_weekend <= '6'", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.count.mockResolvedValue(1);
+
+      const dto: FilterResidenceDto = {
+        max_extra_guest_weekend: '6',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(1);
+      expect(prisma.residence.count).toBeCalledWith({
+        where: { extra_guest_weekend: { lt: 6 } },
+      });
+      expect(prisma.residence.count).toBeCalledTimes(1);
+    });
+
+    it("should return all residences where extra_guest_weekend >= '6'", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.count.mockResolvedValue(1);
+
+      const dto: FilterResidenceDto = {
+        min_extra_guest_weekend: '6',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(1);
+      expect(prisma.residence.count).toBeCalledWith({
+        where: { extra_guest_weekend: { gt: 6 } },
+      });
+      expect(prisma.residence.count).toBeCalledTimes(1);
+    });
+
+    it("should return all residences where extra_guest_peak <= '6'", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.count.mockResolvedValue(1);
+
+      const dto: FilterResidenceDto = {
+        max_extra_guest_peak: '6',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(1);
+      expect(prisma.residence.count).toBeCalledWith({
+        where: { extra_guest_peak: { lt: 6 } },
+      });
+      expect(prisma.residence.count).toBeCalledTimes(1);
+    });
+
+    it("should return all residences where extra_guest_peak >= '6'", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.count.mockResolvedValue(1);
+
+      const dto: FilterResidenceDto = {
+        min_extra_guest_peak: '6',
+      };
+
+      const result = await service.getCount(dto);
+      expect(result).toEqual(1);
+      expect(prisma.residence.count).toBeCalledWith({
+        where: { extra_guest_peak: { gt: 6 } },
+      });
+      expect(prisma.residence.count).toBeCalledTimes(1);
+    });
   });
 
   describe('async findOne(id: string): Promise<Residence>', () => {
@@ -522,6 +992,15 @@ describe('ResidenceService', () => {
       normal_capacity: 2,
       max_capacity: 4,
       about: 'this is my residence',
+      residence_price: {
+        residence_id: 123,
+        weekday_price: 5,
+        weekend_price: 5,
+        peak_price: 5,
+        extra_guest_weekday: 5,
+        extra_guest_weekend: 5,
+        extra_guest_peak: 5,
+      },
     };
 
     it('should return Residence by id', async () => {
@@ -573,6 +1052,15 @@ describe('ResidenceService', () => {
       normal_capacity: 2,
       max_capacity: 4,
       about: 'this is my residence',
+      residence_price: {
+        residence_id: 123,
+        weekday_price: 5,
+        weekend_price: 5,
+        peak_price: 5,
+        extra_guest_weekday: 5,
+        extra_guest_weekend: 5,
+        extra_guest_peak: 5,
+      },
     };
 
     it('should update residence by id', async () => {
@@ -634,6 +1122,15 @@ describe('ResidenceService', () => {
       normal_capacity: 2,
       max_capacity: 4,
       about: 'this is my residence',
+      residence_price: {
+        residence_id: 123,
+        weekday_price: 5,
+        weekend_price: 5,
+        peak_price: 5,
+        extra_guest_weekday: 5,
+        extra_guest_weekend: 5,
+        extra_guest_peak: 5,
+      },
     };
 
     it('should delete residence by id', async () => {

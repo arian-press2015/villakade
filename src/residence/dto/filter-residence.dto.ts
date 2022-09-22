@@ -114,4 +114,112 @@ export class FilterResidenceDto {
     description: 'about the Residence',
   })
   readonly about?: string;
+
+  @IsOptional({ message: 'weekday_price is required' })
+  @IsNumberString({ message: 'weekday_price must be a number' })
+  @ApiProperty({
+    required: false,
+    example: 4,
+    description: 'min_weekday_price of the residence',
+  })
+  readonly min_weekday_price?: string;
+
+  @IsOptional({ message: 'weekday_price is required' })
+  @IsNumberString({ message: 'weekday_price must be a number' })
+  @ApiProperty({
+    required: false,
+    example: 4,
+    description: 'max_weekday_price of the residence',
+  })
+  readonly max_weekday_price?: string;
+
+  @IsOptional({ message: 'weekend_price is required' })
+  @IsNumberString({ message: 'weekend_price must be a number' })
+  @ApiProperty({
+    required: false,
+    example: 4,
+    description: 'min_weekend_price of the residence',
+  })
+  readonly min_weekend_price?: string;
+
+  @IsOptional({ message: 'weekend_price is required' })
+  @IsNumberString({ message: 'weekend_price must be a number' })
+  @ApiProperty({
+    required: false,
+    example: 4,
+    description: 'max_weekend_price of the residence',
+  })
+  readonly max_weekend_price?: string;
+
+  @IsOptional({ message: 'peak_price is required' })
+  @IsNumberString({ message: 'peak_price must be a number' })
+  @ApiProperty({
+    required: false,
+    example: 4,
+    description: 'min_peak_price of the residence',
+  })
+  readonly min_peak_price?: string;
+
+  @IsOptional({ message: 'peak_price is required' })
+  @IsNumberString({ message: 'peak_price must be a number' })
+  @ApiProperty({
+    required: false,
+    example: 4,
+    description: 'max_peak_price of the residence',
+  })
+  readonly max_peak_price?: string;
+
+  @IsOptional({ message: 'extra_guest_weekday is required' })
+  @IsNumberString({ message: 'extra_guest_weekday must be a number' })
+  @ApiProperty({
+    required: false,
+    example: 4,
+    description: 'min_extra_guest_weekday of the residence',
+  })
+  readonly min_extra_guest_weekday?: string;
+
+  @IsOptional({ message: 'extra_guest_weekday is required' })
+  @IsNumberString({ message: 'extra_guest_weekday must be a number' })
+  @ApiProperty({
+    required: false,
+    example: 4,
+    description: 'max_extra_guest_weekday of the residence',
+  })
+  readonly max_extra_guest_weekday?: string;
+
+  @IsOptional({ message: 'extra_guest_weekend is required' })
+  @IsNumberString({ message: 'extra_guest_weekend must be a number' })
+  @ApiProperty({
+    required: false,
+    example: 4,
+    description: 'min_extra_guest_weekend of the residence',
+  })
+  readonly min_extra_guest_weekend?: string;
+
+  @IsOptional({ message: 'extra_guest_weekend is required' })
+  @IsNumberString({ message: 'extra_guest_weekend must be a number' })
+  @ApiProperty({
+    required: false,
+    example: 4,
+    description: 'max_extra_guest_weekend of the residence',
+  })
+  readonly max_extra_guest_weekend?: string;
+
+  @IsOptional({ message: 'extra_guest_peak is required' })
+  @IsNumberString({ message: 'extra_guest_peak must be a number' })
+  @ApiProperty({
+    required: false,
+    example: 4,
+    description: 'min_extra_guest_peak of the residence',
+  })
+  readonly min_extra_guest_peak?: string;
+
+  @IsOptional({ message: 'extra_guest_peak is required' })
+  @IsNumberString({ message: 'extra_guest_peak must be a number' })
+  @ApiProperty({
+    required: false,
+    example: 4,
+    description: 'max_extra_guest_peak of the residence',
+  })
+  readonly max_extra_guest_peak?: string;
 }

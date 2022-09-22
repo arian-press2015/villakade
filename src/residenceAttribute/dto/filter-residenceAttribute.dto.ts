@@ -6,6 +6,64 @@ import {
   IsBooleanString,
 } from 'class-validator';
 
+export class ResidencePrice {
+  @IsOptional({ message: 'residence_id is required' })
+  @IsNumberString({ message: 'residence_id must be a positive number' })
+  @ApiProperty({
+    example: 123,
+    description: 'residence_id of the residence_price',
+  })
+  readonly residence_id?: string;
+
+  @IsOptional({ message: 'weekday_price is required' })
+  @IsNumberString({ message: 'weekday_price must be a positive number' })
+  @ApiProperty({
+    example: 4,
+    description: 'weekday_price of the residence_price',
+  })
+  readonly weekday_price?: string;
+
+  @IsOptional({ message: 'weekend_price is required' })
+  @IsNumberString({ message: 'weekend_price must be a positive number' })
+  @ApiProperty({
+    example: 4,
+    description: 'weekend_price of the residence_price',
+  })
+  readonly weekend_price?: string;
+
+  @IsOptional({ message: 'peak_price is required' })
+  @IsNumberString({ message: 'peak_price must be a positive number' })
+  @ApiProperty({
+    example: 4,
+    description: 'peak_price of the residence_price',
+  })
+  readonly peak_price?: string;
+
+  @IsOptional({ message: 'extra_guest_weekday is required' })
+  @IsNumberString({ message: 'extra_guest_weekday must be a positive number' })
+  @ApiProperty({
+    example: 4,
+    description: 'extra_guest_weekday of the residence_price',
+  })
+  readonly extra_guest_weekday?: string;
+
+  @IsOptional({ message: 'extra_guest_weekend is required' })
+  @IsNumberString({ message: 'extra_guest_weekend must be a positive number' })
+  @ApiProperty({
+    example: 4,
+    description: 'extra_guest_weekend of the residence_price',
+  })
+  readonly extra_guest_weekend?: string;
+
+  @IsOptional({ message: 'extra_guest_peak is required' })
+  @IsNumberString({ message: 'extra_guest_peak must be a positive number' })
+  @ApiProperty({
+    example: 4,
+    description: 'extra_guest_peak of the residence_price',
+  })
+  readonly extra_guest_peak?: string;
+}
+
 export class FilterResidenceAttributeDto {
   @IsOptional()
   @IsNumberString({ message: 'offset must be a positive number' })

@@ -139,5 +139,17 @@
   "pet_status is required": "وضعیت حیوانات خانگی اجباری است",
   "pet_status must be a string": "وضعیت حیوانات خانگی باید از نوع متنی باشد",
   "ceremonies is required": "وضعیت مراسم اجباری است",
-  "ceremonies must be a string": "وضعیت مراسم باید از نوع متنی باشد"
+  "ceremonies must be a string": "وضعیت مراسم باید از نوع متنی باشد",
+  "weekday_price is required": "",
+  "weekend_price is required": "",
+  "peak_price is required": "",
+  "extra_guest_weekday is required": "",
+  "extra_guest_weekend is required": "",
+  "extra_guest_peak is required": "",
+  "weekday_price must be a positive number": "",
+  "weekend_price must be a positive number": "",
+  "peak_price must be a positive number": "",
+  "extra_guest_weekday must be a positive number": "",
+  "extra_guest_weekend must be a positive number": "",
+  "extra_guest_peak must be a positive number": ""
 }
