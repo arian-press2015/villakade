@@ -1,4 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  residence_rule_ceremonies,
+  residence_rule_pet_status,
+} from '@prisma/client';
 import { PrismaService } from '../shared/services/prisma.service';
 import {
   ResidenceRule,
@@ -10,6 +14,11 @@ import {
 const select = {
   residence_id: true,
   rule_body: true,
+  in_time: true,
+  out_time: true,
+  required_documents: true,
+  pet_status: true,
+  ceremonies: true,
 };
 
 @Injectable()
@@ -19,9 +28,14 @@ export class ResidenceRuleService {
     createResidenceRuleDto: CreateResidenceRuleDto,
   ): Promise<ResidenceRule> {
     try {
+      const { pet_status, ceremonies, ...data } = createResidenceRuleDto;
       const residence_rule = await this.prisma.residence_rule.create({
         select,
-        data: createResidenceRuleDto,
+        data: {
+          ...data,
+          pet_status: residence_rule_pet_status[pet_status],
+          ceremonies: residence_rule_ceremonies[ceremonies],
+        },
       });
       return residence_rule;
     } catch (e) {
