@@ -80,15 +80,6 @@ export class FilterResidenceDto {
   readonly city_id?: string;
 
   @IsOptional()
-  @IsNumberString({ message: 'price must be a positive number' })
-  @ApiProperty({
-    required: false,
-    example: '200000',
-    description: 'price of the residence',
-  })
-  readonly price?: string;
-
-  @IsOptional()
   @IsBooleanString({ message: 'activation status must be a boolean' })
   @ApiProperty({
     required: false,
@@ -96,4 +87,31 @@ export class FilterResidenceDto {
     description: 'activity status of the residence',
   })
   readonly active?: string;
+
+  @IsOptional({ message: 'normal_capacity is required' })
+  @IsNumberString({ message: 'normal_capacity must be a number' })
+  @ApiProperty({
+    required: false,
+    example: 2,
+    description: 'normal capacity of the residence',
+  })
+  readonly normal_capacity?: number;
+
+  @IsOptional({ message: 'max_capacity is required' })
+  @IsNumberString({ message: 'max_capacity must be a number' })
+  @ApiProperty({
+    required: false,
+    example: 4,
+    description: 'max capacity of the residence',
+  })
+  readonly max_capacity?: number;
+
+  @IsOptional({ message: 'about is required' })
+  @IsString({ message: 'about must be a string' })
+  @ApiProperty({
+    required: false,
+    example: 'ویلاست دیگه چی میخای',
+    description: 'about the Residence',
+  })
+  readonly about?: string;
 }

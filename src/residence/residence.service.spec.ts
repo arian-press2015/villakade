@@ -18,7 +18,6 @@ const select = {
     },
   },
   location: true,
-  price: true,
   active: true,
   city: {
     select: {
@@ -35,6 +34,9 @@ const select = {
       },
     },
   },
+  normal_capacity: true,
+  max_capacity: true,
+  about: true,
 };
 
 describe('ResidenceService', () => {
@@ -82,7 +84,6 @@ describe('ResidenceService', () => {
         fa_title: 'آپارتمان',
       },
       location: 'inja',
-      price: 11111,
       active: false,
       city: {
         id: 1,
@@ -95,6 +96,9 @@ describe('ResidenceService', () => {
           fa_name: 'شیراز',
         },
       },
+      normal_capacity: 2,
+      max_capacity: 4,
+      about: 'this is my residence',
     };
 
     it('should create new Residence and return it', async () => {
@@ -107,8 +111,10 @@ describe('ResidenceService', () => {
         host_id: 123,
         location: 'inja',
         type_id: 1,
-        price: 11111,
         active: false,
+        normal_capacity: 2,
+        max_capacity: 4,
+        about: 'this is my residence',
       };
 
       const result = await service.create(dto);
@@ -133,7 +139,6 @@ describe('ResidenceService', () => {
           fa_title: 'آپارتمان',
         },
         location: 'inja',
-        price: 11111,
         active: false,
         city: {
           id: 1,
@@ -146,6 +151,9 @@ describe('ResidenceService', () => {
             fa_name: 'شیراز',
           },
         },
+        normal_capacity: 2,
+        max_capacity: 4,
+        about: 'this is my residence',
       },
       {
         id: 2,
@@ -157,7 +165,6 @@ describe('ResidenceService', () => {
           fa_title: 'آپارتمان',
         },
         location: 'unja',
-        price: 22222,
         active: false,
         city: {
           id: 1,
@@ -170,6 +177,9 @@ describe('ResidenceService', () => {
             fa_name: 'شیراز',
           },
         },
+        normal_capacity: 2,
+        max_capacity: 4,
+        about: 'this is my residence',
       },
     ];
 
@@ -263,26 +273,6 @@ describe('ResidenceService', () => {
       expect(prisma.residence.findMany).toBeCalledWith({
         select,
         where: { city_id: 123 },
-        skip: undefined,
-        take: undefined,
-        orderBy: {},
-      });
-      expect(prisma.residence.findMany).toBeCalledTimes(1);
-    });
-
-    it("should return all residences where price === '123'", async () => {
-      // mock prisma return value
-      PrismaMockService.residence.findMany.mockResolvedValue([residences[0]]);
-
-      const dto: FilterResidenceDto = {
-        price: '123',
-      };
-
-      const result = await service.findAll(dto);
-      expect(result).toStrictEqual([residences[0]]);
-      expect(prisma.residence.findMany).toBeCalledWith({
-        select,
-        where: { price: 123 },
         skip: undefined,
         take: undefined,
         orderBy: {},
@@ -473,22 +463,6 @@ describe('ResidenceService', () => {
       expect(prisma.residence.count).toBeCalledTimes(1);
     });
 
-    it("should return total count of residences where price === '123'", async () => {
-      // mock prisma return value
-      PrismaMockService.residence.count.mockResolvedValue(2);
-
-      const dto: FilterResidenceDto = {
-        price: '123',
-      };
-
-      const result = await service.getCount(dto);
-      expect(result).toEqual(2);
-      expect(prisma.residence.count).toBeCalledWith({
-        where: { price: 123 },
-      });
-      expect(prisma.residence.count).toBeCalledTimes(1);
-    });
-
     it("should return total count of residences where location === 'inja'", async () => {
       // mock prisma return value
       PrismaMockService.residence.count.mockResolvedValue(2);
@@ -533,7 +507,6 @@ describe('ResidenceService', () => {
         fa_title: 'آپارتمان',
       },
       location: 'inja',
-      price: 11111,
       active: false,
       city: {
         id: 1,
@@ -546,6 +519,9 @@ describe('ResidenceService', () => {
           fa_name: 'شیراز',
         },
       },
+      normal_capacity: 2,
+      max_capacity: 4,
+      about: 'this is my residence',
     };
 
     it('should return Residence by id', async () => {
@@ -582,7 +558,6 @@ describe('ResidenceService', () => {
         fa_title: 'آپارتمان',
       },
       location: 'inja',
-      price: 11111,
       active: false,
       city: {
         id: 1,
@@ -595,6 +570,9 @@ describe('ResidenceService', () => {
           fa_name: 'شیراز',
         },
       },
+      normal_capacity: 2,
+      max_capacity: 4,
+      about: 'this is my residence',
     };
 
     it('should update residence by id', async () => {
@@ -641,7 +619,6 @@ describe('ResidenceService', () => {
         fa_title: 'آپارتمان',
       },
       location: 'inja',
-      price: 11111,
       active: false,
       city: {
         id: 1,
@@ -654,6 +631,9 @@ describe('ResidenceService', () => {
           fa_name: 'شیراز',
         },
       },
+      normal_capacity: 2,
+      max_capacity: 4,
+      about: 'this is my residence',
     };
 
     it('should delete residence by id', async () => {

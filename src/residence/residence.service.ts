@@ -19,7 +19,6 @@ const select = {
     },
   },
   location: true,
-  price: true,
   active: true,
   city: {
     select: {
@@ -36,6 +35,9 @@ const select = {
       },
     },
   },
+  normal_capacity: true,
+  max_capacity: true,
+  about: true,
 };
 
 @Injectable()
@@ -63,7 +65,6 @@ export class ResidenceService {
       host_id?: number;
       type_id?: number;
       city_id?: number;
-      price?: number;
       active?: boolean;
       location?: { contains: string };
     } = {};
@@ -77,8 +78,6 @@ export class ResidenceService {
       where.type_id = parseInt(filterResidenceDto.type_id);
     } else if (filterResidenceDto.city_id) {
       where.city_id = parseInt(filterResidenceDto.city_id);
-    } else if (filterResidenceDto.price) {
-      where.price = parseInt(filterResidenceDto.price);
     } else if (filterResidenceDto.active) {
       where.active = filterResidenceDto.active === 'true' ? true : false;
     } else if (filterResidenceDto.location) {
@@ -99,7 +98,6 @@ export class ResidenceService {
       host_id?: number;
       type_id?: number;
       city_id?: number;
-      price?: number;
       active?: boolean;
       location?: { contains: string };
     } = {};
@@ -113,8 +111,6 @@ export class ResidenceService {
       where.type_id = parseInt(filterResidenceDto.type_id);
     } else if (filterResidenceDto.city_id) {
       where.city_id = parseInt(filterResidenceDto.city_id);
-    } else if (filterResidenceDto.price) {
-      where.price = parseInt(filterResidenceDto.price);
     } else if (filterResidenceDto.active) {
       where.active = filterResidenceDto.active === 'true' ? true : false;
     } else if (filterResidenceDto.location) {
@@ -182,8 +178,10 @@ export class ResidenceService {
           title: updateResidenceDto.title,
           city_id: updateResidenceDto.city_id,
           location: updateResidenceDto.location,
-          price: updateResidenceDto.price,
           type_id: updateResidenceDto.type_id,
+          normal_capacity: updateResidenceDto.normal_capacity,
+          max_capacity: updateResidenceDto.max_capacity,
+          about: updateResidenceDto.about,
         },
         where: {
           id,

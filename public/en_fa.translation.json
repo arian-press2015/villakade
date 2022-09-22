@@ -127,5 +127,17 @@
   "categoryimage not found": "تصویر دسته بندی یافت نشد",
   "only jpg and png images are supported": "تصاویر فقط با پسوند های jpg و png قابل قبول هستند",
   "name is taken before": "فیلد نام تکراری است",
-  "fa_name is taken before": "فیلد نام فارسی تکراری است"
+  "fa_name is taken before": "فیلد نام فارسی تکراری است",
+  "normal_capacity is required": "ظرفیت نرمال اجباری است",
+  "normal_capacity must be a number": "ظرفیت نرمال باید عددی مثبت باشد",
+  "max_capacity is required": "حداکثر ظرفیت اجباری است",
+  "max_capacity must be a number": "حداکثر ظرفیت باید عددی مثبت باشد",
+  "about is required": "فیلد درباره اقامتگاه اجباری است",
+  "about must be a string": "فیلد درباره اقامتگاه باید از نوع متنی باشد",
+  "required_documents is required": "مدارک مورد نیاز اجباری است",
+  "required_documents must be a string": "مدارک مورد نیاز باید از نوع متنی باشد",
+  "pet_status is required": "وضعیت حیوانات خانگی اجباری است",
+  "pet_status must be a string": "وضعیت حیوانات خانگی باید از نوع متنی باشد",
+  "ceremonies is required": "وضعیت مراسم اجباری است",
+  "ceremonies must be a string": "وضعیت مراسم باید از نوع متنی باشد"
 }

@@ -48,12 +48,29 @@ export class Residence {
   })
   readonly city: City;
 
-  @ApiProperty({ example: 200000, description: 'price of the residence' })
-  readonly price: number;
-
   @ApiProperty({
     example: true,
     description: 'activity status of the residence',
   })
   readonly active: boolean;
+
+  @ApiProperty({
+    example: 2,
+    description: 'normal capacity of the residence',
+  })
+  readonly normal_capacity: number;
+
+  @ApiProperty({
+    example: 4,
+    description: 'max capacity of the residence',
+  })
+  readonly max_capacity: number;
+
+  @ApiProperty({
+    example: 'ویلاست دیگه چی میخای',
+    description: 'about the Residence',
+  })
+  readonly about: string;
+
+  // TODO: add price
 }
