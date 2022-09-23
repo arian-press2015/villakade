@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { OwnerService } from '../owner/owner.service';
 import { JwtService } from '@nestjs/jwt';
 import { HostService } from '../host/host.service';
+import { RedisService } from '../shared/services/redis.service';
 
 @Injectable()
 export class AuthService {
@@ -9,6 +10,7 @@ export class AuthService {
     private ownerService: OwnerService,
     private hostService: HostService,
     private jwtService: JwtService,
+    private redis: RedisService,
   ) {}
 
   async validateOwner(username: string, pass: string): Promise<any> {
@@ -22,9 +24,13 @@ export class AuthService {
 
   async validateHost(phone: string, otp: string): Promise<any> {
     const host = await this.hostService.findByPhone(phone);
-    if (otp === '12345') {
+
+    const pattern = `host-login-otp-${phone}`;
+    const redisOtp = await this.redis.get(pattern);
+    if (otp === redisOtp) {
       return host;
     }
+    console.log('!!@#$#', host);
     return null;
   }
 
