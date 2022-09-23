@@ -60,6 +60,17 @@ const select = {
       height: true,
     },
   },
+  residence_category: {
+    select: {
+      category: {
+        select: {
+          id: true,
+          title: true,
+          fa_title: true,
+        },
+      },
+    },
+  },
 };
 
 @Injectable()

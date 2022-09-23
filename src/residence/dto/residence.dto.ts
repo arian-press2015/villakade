@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Category } from '../../category/dto';
 import { City } from '../../city/dto';
 import { ResidencePrice } from '../../residenceAttribute/dto';
 import { ResidenceImage } from '../../residenceImage/dto';
@@ -99,4 +100,30 @@ export class Residence {
     description: 'images of the Residence',
   })
   readonly residence_image: ResidenceImage[];
+
+  @ApiProperty({
+    example: {
+      category: [
+        {
+          id: 111,
+          title: 'beach',
+          fa_title: 'ساحلی',
+        },
+      ],
+    },
+    description: 'images of the Residence',
+  })
+  readonly residence_category: CategoryRO[];
+}
+
+export class CategoryRO {
+  @ApiProperty({
+    example: {
+      id: 111,
+      title: 'beach',
+      fa_title: 'ساحلی',
+    },
+    description: 'images of the Residence',
+  })
+  readonly category: Category;
 }

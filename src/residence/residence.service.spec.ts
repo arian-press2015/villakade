@@ -57,6 +57,17 @@ const select = {
       height: true,
     },
   },
+  residence_category: {
+    select: {
+      category: {
+        select: {
+          id: true,
+          title: true,
+          fa_title: true,
+        },
+      },
+    },
+  },
 };
 
 describe('ResidenceService', () => {
@@ -135,6 +146,15 @@ describe('ResidenceService', () => {
           url: '/file/is/here',
           width: 600,
           height: 800,
+        },
+      ],
+      residence_category: [
+        {
+          category: {
+            id: 111,
+            title: 'beach',
+            fa_title: 'ساحلی',
+          },
         },
       ],
     };
@@ -269,6 +289,15 @@ describe('ResidenceService', () => {
             height: 800,
           },
         ],
+        residence_category: [
+          {
+            category: {
+              id: 111,
+              title: 'beach',
+              fa_title: 'ساحلی',
+            },
+          },
+        ],
       },
       {
         id: 2,
@@ -311,6 +340,15 @@ describe('ResidenceService', () => {
             url: '/file/is/here',
             width: 600,
             height: 800,
+          },
+        ],
+        residence_category: [
+          {
+            category: {
+              id: 111,
+              title: 'beach',
+              fa_title: 'ساحلی',
+            },
           },
         ],
       },
@@ -1105,6 +1143,15 @@ describe('ResidenceService', () => {
           height: 800,
         },
       ],
+      residence_category: [
+        {
+          category: {
+            id: 111,
+            title: 'beach',
+            fa_title: 'ساحلی',
+          },
+        },
+      ],
     };
 
     it('should return Residence by id', async () => {
@@ -1172,6 +1219,15 @@ describe('ResidenceService', () => {
           url: '/file/is/here',
           width: 600,
           height: 800,
+        },
+      ],
+      residence_category: [
+        {
+          category: {
+            id: 111,
+            title: 'beach',
+            fa_title: 'ساحلی',
+          },
         },
       ],
     };
@@ -1251,6 +1307,15 @@ describe('ResidenceService', () => {
           url: '/file/is/here',
           width: 600,
           height: 800,
+        },
+      ],
+      residence_category: [
+        {
+          category: {
+            id: 111,
+            title: 'beach',
+            fa_title: 'ساحلی',
+          },
         },
       ],
     };
