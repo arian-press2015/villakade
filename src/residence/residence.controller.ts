@@ -25,6 +25,7 @@ import {
   FilterResidenceDto,
   CreateResidenceDto,
   UpdateResidenceDto,
+  CreateResidenceCategoryDto,
 } from './dto';
 import { HostJwtGuard } from '../auth/guard';
 
@@ -36,7 +37,6 @@ export class ResidenceController {
   @ApiBearerAuth()
   @UseGuards(HostJwtGuard)
   @UsePipes(new ValidationPipe())
-  @Post()
   @ApiOperation({ summary: 'Create new Residence' })
   @ApiResponse({
     status: 201,
@@ -61,6 +61,38 @@ export class ResidenceController {
   @Post()
   create(@Body() createResidenceDto: CreateResidenceDto): Promise<Residence> {
     return this.residenceService.create(createResidenceDto);
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(HostJwtGuard)
+  @UsePipes(new ValidationPipe())
+  @ApiOperation({ summary: 'Create new ResidenceCategory' })
+  @ApiResponse({
+    status: 204,
+    description: 'Creates new ResidenceCategory',
+  })
+  @ApiResponse({
+    status: 400,
+    description:
+      'residence not found|category not found|residence_id is required|category_id is required' +
+      '|residence_id must be a positive number|category_id must be a number array',
+  })
+  @ApiResponse({
+    status: 403,
+    description: "you don't have permission to do that",
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'host not found',
+  })
+  @HttpCode(204)
+  @Post('category')
+  createResidenceCategory(
+    @Body() createResidenceCategoryDto: CreateResidenceCategoryDto,
+  ): Promise<void> {
+    return this.residenceService.createResidenceCategory(
+      createResidenceCategoryDto,
+    );
   }
 
   @UsePipes(new ValidationPipe())

@@ -5,6 +5,8 @@ import {
   FilterResidenceDto,
   CreateResidenceDto,
   UpdateResidenceDto,
+  CreateResidenceCategoryDto,
+  ResidenceCategory,
 } from './dto';
 
 const select = {
@@ -75,6 +77,43 @@ export class ResidenceService {
       return residence;
     } catch (e) {
       console.log('Error in ResidenceService.create()', e.code, e.meta);
+      throw e;
+    }
+  }
+
+  async createResidenceCategory(
+    createResidenceCategoryDto: CreateResidenceCategoryDto,
+  ): Promise<void> {
+    try {
+      const data: ResidenceCategory[] =
+        createResidenceCategoryDto.category_id.map((cat) => ({
+          residence_id: createResidenceCategoryDto.residence_id,
+          category_id: cat,
+        }));
+      await this.prisma.residence_category.createMany({
+        data,
+      });
+
+      return;
+    } catch (e) {
+      console.log(
+        'Error in ResidenceService.createResidenceCategory()',
+        e.code,
+        e.meta,
+      );
+      if (
+        e.code &&
+        e.code === 'P2003' &&
+        e.meta.field_name === 'residence_id'
+      ) {
+        throw new BadRequestException('residence not found');
+      } else if (
+        e.code &&
+        e.code === 'P2003' &&
+        e.meta.field_name === 'category_id'
+      ) {
+        throw new BadRequestException('category not found');
+      }
       throw e;
     }
   }

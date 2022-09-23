@@ -23,6 +23,15 @@ const PrismaMockService = {
     count: jest.fn(),
     delete: jest.fn(),
   },
+  residence_category: {
+    findMany: jest.fn(),
+    findUnique: jest.fn(),
+    create: jest.fn(),
+    createMany: jest.fn(),
+    update: jest.fn(),
+    count: jest.fn(),
+    delete: jest.fn(),
+  },
   category: {
     findMany: jest.fn(),
     findUnique: jest.fn(),

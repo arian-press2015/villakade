@@ -165,6 +165,65 @@ describe('ResidenceService', () => {
     });
   });
 
+  describe('async createResidenceCategory(dto: CreateResidenceCategoryDto): Promise<void>', () => {
+    it('should create new ResidenceCategory', async () => {
+      // mock prisma return value
+      PrismaMockService.residence_category.createMany.mockResolvedValue({
+        count: 2,
+      });
+
+      const data = {
+        residence_id: 1,
+        category_id: [1, 2],
+      };
+
+      const query = [
+        { residence_id: 1, category_id: 1 },
+        { residence_id: 1, category_id: 2 },
+      ];
+
+      await service.createResidenceCategory(data);
+      expect(prisma.residence_category.createMany).toBeCalledWith({
+        data: query,
+      });
+      expect(prisma.residence_category.createMany).toBeCalledTimes(1);
+    });
+
+    it("should throw if residence_id doesn't exist", async () => {
+      // mock prisma return value
+      PrismaMockService.residence_category.createMany.mockRejectedValue({
+        code: 'P2003',
+        meta: { field_name: 'residence_id' },
+      });
+
+      const data = {
+        residence_id: 123456,
+        category_id: [1, 2],
+      };
+
+      await expect(service.createResidenceCategory(data)).rejects.toThrow(
+        'residence not found',
+      );
+    });
+
+    it("should throw if category_id doesn't exist", async () => {
+      // mock prisma return value
+      PrismaMockService.residence_category.createMany.mockRejectedValue({
+        code: 'P2003',
+        meta: { field_name: 'category_id' },
+      });
+
+      const data = {
+        residence_id: 1,
+        category_id: [1, 222222],
+      };
+
+      await expect(service.createResidenceCategory(data)).rejects.toThrow(
+        'category not found',
+      );
+    });
+  });
+
   describe('async findAll(dto: FilterResidenceDto): Promise<Residence[]>', () => {
     const residences: Residence[] = [
       {
