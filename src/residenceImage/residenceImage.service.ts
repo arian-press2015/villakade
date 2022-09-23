@@ -8,6 +8,7 @@ import {
 } from './dto';
 
 const select = {
+  id: true,
   residence_id: true,
   url: true,
   width: true,
@@ -93,7 +94,7 @@ export class ResidenceImageService {
   async findOne(id: number): Promise<ResidenceImage> {
     const ResidenceImage = await this.prisma.residence_image.findUnique({
       select,
-      where: { residence_id: id },
+      where: { id },
     });
 
     if (ResidenceImage === null) {
@@ -114,7 +115,7 @@ export class ResidenceImageService {
           residence_id: updateResidenceImageDto.residence_id,
         },
         where: {
-          residence_id: id,
+          id,
         },
       });
       return ResidenceImage;
@@ -132,7 +133,7 @@ export class ResidenceImageService {
 
   async remove(id: number): Promise<void> {
     try {
-      await this.prisma.residence_image.delete({ where: { residence_id: id } });
+      await this.prisma.residence_image.delete({ where: { id } });
       return;
     } catch (e) {
       if (

@@ -79,7 +79,7 @@ model residence {
   residence_cooking_attribute          residence_cooking_attribute?
   residence_entertainment_attribute    residence_entertainment_attribute?
   residence_facility_attribute         residence_facility_attribute?
-  residence_image                      residence_image?
+  residence_image                      residence_image[]
   residence_parking_attribute          residence_parking_attribute?
   residence_price                      residence_price?
   residence_room_attribute             residence_room_attribute?
@@ -103,11 +103,14 @@ model residence_category {
 }
 
 model residence_image {
-  residence_id Int       @id
+  residence_id Int
   url          String    @db.VarChar(100)
   width        Int
   height       Int
-  residence    residence @relation(fields: [residence_id], references: [id], map: "residence_image_FK")
+  id           Int       @id @default(autoincrement())
+  residence    residence @relation(fields: [residence_id], references: [id], onDelete: Cascade, map: "residence_image_FK")
+
+  @@index([residence_id], map: "residence_image_FK")
 }
 
 model residence_rule {

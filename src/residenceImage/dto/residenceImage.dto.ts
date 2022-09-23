@@ -3,6 +3,12 @@ import { ApiProperty } from '@nestjs/swagger';
 export class ResidenceImage {
   @ApiProperty({
     example: 12345,
+    description: 'id of the ResidenceImage',
+  })
+  readonly id: number;
+
+  @ApiProperty({
+    example: 12345,
     description: 'residence_id of the ResidenceImage',
   })
   readonly residence_id: number;
