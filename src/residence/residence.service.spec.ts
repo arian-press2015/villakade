@@ -48,6 +48,15 @@ const select = {
       extra_guest_peak: true,
     },
   },
+  residence_image: {
+    select: {
+      id: true,
+      residence_id: true,
+      url: true,
+      width: true,
+      height: true,
+    },
+  },
 };
 
 describe('ResidenceService', () => {
@@ -119,6 +128,15 @@ describe('ResidenceService', () => {
         extra_guest_weekend: 5,
         extra_guest_peak: 5,
       },
+      residence_image: [
+        {
+          id: 111,
+          residence_id: 123,
+          url: '/file/is/here',
+          width: 600,
+          height: 800,
+        },
+      ],
     };
 
     it('should create new Residence and return it', async () => {
@@ -183,6 +201,15 @@ describe('ResidenceService', () => {
           extra_guest_weekend: 5,
           extra_guest_peak: 5,
         },
+        residence_image: [
+          {
+            id: 111,
+            residence_id: 123,
+            url: '/file/is/here',
+            width: 600,
+            height: 800,
+          },
+        ],
       },
       {
         id: 2,
@@ -218,6 +245,15 @@ describe('ResidenceService', () => {
           extra_guest_weekend: 10,
           extra_guest_peak: 10,
         },
+        residence_image: [
+          {
+            id: 111,
+            residence_id: 123,
+            url: '/file/is/here',
+            width: 600,
+            height: 800,
+          },
+        ],
       },
     ];
 
@@ -1001,6 +1037,15 @@ describe('ResidenceService', () => {
         extra_guest_weekend: 5,
         extra_guest_peak: 5,
       },
+      residence_image: [
+        {
+          id: 111,
+          residence_id: 123,
+          url: '/file/is/here',
+          width: 600,
+          height: 800,
+        },
+      ],
     };
 
     it('should return Residence by id', async () => {
@@ -1061,6 +1106,15 @@ describe('ResidenceService', () => {
         extra_guest_weekend: 5,
         extra_guest_peak: 5,
       },
+      residence_image: [
+        {
+          id: 111,
+          residence_id: 123,
+          url: '/file/is/here',
+          width: 600,
+          height: 800,
+        },
+      ],
     };
 
     it('should update residence by id', async () => {
@@ -1131,6 +1185,15 @@ describe('ResidenceService', () => {
         extra_guest_weekend: 5,
         extra_guest_peak: 5,
       },
+      residence_image: [
+        {
+          id: 111,
+          residence_id: 123,
+          url: '/file/is/here',
+          width: 600,
+          height: 800,
+        },
+      ],
     };
 
     it('should delete residence by id', async () => {

@@ -49,6 +49,15 @@ const select = {
       extra_guest_peak: true,
     },
   },
+  residence_image: {
+    select: {
+      id: true,
+      residence_id: true,
+      url: true,
+      width: true,
+      height: true,
+    },
+  },
 };
 
 @Injectable()

@@ -85,4 +85,18 @@ export class Residence {
     description: 'price of the Residence',
   })
   readonly residence_price: ResidencePrice;
+
+  @ApiProperty({
+    example: [
+      {
+        id: 111,
+        residence_id: 123,
+        url: '/file/is/here',
+        width: 400,
+        height: 600,
+      },
+    ],
+    description: 'images of the Residence',
+  })
+  readonly residence_image: ResidenceImage[];
 }
