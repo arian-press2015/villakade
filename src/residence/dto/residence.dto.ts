@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Category } from '../../category/dto';
+import { RawCategory } from '../../category/dto';
 import { City } from '../../city/dto';
 import { ResidencePrice } from '../../residenceAttribute/dto';
 import { ResidenceImage } from '../../residenceImage/dto';
@@ -125,5 +125,5 @@ export class CategoryRO {
     },
     description: 'images of the Residence',
   })
-  readonly category: Category;
+  readonly category: RawCategory;
 }

@@ -10,6 +10,14 @@ const select = {
   id: true,
   title: true,
   fa_title: true,
+  category_image: {
+    select: {
+      category_id: true,
+      url: true,
+      width: true,
+      height: true,
+    },
+  },
 };
 
 describe('CategoryService', () => {
@@ -51,6 +59,12 @@ describe('CategoryService', () => {
       id: 1,
       title: 'apartment',
       fa_title: 'آپارتمان',
+      category_image: {
+        category_id: 123,
+        url: '/here',
+        width: 400,
+        height: 500,
+      },
     };
 
     it('should create new Category and return it', async () => {
@@ -95,11 +109,23 @@ describe('CategoryService', () => {
         id: 1,
         title: 'apartment',
         fa_title: 'آپارتمان',
+        category_image: {
+          category_id: 123,
+          url: '/here',
+          width: 400,
+          height: 500,
+        },
       },
       {
         id: 2,
         title: 'villa',
         fa_title: 'ویلا',
+        category_image: {
+          category_id: 123,
+          url: '/here',
+          width: 400,
+          height: 500,
+        },
       },
     ];
 
@@ -265,6 +291,12 @@ describe('CategoryService', () => {
       id: 1,
       title: 'apartment',
       fa_title: 'آپارتمان',
+      category_image: {
+        category_id: 123,
+        url: '/here',
+        width: 400,
+        height: 500,
+      },
     };
 
     it('should return category by id', async () => {
@@ -293,6 +325,12 @@ describe('CategoryService', () => {
       id: 1,
       title: 'apartment',
       fa_title: 'آپارتمان',
+      category_image: {
+        category_id: 123,
+        url: '/here',
+        width: 400,
+        height: 500,
+      },
     };
 
     it('should update category by id', async () => {
@@ -358,6 +396,12 @@ describe('CategoryService', () => {
       id: 1,
       title: 'apartment',
       fa_title: 'آپارتمان',
+      category_image: {
+        category_id: 123,
+        url: '/here',
+        width: 400,
+        height: 500,
+      },
     };
 
     it('should delete category by id', async () => {
