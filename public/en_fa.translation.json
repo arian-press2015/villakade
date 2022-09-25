@@ -152,5 +152,22 @@
   "extra_guest_weekday must be a positive number": "هزینه مهمان اضافه روز کاری باید عددی مثبت باشد",
   "extra_guest_weekend must be a positive number": "هزینه مهمان اضافه روز تعطیل باید عددی مثبت باشد",
   "extra_guest_peak must be a positive number": "هزینه مهمان اضافه روز پرتقاضا باید عددی مثبت باشد",
-  "category_id must be a number array": "شناسه دسته بندی باید چند مقدار عددی باشد"
+  "category_id must be a number array": "شناسه دسته بندی باید چند مقدار عددی باشد",
+  "local_wc is required": "وضعیت سرویس ایرانی اجباری است",
+  "fix_wc is required": "وضعیت سرویس فرنگی اجباری است",
+  "fix_wc must be a boolean": "وضعیت سرویس فرنگی باید از نوع بولین باشد",
+  "portable_wc is required": "وضعیت سرویس قابل حمل اجباری است",
+  "portable_wc must be a boolean": "وضعیت سرویس قابل حمل باید از نوع بولین باشد",
+  "shower is required": "وضعیت دوش حمام اجباری است",
+  "shower must be a boolean": "وضعیت دوش حمام باید از نوع بولین باشد",
+  "jacuzzi is required": "وضعیت جکوزی اجباری است",
+  "jacuzzi must be a boolean": "وضعیت جکوزی باید از نوع بولین باشد",
+  "bathtub is required": "وضعیت وان حمام اجباری است",
+  "bathtub must be a boolean": "وضعیت وان حمام باید از نوع بولین باشد",
+  "soap is required": "وضعیت صابون اجباری است",
+  "soap must be a boolean": "وضعیت صابون باید از نوع بولین باشد",
+  "shampoo is required": "وضعیت شامپو اجباری است",
+  "shampoo must be a boolean": "وضعیت شامپو باید از نوع بولین باشد",
+  "shared_wc_bathroom is required": "وضعیت اشتراکی بودن سرویس ها اجباری است",
+  "shared_wc_bathroom must be a boolean": "وضعیت اشتراکی بودن سرویس ها باید از نوع بولین باشد"
 }
