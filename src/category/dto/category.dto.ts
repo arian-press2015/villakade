@@ -26,7 +26,7 @@ export class Category {
     },
     description: 'image of the Category',
   })
-  readonly category_image?: CategoryImage;
+  readonly category_image: CategoryImage;
 }
 
 export class RawCategory {

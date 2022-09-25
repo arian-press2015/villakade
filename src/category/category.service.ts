@@ -11,6 +11,14 @@ const select = {
   id: true,
   title: true,
   fa_title: true,
+  category_image: {
+    select: {
+      category_id: true,
+      url: true,
+      width: true,
+      height: true,
+    },
+  },
 };
 
 @Injectable()
