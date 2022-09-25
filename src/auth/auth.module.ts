@@ -11,6 +11,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
 import { OwnerModule } from '../owner/owner.module';
 import { HostModule } from '../host/host.module';
+import { RedisService } from '../shared/services/redis.service';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { HostModule } from '../host/host.module';
     OwnerLocalStrategy,
     HostJwtStrategy,
     HostLocalStrategy,
+    RedisService,
   ],
   exports: [AuthService],
 })

@@ -11,6 +11,7 @@ import {
 import { ResidenceImageService } from './residenceImage.service';
 
 const select = {
+  id: true,
   residence_id: true,
   url: true,
   width: true,
@@ -53,6 +54,7 @@ describe('ResidenceImageService', () => {
 
   describe('async create(dto: CreateResidenceImageDto): Promise<ResidenceImage>', () => {
     const residenceImage: ResidenceImage = {
+      id: 1,
       residence_id: 1,
       url: '/path/to/file',
       width: 400,
@@ -82,11 +84,13 @@ describe('ResidenceImageService', () => {
         },
       };
 
+      const { id, ...data } = residenceImage;
+
       const result = await service.create(dto, '/path/to/file');
       expect(result).toStrictEqual(residenceImage);
       expect(prisma.residence_image.create).toBeCalledWith({
         select,
-        data: residenceImage,
+        data,
       });
       expect(prisma.residence_image.create).toBeCalledTimes(1);
     });
@@ -95,12 +99,14 @@ describe('ResidenceImageService', () => {
   describe('async findAll(dto: FilterResidenceImageDto): Promise<ResidenceImage[]>', () => {
     const residenceImages = [
       {
+        id: 1,
         residence_id: 1,
         url: '/path/to/file',
         width: 400,
         height: 200,
       },
       {
+        id: 1,
         residence_id: 2,
         url: '/path/to/file2',
         width: 400,
@@ -237,6 +243,7 @@ describe('ResidenceImageService', () => {
 
   describe('async findOne(id: string): Promise<ResidenceImage>', () => {
     const residenceImage = {
+      id: 1,
       residence_id: 1,
       url: '/path/to/file',
       width: 400,
@@ -253,7 +260,7 @@ describe('ResidenceImageService', () => {
       expect(result).toStrictEqual(residenceImage);
       expect(prisma.residence_image.findUnique).toBeCalledWith({
         select,
-        where: { residence_id: 1 },
+        where: { id: 1 },
       });
       expect(prisma.residence_image.findUnique).toBeCalledTimes(1);
     });
@@ -270,6 +277,7 @@ describe('ResidenceImageService', () => {
 
   describe('async update(id: string, updateResidenceImageDto: UpdateResidenceImageDto): Promise<ResidenceImage>', () => {
     const residenceImage = {
+      id: 1,
       residence_id: 1,
       url: '/path/to/file',
       width: 400,
@@ -292,7 +300,7 @@ describe('ResidenceImageService', () => {
           residence_id: 2,
         },
         where: {
-          residence_id: 1,
+          id: 1,
         },
       });
       expect(prisma.residence_image.update).toBeCalledTimes(1);
@@ -313,6 +321,7 @@ describe('ResidenceImageService', () => {
 
   describe('async delete(residence_id: string): Promise<void>', () => {
     const residenceImage = {
+      id: 1,
       residence_id: 1,
       url: '/path/to/file',
       width: 400,
@@ -327,7 +336,7 @@ describe('ResidenceImageService', () => {
 
       await service.remove(1);
       expect(prisma.residence_image.delete).toBeCalledWith({
-        where: { residence_id: 1 },
+        where: { id: 1 },
       });
       expect(prisma.residence_image.delete).toBeCalledTimes(1);
     });

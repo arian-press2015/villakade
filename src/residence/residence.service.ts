@@ -5,6 +5,8 @@ import {
   FilterResidenceDto,
   CreateResidenceDto,
   UpdateResidenceDto,
+  CreateResidenceCategoryDto,
+  ResidenceCategory,
 } from './dto';
 
 const select = {
@@ -19,7 +21,6 @@ const select = {
     },
   },
   location: true,
-  price: true,
   active: true,
   city: {
     select: {
@@ -32,6 +33,40 @@ const select = {
           id: true,
           name: true,
           fa_name: true,
+        },
+      },
+    },
+  },
+  normal_capacity: true,
+  max_capacity: true,
+  about: true,
+  residence_price: {
+    select: {
+      residence_id: true,
+      weekday_price: true,
+      weekend_price: true,
+      peak_price: true,
+      extra_guest_weekday: true,
+      extra_guest_weekend: true,
+      extra_guest_peak: true,
+    },
+  },
+  residence_image: {
+    select: {
+      id: true,
+      residence_id: true,
+      url: true,
+      width: true,
+      height: true,
+    },
+  },
+  residence_category: {
+    select: {
+      category: {
+        select: {
+          id: true,
+          title: true,
+          fa_title: true,
         },
       },
     },
@@ -57,15 +92,57 @@ export class ResidenceService {
     }
   }
 
+  async createResidenceCategory(
+    createResidenceCategoryDto: CreateResidenceCategoryDto,
+  ): Promise<void> {
+    try {
+      const data: ResidenceCategory[] =
+        createResidenceCategoryDto.category_id.map((cat) => ({
+          residence_id: createResidenceCategoryDto.residence_id,
+          category_id: cat,
+        }));
+      await this.prisma.residence_category.createMany({
+        data,
+      });
+
+      return;
+    } catch (e) {
+      console.log(
+        'Error in ResidenceService.createResidenceCategory()',
+        e.code,
+        e.meta,
+      );
+      if (
+        e.code &&
+        e.code === 'P2003' &&
+        e.meta.field_name === 'residence_id'
+      ) {
+        throw new BadRequestException('residence not found');
+      } else if (
+        e.code &&
+        e.code === 'P2003' &&
+        e.meta.field_name === 'category_id'
+      ) {
+        throw new BadRequestException('category not found');
+      }
+      throw e;
+    }
+  }
+
   async getCount(filterResidenceDto: FilterResidenceDto): Promise<number> {
     const where: {
       title?: { contains: string };
       host_id?: number;
       type_id?: number;
       city_id?: number;
-      price?: number;
       active?: boolean;
       location?: { contains: string };
+      weekday_price?: { gt?: number; lt?: number };
+      weekend_price?: { gt?: number; lt?: number };
+      peak_price?: { gt?: number; lt?: number };
+      extra_guest_weekday?: { gt?: number; lt?: number };
+      extra_guest_weekend?: { gt?: number; lt?: number };
+      extra_guest_peak?: { gt?: number; lt?: number };
     } = {};
     if (filterResidenceDto.title) {
       where.title = {
@@ -77,13 +154,83 @@ export class ResidenceService {
       where.type_id = parseInt(filterResidenceDto.type_id);
     } else if (filterResidenceDto.city_id) {
       where.city_id = parseInt(filterResidenceDto.city_id);
-    } else if (filterResidenceDto.price) {
-      where.price = parseInt(filterResidenceDto.price);
     } else if (filterResidenceDto.active) {
       where.active = filterResidenceDto.active === 'true' ? true : false;
     } else if (filterResidenceDto.location) {
       where.location = {
         contains: filterResidenceDto.location,
+      };
+    } else if (
+      filterResidenceDto.min_weekday_price ||
+      filterResidenceDto.max_weekday_price
+    ) {
+      where.weekday_price = {
+        gt: filterResidenceDto.min_weekday_price
+          ? parseInt(filterResidenceDto.min_weekday_price)
+          : undefined,
+        lt: filterResidenceDto.max_weekday_price
+          ? parseInt(filterResidenceDto.max_weekday_price)
+          : undefined,
+      };
+    } else if (
+      filterResidenceDto.min_weekend_price ||
+      filterResidenceDto.max_weekend_price
+    ) {
+      where.weekend_price = {
+        gt: filterResidenceDto.min_weekend_price
+          ? parseInt(filterResidenceDto.min_weekend_price)
+          : undefined,
+        lt: filterResidenceDto.max_weekend_price
+          ? parseInt(filterResidenceDto.max_weekend_price)
+          : undefined,
+      };
+    } else if (
+      filterResidenceDto.min_peak_price ||
+      filterResidenceDto.max_peak_price
+    ) {
+      where.peak_price = {
+        gt: filterResidenceDto.min_peak_price
+          ? parseInt(filterResidenceDto.min_peak_price)
+          : undefined,
+        lt: filterResidenceDto.max_peak_price
+          ? parseInt(filterResidenceDto.max_peak_price)
+          : undefined,
+      };
+    } else if (
+      filterResidenceDto.min_extra_guest_weekday ||
+      filterResidenceDto.max_extra_guest_weekday
+    ) {
+      where.extra_guest_weekday = {
+        gt: filterResidenceDto.min_extra_guest_weekday
+          ? parseInt(filterResidenceDto.min_extra_guest_weekday)
+          : undefined,
+        lt: filterResidenceDto.max_extra_guest_weekday
+          ? parseInt(filterResidenceDto.max_extra_guest_weekday)
+          : undefined,
+      };
+    } else if (
+      filterResidenceDto.min_extra_guest_weekend ||
+      filterResidenceDto.max_extra_guest_weekend
+    ) {
+      where.extra_guest_weekend = {
+        gt: filterResidenceDto.min_extra_guest_weekend
+          ? parseInt(filterResidenceDto.min_extra_guest_weekend)
+          : undefined,
+        lt: filterResidenceDto.max_extra_guest_weekend
+          ? parseInt(filterResidenceDto.max_extra_guest_weekend)
+          : undefined,
+      };
+    } else if (
+      filterResidenceDto.min_extra_guest_peak ||
+      filterResidenceDto.max_extra_guest_peak
+    ) {
+      where.extra_guest_peak = {
+        gt: filterResidenceDto.min_extra_guest_peak
+          ? parseInt(filterResidenceDto.min_extra_guest_peak)
+          : undefined,
+        lt: filterResidenceDto.max_extra_guest_peak
+          ? parseInt(filterResidenceDto.max_extra_guest_peak)
+          : undefined,
       };
     }
 
@@ -99,9 +246,14 @@ export class ResidenceService {
       host_id?: number;
       type_id?: number;
       city_id?: number;
-      price?: number;
       active?: boolean;
       location?: { contains: string };
+      weekday_price?: { gt?: number; lt?: number };
+      weekend_price?: { gt?: number; lt?: number };
+      peak_price?: { gt?: number; lt?: number };
+      extra_guest_weekday?: { gt?: number; lt?: number };
+      extra_guest_weekend?: { gt?: number; lt?: number };
+      extra_guest_peak?: { gt?: number; lt?: number };
     } = {};
     if (filterResidenceDto.title) {
       where.title = {
@@ -113,13 +265,83 @@ export class ResidenceService {
       where.type_id = parseInt(filterResidenceDto.type_id);
     } else if (filterResidenceDto.city_id) {
       where.city_id = parseInt(filterResidenceDto.city_id);
-    } else if (filterResidenceDto.price) {
-      where.price = parseInt(filterResidenceDto.price);
     } else if (filterResidenceDto.active) {
       where.active = filterResidenceDto.active === 'true' ? true : false;
     } else if (filterResidenceDto.location) {
       where.location = {
         contains: filterResidenceDto.location,
+      };
+    } else if (
+      filterResidenceDto.min_weekday_price ||
+      filterResidenceDto.max_weekday_price
+    ) {
+      where.weekday_price = {
+        gt: filterResidenceDto.min_weekday_price
+          ? parseInt(filterResidenceDto.min_weekday_price)
+          : undefined,
+        lt: filterResidenceDto.max_weekday_price
+          ? parseInt(filterResidenceDto.max_weekday_price)
+          : undefined,
+      };
+    } else if (
+      filterResidenceDto.min_weekend_price ||
+      filterResidenceDto.max_weekend_price
+    ) {
+      where.weekend_price = {
+        gt: filterResidenceDto.min_weekend_price
+          ? parseInt(filterResidenceDto.min_weekend_price)
+          : undefined,
+        lt: filterResidenceDto.max_weekend_price
+          ? parseInt(filterResidenceDto.max_weekend_price)
+          : undefined,
+      };
+    } else if (
+      filterResidenceDto.min_peak_price ||
+      filterResidenceDto.max_peak_price
+    ) {
+      where.peak_price = {
+        gt: filterResidenceDto.min_peak_price
+          ? parseInt(filterResidenceDto.min_peak_price)
+          : undefined,
+        lt: filterResidenceDto.max_peak_price
+          ? parseInt(filterResidenceDto.max_peak_price)
+          : undefined,
+      };
+    } else if (
+      filterResidenceDto.min_extra_guest_weekday ||
+      filterResidenceDto.max_extra_guest_weekday
+    ) {
+      where.extra_guest_weekday = {
+        gt: filterResidenceDto.min_extra_guest_weekday
+          ? parseInt(filterResidenceDto.min_extra_guest_weekday)
+          : undefined,
+        lt: filterResidenceDto.max_extra_guest_weekday
+          ? parseInt(filterResidenceDto.max_extra_guest_weekday)
+          : undefined,
+      };
+    } else if (
+      filterResidenceDto.min_extra_guest_weekend ||
+      filterResidenceDto.max_extra_guest_weekend
+    ) {
+      where.extra_guest_weekend = {
+        gt: filterResidenceDto.min_extra_guest_weekend
+          ? parseInt(filterResidenceDto.min_extra_guest_weekend)
+          : undefined,
+        lt: filterResidenceDto.max_extra_guest_weekend
+          ? parseInt(filterResidenceDto.max_extra_guest_weekend)
+          : undefined,
+      };
+    } else if (
+      filterResidenceDto.min_extra_guest_peak ||
+      filterResidenceDto.max_extra_guest_peak
+    ) {
+      where.extra_guest_peak = {
+        gt: filterResidenceDto.min_extra_guest_peak
+          ? parseInt(filterResidenceDto.min_extra_guest_peak)
+          : undefined,
+        lt: filterResidenceDto.max_extra_guest_peak
+          ? parseInt(filterResidenceDto.max_extra_guest_peak)
+          : undefined,
       };
     }
 
@@ -182,8 +404,10 @@ export class ResidenceService {
           title: updateResidenceDto.title,
           city_id: updateResidenceDto.city_id,
           location: updateResidenceDto.location,
-          price: updateResidenceDto.price,
           type_id: updateResidenceDto.type_id,
+          normal_capacity: updateResidenceDto.normal_capacity,
+          max_capacity: updateResidenceDto.max_capacity,
+          about: updateResidenceDto.about,
         },
         where: {
           id,
