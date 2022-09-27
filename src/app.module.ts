@@ -14,7 +14,11 @@ import { OwnerModule } from './owner/owner.module';
 import { PermissionModule } from './permission/permission.module';
 import { ProvinceModule } from './province/province.module';
 import { ResidenceModule } from './residence/residence.module';
+import { ResidenceAirConditioningModule } from './residenceAirConditioning/residenceAirConditioning.module';
 import { ResidenceAttributeModule } from './residenceAttribute/residenceAttribute.module';
+import { ResidenceCookingModule } from './residenceCooking/residenceCooking.module';
+import { ResidenceEntertainmentModule } from './residenceEntertainment/residenceEntertainment.module';
+import { ResidenceFacilityModule } from './residenceFacility/residenceFacility.module';
 import { ResidenceImageModule } from './residenceImage/residenceImage.module';
 import { ResidenceParkingModule } from './residenceParking/residenceParking.module';
 import { ResidencePriceModule } from './residencePrice/residencePrice.module';
@@ -56,11 +60,15 @@ import { TypeModule } from './type/type.module';
     ResidenceImageModule,
     ResidencePriceModule,
     ResidenceAttributeModule,
+    ResidenceAirConditioningModule,
+    ResidenceCookingModule,
+    ResidenceEntertainmentModule,
+    ResidenceFacilityModule,
+    ResidenceParkingModule,
+    ResidenceRoomModule,
     ResidenceRuleModule,
     ResidenceWcBathroomModule,
     ResidenceServeModule,
-    ResidenceRoomModule,
-    ResidenceParkingModule,
   ],
   controllers: [],
   providers: [],
