@@ -17,7 +17,9 @@ import { ResidenceModule } from './residence/residence.module';
 import { ResidenceAttributeModule } from './residenceAttribute/residenceAttribute.module';
 import { ResidenceImageModule } from './residenceImage/residenceImage.module';
 import { ResidencePriceModule } from './residencePrice/residencePrice.module';
+import { ResidenceRoomModule } from './residenceRoom/residenceRoom.module';
 import { ResidenceRuleModule } from './residenceRule/residenceRule.module';
+import { ResidenceServeModule } from './residenceServe/residenceServe.module';
 import { ResidenceWcBathroomModule } from './residenceWcBathroom/residenceWcBathroom.module';
 import { RoleModule } from './role/role.module';
 import { RolePermissionModule } from './rolePermission/rolePermission.module';
@@ -42,10 +44,6 @@ import { TypeModule } from './type/type.module';
     FaqModule,
     HostModule,
     TypeModule,
-    ResidenceModule,
-    ResidenceRuleModule,
-    ResidenceImageModule,
-    ResidenceAttributeModule,
     SupportModule,
     PermissionModule,
     RoleModule,
@@ -53,8 +51,14 @@ import { TypeModule } from './type/type.module';
     CustomerModule,
     OwnerModule,
     CategoryImageModule,
+    ResidenceModule,
+    ResidenceImageModule,
     ResidencePriceModule,
+    ResidenceAttributeModule,
+    ResidenceRuleModule,
     ResidenceWcBathroomModule,
+    ResidenceServeModule,
+    ResidenceRoomModule,
   ],
   controllers: [],
   providers: [],
