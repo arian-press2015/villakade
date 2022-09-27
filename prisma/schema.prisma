@@ -262,7 +262,7 @@ model residence_parking_attribute {
   unroofed     Boolean?
   public       Boolean?
   free_space   Boolean?
-  capacity     Boolean   @default(false)
+  capacity     Int       @default(0)
   residence    residence @relation(fields: [residence_id], references: [id], onDelete: Cascade, map: "residence_parking_attribute_FK")
 }
 

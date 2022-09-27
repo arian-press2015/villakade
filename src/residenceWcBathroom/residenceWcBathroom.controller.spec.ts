@@ -11,7 +11,9 @@ describe('ResidenceWcBathroomController', () => {
       providers: [ResidenceWcBathroomService],
     }).compile();
 
-    controller = module.get<ResidenceWcBathroomController>(ResidenceWcBathroomController);
+    controller = module.get<ResidenceWcBathroomController>(
+      ResidenceWcBathroomController,
+    );
   });
 
   it('should be defined', () => {

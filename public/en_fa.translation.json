@@ -214,5 +214,13 @@
   "heating_system is required": "وضعیت سیستم گرمایشی اجباری است",
   "heating_system must be a boolean": "وضعیت سیستم گرمایشی باید از نوع بولین باشد",
   "cooling_system is required": "وضعیت سیستم سرمایشی اجباری است",
-  "cooling_system must be a boolean": "وضعیت سیستم سرمایشی باید از نوع بولین باشد"
+  "cooling_system must be a boolean": "وضعیت سیستم سرمایشی باید از نوع بولین باشد",
+  "roof is required": "وضعیت پارکینگ سقف دار اجباری است",
+  "roof must be a boolean": "وضعیت پارکینگ سقف دار باید از نوع بولین باشد",
+  "unroofed is required": "وضعیت پارکینگ بی سقف اجباری است",
+  "unroofed must be a boolean": "وضعیت پارکینگ بی سقف باید از نوع بولین باشد",
+  "public is required": "وضعیت پارکینگ عمومی اجباری است",
+  "public must be a boolean": "وضعیت پارکینگ عمومی باید از نوع بولین باشد",
+  "free_space is required": "وضعیت پارکینگ فضای باز اجباری است",
+  "free_space must be a boolean": "وضعیت پارکینگ فضای باز باید از نوع بولین باشد"
 }

@@ -16,6 +16,7 @@ import { ProvinceModule } from './province/province.module';
 import { ResidenceModule } from './residence/residence.module';
 import { ResidenceAttributeModule } from './residenceAttribute/residenceAttribute.module';
 import { ResidenceImageModule } from './residenceImage/residenceImage.module';
+import { ResidenceParkingModule } from './residenceParking/residenceParking.module';
 import { ResidencePriceModule } from './residencePrice/residencePrice.module';
 import { ResidenceRoomModule } from './residenceRoom/residenceRoom.module';
 import { ResidenceRuleModule } from './residenceRule/residenceRule.module';
@@ -59,6 +60,7 @@ import { TypeModule } from './type/type.module';
     ResidenceWcBathroomModule,
     ResidenceServeModule,
     ResidenceRoomModule,
+    ResidenceParkingModule,
   ],
   controllers: [],
   providers: [],
