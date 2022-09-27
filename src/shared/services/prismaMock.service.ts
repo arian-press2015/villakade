@@ -152,6 +152,30 @@ const PrismaMockService = {
     count: jest.fn(),
     delete: jest.fn(),
   },
+  residence_entertainment_attribute: {
+    findMany: jest.fn(),
+    findUnique: jest.fn(),
+    create: jest.fn(),
+    update: jest.fn(),
+    count: jest.fn(),
+    delete: jest.fn(),
+  },
+  residence_cooking_attribute: {
+    findMany: jest.fn(),
+    findUnique: jest.fn(),
+    create: jest.fn(),
+    update: jest.fn(),
+    count: jest.fn(),
+    delete: jest.fn(),
+  },
+  residence_air_conditioning_attribute: {
+    findMany: jest.fn(),
+    findUnique: jest.fn(),
+    create: jest.fn(),
+    update: jest.fn(),
+    count: jest.fn(),
+    delete: jest.fn(),
+  },
 };
 
 export default PrismaMockService;
