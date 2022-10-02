@@ -1,11 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../shared/services/prisma.service';
-import {
-  ResidenceAttribute,
-  FilterResidenceAttributeDto,
-  CreateResidenceAttributeDto,
-  UpdateResidenceAttributeDto,
-} from './dto';
+import { ResidenceAttribute } from './dto';
 
 const select = {
   residence_air_conditioning_attribute: {
