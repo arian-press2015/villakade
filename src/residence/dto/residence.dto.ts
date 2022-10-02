@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { RawCategory } from '../../category/dto';
 import { City } from '../../city/dto';
-import { ResidencePrice } from '../../residenceAttribute/dto';
 import { ResidenceImage } from '../../residenceImage/dto';
+import { ResidencePrice } from '../../residencePrice/dto';
 import { Type } from '../../type/dto';
 
 export class Residence {

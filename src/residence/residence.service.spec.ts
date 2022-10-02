@@ -1374,4 +1374,53 @@ describe('ResidenceService', () => {
       );
     });
   });
+
+  describe('async checkHost(id: number, host_id: number): Promise<boolean>', () => {
+    it('should return true if host_id is the host of residence', async () => {
+      // mock prisma return value
+      PrismaMockService.residence.findUnique.mockResolvedValue({
+        id: 2,
+        host_id: 1,
+      });
+
+      const result = await service.checkHost(2, 1);
+      expect(result).toEqual(true);
+      expect(prisma.residence.findUnique).toBeCalledWith({
+        select: {
+          id: true,
+          host_id: true,
+        },
+        where: { id: 2 },
+      });
+      expect(prisma.residence.findUnique).toBeCalledTimes(1);
+    });
+
+    it("should throw if host doesn't own residence", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.findUnique.mockResolvedValue({
+        id: 2,
+        host_id: 222,
+      });
+
+      const result = await service.checkHost(2, 1);
+      expect(result).toEqual(false);
+      expect(prisma.residence.findUnique).toBeCalledWith({
+        select: {
+          id: true,
+          host_id: true,
+        },
+        where: { id: 2 },
+      });
+      expect(prisma.residence.findUnique).toBeCalledTimes(1);
+    });
+
+    it("should throw if id doesn't exist", async () => {
+      // mock prisma return value
+      PrismaMockService.residence.findUnique.mockResolvedValue(null);
+
+      await expect(service.findOne(1000)).rejects.toThrow(
+        'residence not found',
+      );
+    });
+  });
 });

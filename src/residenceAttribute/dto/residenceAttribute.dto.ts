@@ -1,191 +1,172 @@
 import { ApiProperty } from '@nestjs/swagger';
-
-export class ResidencePrice {
-  @ApiProperty({
-    example: 123,
-    description: 'residence_id of the residence_price',
-  })
-  readonly residence_id: number;
-
-  @ApiProperty({
-    example: 4,
-    description: 'weekday_price of the residence_price',
-  })
-  readonly weekday_price: number;
-
-  @ApiProperty({
-    example: 4,
-    description: 'weekend_price of the residence_price',
-  })
-  readonly weekend_price: number;
-
-  @ApiProperty({
-    example: 4,
-    description: 'peak_price of the residence_price',
-  })
-  readonly peak_price: number;
-
-  @ApiProperty({
-    example: 4,
-    description: 'extra_guest_weekday of the residence_price',
-  })
-  readonly extra_guest_weekday: number;
-
-  @ApiProperty({
-    example: 4,
-    description: 'extra_guest_weekend of the residence_price',
-  })
-  readonly extra_guest_weekend: number;
-
-  @ApiProperty({
-    example: 4,
-    description: 'extra_guest_peak of the residence_price',
-  })
-  readonly extra_guest_peak: number;
-}
+import { ResidenceAirConditioning } from '../../residenceAirConditioning/dto';
+import { ResidenceCooking } from '../../residenceCooking/dto';
+import { ResidenceEntertainment } from '../../residenceEntertainment/dto';
+import { ResidenceFacility } from '../../residenceFacility/dto';
+import { ResidenceParking } from '../../residenceParking/dto';
+import { ResidenceRoom } from '../../residenceRoom/dto';
+import { ResidenceRule } from '../../residenceRule/dto';
+import { ResidenceServe } from '../../residenceServe/dto';
+import { ResidenceWcBathroom } from '../../residenceWcBathroom/dto';
 
 export class ResidenceAttribute {
   @ApiProperty({
-    example: 12345,
-    description: 'residence_id of the ResidenceAttribute',
+    example: {
+      residence_id: 2,
+      radiator: true,
+      wood_heater: true,
+      fireplace: true,
+      korsi: true,
+      oil_heater: true,
+      fancoil: true,
+      electric_heater: true,
+      air_conditioner: true,
+      water_cooler: true,
+      split: true,
+      ceiling_fan: true,
+      standing_fan: true,
+    },
+    description: 'residence_air_conditioning of the ResidenceAttribute',
   })
-  readonly residence_id: number;
+  readonly residence_air_conditioning_attribute: ResidenceAirConditioning;
 
   @ApiProperty({
-    example: 60,
-    description: 'residence_size of the ResidenceAttribute',
+    example: {
+      residence_id: 2,
+      fridge: true,
+      microwave: true,
+      pan: true,
+      pot: true,
+      grill: true,
+      skewer: true,
+      oven: true,
+      lighter: true,
+    },
+    description: 'residence_cooking of the ResidenceAttribute',
   })
-  readonly residence_size: number;
+  readonly residence_cooking_attribute: ResidenceCooking;
 
   @ApiProperty({
-    example: 30,
-    description: 'residence_yard_size of the ResidenceAttribute',
+    example: {
+      residence_id: 2,
+      television: true,
+      receiver: true,
+      audio_system: true,
+      swing: true,
+      ping_pong: true,
+      foosball: true,
+      game_console: true,
+      pool_table: true,
+      game_board: true,
+      treadmill: true,
+      bicycle: true,
+      beach_motor: true,
+    },
+    description: 'residence_entertainment of the ResidenceAttribute',
   })
-  readonly residence_yard_size: number;
+  readonly residence_entertainment_attribute: ResidenceEntertainment;
 
   @ApiProperty({
-    example: 2,
-    description: 'bedroom_count of the ResidenceAttribute',
+    example: {
+      residence_id: 2,
+      furniture: true,
+      vacuum_cleaner: true,
+      washing_machine: true,
+      washing_powder: true,
+      dishwashing_machine: true,
+      wifi: true,
+      hairdryer: true,
+      elevator: true,
+      iron: true,
+      telephone: true,
+      first_aid_kit: true,
+      security_camera: true,
+    },
+    description: 'residence_facility of the ResidenceAttribute',
   })
-  readonly bedroom_count: number;
+  readonly residence_facility_attribute: ResidenceFacility;
 
   @ApiProperty({
-    example: 3,
-    description: 'capacity of the ResidenceAttribute',
+    example: {
+      residence_id: 2,
+      roof: true,
+      unroofed: true,
+      public: true,
+      free_space: true,
+      capacity: 3,
+    },
+    description: 'residence_parking of the ResidenceAttribute',
   })
-  readonly capacity: number;
+  readonly residence_parking_attribute: ResidenceParking;
 
   @ApiProperty({
-    example: '14:00:00',
-    description: 'in_time of the ResidenceAttribute',
+    example: {
+      residence_id: 2,
+      count: 2,
+      wall_closet: true,
+      drawer: true,
+      hanger: true,
+      double_bed: true,
+      single_bed: true,
+      carpet: true,
+      heating_system: true,
+      cooling_system: true,
+    },
+    description: 'residence_room of the ResidenceAttribute',
   })
-  readonly in_time: string;
+  readonly residence_room_attribute: ResidenceRoom;
 
   @ApiProperty({
-    example: '10:00:00',
-    description: 'capacity of the ResidenceAttribute',
+    example: {
+      residence_id: 3,
+      rule_body: 'rule',
+      in_time: '10:20:30',
+      out_time: '14:20:30',
+      required_documents: 'nothing',
+      pet_status: 'allowed',
+      ceremonies: 'allowed',
+    },
+    description: 'residence_rule of the ResidenceAttribute',
   })
-  readonly out_time: string;
+  readonly residence_rule: ResidenceRule;
 
   @ApiProperty({
-    example: false,
-    description: 'pet status of the ResidenceAttribute',
+    example: {
+      residence_id: 2,
+      plate: true,
+      fork_spoon: true,
+      knife: true,
+      bowl: true,
+      glass: true,
+      teapot: true,
+      kettle: true,
+      samovar: true,
+      tea_maker: true,
+      salt_shaker: true,
+      tablecloth: true,
+      dining_table: true,
+      child_chair: true,
+      tissue_paper: true,
+    },
+    description: 'residence_serve of the ResidenceAttribute',
   })
-  readonly pet: boolean;
+  readonly residence_serve_attribute: ResidenceServe;
 
   @ApiProperty({
-    example: false,
-    description: 'instant_delivery status of the ResidenceAttribute',
+    example: {
+      residence_id: 3,
+      location: 'here',
+      local_wc: true,
+      fix_wc: true,
+      portable_wc: true,
+      shower: true,
+      jacuzzi: true,
+      bathtub: true,
+      soap: true,
+      shampoo: true,
+      shared_wc_bathroom: true,
+    },
+    description: 'residence_wc_bathroom status of the ResidenceAttribute',
   })
-  readonly instant_delivery: boolean;
-
-  @ApiProperty({
-    example: false,
-    description: 'dishes status of the ResidenceAttribute',
-  })
-  readonly dishes: boolean;
-
-  @ApiProperty({
-    example: false,
-    description: 'dining_table status of the ResidenceAttribute',
-  })
-  readonly dining_table: boolean;
-
-  @ApiProperty({
-    example: false,
-    description: 'microwave status of the ResidenceAttribute',
-  })
-  readonly microwave: boolean;
-
-  @ApiProperty({
-    example: false,
-    description: 'fridge status of the ResidenceAttribute',
-  })
-  readonly fridge: boolean;
-
-  @ApiProperty({
-    example: false,
-    description: 'water status of the ResidenceAttribute',
-  })
-  readonly water: boolean;
-
-  @ApiProperty({
-    example: false,
-    description: 'electricity status of the ResidenceAttribute',
-  })
-  readonly electricity: boolean;
-
-  @ApiProperty({
-    example: false,
-    description: 'gas status of the ResidenceAttribute',
-  })
-  readonly gas: boolean;
-
-  @ApiProperty({
-    example: false,
-    description: 'tv status of the ResidenceAttribute',
-  })
-  readonly tv: boolean;
-
-  @ApiProperty({
-    example: false,
-    description: 'elevator status of the ResidenceAttribute',
-  })
-  readonly elevator: boolean;
-
-  @ApiProperty({
-    example: false,
-    description: 'local_wc status of the ResidenceAttribute',
-  })
-  readonly local_wc: boolean;
-
-  @ApiProperty({
-    example: false,
-    description: 'wc status of the ResidenceAttribute',
-  })
-  readonly wc: boolean;
-
-  @ApiProperty({
-    example: false,
-    description: 'pool_table status of the ResidenceAttribute',
-  })
-  readonly pool_table: boolean;
-
-  @ApiProperty({
-    example: false,
-    description: 'ping_pong_table status of the ResidenceAttribute',
-  })
-  readonly ping_pong_table: boolean;
-
-  @ApiProperty({
-    example: false,
-    description: 'pool status of the ResidenceAttribute',
-  })
-  readonly pool: boolean;
-
-  @ApiProperty({
-    example: false,
-    description: 'vip status of the ResidenceAttribute',
-  })
-  readonly vip: boolean;
+  readonly residence_wc_bathroom: ResidenceWcBathroom;
 }

@@ -446,4 +446,24 @@ export class ResidenceService {
       throw e;
     }
   }
+
+  async checkHost(id: number, host_id: number): Promise<boolean> {
+    const residence = await this.prisma.residence.findUnique({
+      select: {
+        id: true,
+        host_id: true,
+      },
+      where: { id },
+    });
+
+    if (!residence) {
+      throw new BadRequestException('residence not found');
+    }
+
+    if (residence.host_id === host_id) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../shared/services/prisma.service';
 import {
   ResidenceAttribute,
   FilterResidenceAttributeDto,
@@ -6,145 +7,150 @@ import {
   UpdateResidenceAttributeDto,
 } from './dto';
 
+const select = {
+  residence_air_conditioning_attribute: {
+    select: {
+      residence_id: true,
+      radiator: true,
+      wood_heater: true,
+      fireplace: true,
+      korsi: true,
+      oil_heater: true,
+      fancoil: true,
+      electric_heater: true,
+      air_conditioner: true,
+      water_cooler: true,
+      split: true,
+      ceiling_fan: true,
+      standing_fan: true,
+    },
+  },
+  residence_cooking_attribute: {
+    select: {
+      residence_id: true,
+      fridge: true,
+      microwave: true,
+      pan: true,
+      pot: true,
+      grill: true,
+      skewer: true,
+      oven: true,
+      lighter: true,
+    },
+  },
+  residence_entertainment_attribute: {
+    select: {
+      residence_id: true,
+      television: true,
+      receiver: true,
+      audio_system: true,
+      swing: true,
+      ping_pong: true,
+      foosball: true,
+      game_console: true,
+      pool_table: true,
+      game_board: true,
+      treadmill: true,
+      bicycle: true,
+      beach_motor: true,
+    },
+  },
+  residence_facility_attribute: {
+    select: {
+      residence_id: true,
+      furniture: true,
+      vacuum_cleaner: true,
+      washing_machine: true,
+      washing_powder: true,
+      dishwashing_machine: true,
+      wifi: true,
+      hairdryer: true,
+      elevator: true,
+      iron: true,
+      telephone: true,
+      first_aid_kit: true,
+      security_camera: true,
+    },
+  },
+  residence_parking_attribute: {
+    select: {
+      residence_id: true,
+      roof: true,
+      unroofed: true,
+      public: true,
+      free_space: true,
+      capacity: true,
+    },
+  },
+  residence_room_attribute: {
+    select: {
+      residence_id: true,
+      count: true,
+      wall_closet: true,
+      drawer: true,
+      hanger: true,
+      double_bed: true,
+      single_bed: true,
+      carpet: true,
+      heating_system: true,
+      cooling_system: true,
+    },
+  },
+  residence_rule: {
+    select: {
+      residence_id: true,
+      rule_body: true,
+      in_time: true,
+      out_time: true,
+      required_documents: true,
+      pet_status: true,
+      ceremonies: true,
+    },
+  },
+  residence_serve_attribute: {
+    select: {
+      residence_id: true,
+      plate: true,
+      fork_spoon: true,
+      knife: true,
+      bowl: true,
+      glass: true,
+      teapot: true,
+      kettle: true,
+      samovar: true,
+      tea_maker: true,
+      salt_shaker: true,
+      tablecloth: true,
+      dining_table: true,
+      child_chair: true,
+      tissue_paper: true,
+    },
+  },
+  residence_wc_bathroom: {
+    select: {
+      residence_id: true,
+      location: true,
+      local_wc: true,
+      fix_wc: true,
+      portable_wc: true,
+      shower: true,
+      jacuzzi: true,
+      bathtub: true,
+      soap: true,
+      shampoo: true,
+      shared_wc_bathroom: true,
+    },
+  },
+};
+
 @Injectable()
 export class ResidenceAttributeService {
-  async create(
-    createResidenceAttributeDto: CreateResidenceAttributeDto,
-  ): Promise<ResidenceAttribute> {
-    const residenceAttribute = {
-      residence_id: createResidenceAttributeDto.residence_id,
-      residence_size: createResidenceAttributeDto.residence_size,
-      residence_yard_size: createResidenceAttributeDto.residence_yard_size,
-      bedroom_count: createResidenceAttributeDto.bedroom_count,
-      capacity: createResidenceAttributeDto.capacity,
-      in_time: createResidenceAttributeDto.in_time,
-      out_time: createResidenceAttributeDto.out_time,
-      pet: createResidenceAttributeDto.pet,
-      instant_delivery: createResidenceAttributeDto.instant_delivery,
-      dishes: createResidenceAttributeDto.dishes,
-      dining_table: createResidenceAttributeDto.dining_table,
-      microwave: createResidenceAttributeDto.microwave,
-      fridge: createResidenceAttributeDto.fridge,
-      water: createResidenceAttributeDto.water,
-      electricity: createResidenceAttributeDto.electricity,
-      gas: createResidenceAttributeDto.gas,
-      tv: createResidenceAttributeDto.tv,
-      elevator: createResidenceAttributeDto.elevator,
-      local_wc: createResidenceAttributeDto.local_wc,
-      wc: createResidenceAttributeDto.wc,
-      pool_table: createResidenceAttributeDto.pool_table,
-      ping_pong_table: createResidenceAttributeDto.ping_pong_table,
-      pool: createResidenceAttributeDto.pool,
-      vip: createResidenceAttributeDto.vip,
-    };
-    return residenceAttribute;
-  }
-
-  async getCount(
-    filterResidenceAttributeDto: FilterResidenceAttributeDto,
-  ): Promise<number> {
-    return 1;
-  }
-
-  async findAll(
-    filterResidenceAttributeDto: FilterResidenceAttributeDto,
-  ): Promise<ResidenceAttribute[]> {
-    const residenceAttribute = [
-      {
-        residence_id: 1,
-        residence_size: 60,
-        residence_yard_size: 30,
-        bedroom_count: 3,
-        capacity: 4,
-        in_time: '14:00:00',
-        out_time: '10:00:00',
-        pet: true,
-        instant_delivery: true,
-        dishes: true,
-        dining_table: true,
-        microwave: true,
-        fridge: true,
-        water: true,
-        electricity: true,
-        gas: true,
-        tv: true,
-        elevator: true,
-        local_wc: true,
-        wc: true,
-        pool_table: true,
-        ping_pong_table: true,
-        pool: true,
-        vip: true,
-      },
-    ];
-    return residenceAttribute;
-  }
-
+  constructor(private prisma: PrismaService) {}
   async findOne(id: number): Promise<ResidenceAttribute> {
-    const residenceAttribute = {
-      residence_id: id,
-      residence_size: 60,
-      residence_yard_size: 30,
-      bedroom_count: 3,
-      capacity: 4,
-      in_time: '14:00:00',
-      out_time: '10:00:00',
-      pet: true,
-      instant_delivery: true,
-      dishes: true,
-      dining_table: true,
-      microwave: true,
-      fridge: true,
-      water: true,
-      electricity: true,
-      gas: true,
-      tv: true,
-      elevator: true,
-      local_wc: true,
-      wc: true,
-      pool_table: true,
-      ping_pong_table: true,
-      pool: true,
-      vip: true,
-    };
+    const residenceAttribute = await this.prisma.residence.findUnique({
+      select,
+      where: { id },
+    });
     return residenceAttribute;
-  }
-
-  async update(
-    id: number,
-    updateResidenceAttributeDto: UpdateResidenceAttributeDto,
-  ): Promise<ResidenceAttribute> {
-    const residenceAttribute = {
-      residence_id: id,
-      residence_size: updateResidenceAttributeDto.residence_size || 60,
-      residence_yard_size:
-        updateResidenceAttributeDto.residence_yard_size || 30,
-      bedroom_count: updateResidenceAttributeDto.bedroom_count || 3,
-      capacity: updateResidenceAttributeDto.capacity || 4,
-      in_time: updateResidenceAttributeDto.in_time || '14:00:00',
-      out_time: updateResidenceAttributeDto.out_time || '10:00:00',
-      pet: updateResidenceAttributeDto.pet || true,
-      instant_delivery: updateResidenceAttributeDto.instant_delivery || true,
-      dishes: updateResidenceAttributeDto.dishes || true,
-      dining_table: updateResidenceAttributeDto.dining_table || true,
-      microwave: updateResidenceAttributeDto.microwave || true,
-      fridge: updateResidenceAttributeDto.fridge || true,
-      water: updateResidenceAttributeDto.water || true,
-      electricity: updateResidenceAttributeDto.electricity || true,
-      gas: updateResidenceAttributeDto.gas || true,
-      tv: updateResidenceAttributeDto.tv || true,
-      elevator: updateResidenceAttributeDto.elevator || true,
-      local_wc: updateResidenceAttributeDto.local_wc || true,
-      wc: updateResidenceAttributeDto.wc || true,
-      pool_table: updateResidenceAttributeDto.pool_table || true,
-      ping_pong_table: updateResidenceAttributeDto.ping_pong_table || true,
-      pool: updateResidenceAttributeDto.pool || true,
-      vip: updateResidenceAttributeDto.vip || true,
-    };
-    return residenceAttribute;
-  }
-
-  async remove(id: number): Promise<void> {
-    return;
   }
 }
