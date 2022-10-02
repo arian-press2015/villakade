@@ -242,6 +242,23 @@ describe('ResidenceService', () => {
         'category not found',
       );
     });
+
+    it('should throw if residenceCategory already exists', async () => {
+      // mock prisma return value
+      PrismaMockService.residence_category.createMany.mockRejectedValue({
+        code: 'P2002',
+        meta: { target: 'PRIMARY' },
+      });
+
+      const data = {
+        residence_id: 1,
+        category_id: [1, 2],
+      };
+
+      await expect(service.createResidenceCategory(data)).rejects.toThrow(
+        'residenceCategory already exists',
+      );
+    });
   });
 
   describe('async findAll(dto: FilterResidenceDto): Promise<Residence[]>', () => {

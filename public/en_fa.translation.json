@@ -306,5 +306,6 @@
   "ceiling_fan is required": "وضعیت پنکه سقفی اجباری است",
   "ceiling_fan must be a boolean": "وضعیت پنکه سقفی باید از نوع بولین باشد",
   "standing_fan is required": "وضعیت پنکه ایستاده اجباری است",
-  "standing_fan must be a boolean": "وضعیت پنکه ایستاده باید از نوع بولین باشد"
+  "standing_fan must be a boolean": "وضعیت پنکه ایستاده باید از نوع بولین باشد",
+  "residenceCategory already exists": "این دسته بندی اقامتگاه قبلا ثبت شده است"
 }

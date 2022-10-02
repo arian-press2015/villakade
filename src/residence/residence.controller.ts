@@ -74,7 +74,7 @@ export class ResidenceController {
   @ApiResponse({
     status: 400,
     description:
-      'residence not found|category not found|residence_id is required|category_id is required' +
+      'residenceCategory already exists|residence not found|category not found|residence_id is required|category_id is required' +
       '|residence_id must be a positive number|category_id must be a number array',
   })
   @ApiResponse({

@@ -124,6 +124,8 @@ export class ResidenceService {
         e.meta.field_name === 'category_id'
       ) {
         throw new BadRequestException('category not found');
+      } else if (e.code && e.code === 'P2002' && e.meta.target === 'PRIMARY') {
+        throw new BadRequestException('residenceCategory already exists');
       }
       throw e;
     }
